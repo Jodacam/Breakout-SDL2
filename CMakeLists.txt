@@ -1,0 +1,32 @@
+cmake_minimum_required(VERSION 3.7)
+project(Game VERSION 0.1.0)
+
+
+if(WIN32)
+    SET(SDL2_DIR libs/SDL2)
+    find_package(SDL2 REQUIRED)
+    set(SDL2_IMAGE_LIBRARY ${CMAKE_CURRENT_LIST_DIR}/libs/SDL2_image/lib/x64)
+    set(SDL2_IMAGE_INCLUDE_DIRS libs/SDL2_image/include)
+ENDIF()
+
+if(UNIX)
+    list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/sdl2)
+    find_package(SDL2 REQUIRED)
+    find_package(SDL2_image REQUIRED)
+ENDIF()
+include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
+
+add_executable(Game src/main.cpp src/render/SDLRender.cpp src/events/eventManager.cpp src/player/player.cpp src/resourceManager/assetsManager.cpp)
+
+
+if(WIN32)
+    target_link_libraries(Game ${SDL2_LIBRARY})
+    target_link_libraries(Game ${SDL2_IMAGE_LIBRARY}/SDL2_image.lib)
+ENDIF()
+if(UNIX)
+    target_link_libraries(Game ${SDL2_LIBRARY})
+    target_link_libraries(Game ${SDL2_IMAGE_LIBRARY})
+ENDIF()
+
+
+file(COPY resources DESTINATION ${CMAKE_BINARY_DIR})

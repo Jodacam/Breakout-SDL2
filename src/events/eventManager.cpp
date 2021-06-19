@@ -25,6 +25,7 @@ int GameEngine::EventManager::PollEvent(SDL_Event *event) {
 
 bool GameEngine::EventManager::ReadKeyBoard(){
     keyBoardState = SDL_GetKeyboardState(NULL);
+    return true;
 }
 
 bool GameEngine::EventManager::IsKeyPress(Uint8 key) {

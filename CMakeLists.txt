@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.7)
 project(Breakout-SDL2 VERSION 0.1.0)
 
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
@@ -36,8 +36,8 @@ if(WIN32)
     file(COPY ${SDL2_IMAGE_LIBRARY}/libtiff-5.dll DESTINATION ${CMAKE_BINARY_DIR})
 ENDIF()
 if(UNIX)
-    target_link_libraries(Game ${SDL2_LIBRARY})
-    target_link_libraries(Game ${SDL2_IMAGE_LIBRARY})
+    target_link_libraries(Breakout-SDL2 ${SDL2_LIBRARY})
+    target_link_libraries(Breakout-SDL2 ${SDL2_IMAGE_LIBRARY})
 ENDIF()
 
 

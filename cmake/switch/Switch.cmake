@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.13)
 include(${CMAKE_CURRENT_LIST_DIR}/devkitA64.cmake)
 include(dkp-custom-target)
 include(dkp-embedded-binary)

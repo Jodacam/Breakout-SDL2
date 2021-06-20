@@ -1,6 +1,12 @@
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.20)
 project(Breakout-SDL2 VERSION 0.1.0)
 
+if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+    if(${CMAKE_CXX_COMPILER_VERSION} STREQUAL "11.1.0")
+        set(SWITCH true)
+        message(STATUS "Is switch compiler")
+    endif()
+endif ()
 
 if(WIN32)
     SET(SDL2_DIR libs/SDL2)

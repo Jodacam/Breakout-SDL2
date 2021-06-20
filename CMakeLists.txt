@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.13)
 project(Breakout-SDL2 VERSION 0.1.0)
 
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")

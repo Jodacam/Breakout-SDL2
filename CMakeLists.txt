@@ -22,7 +22,7 @@ if(UNIX)
 ENDIF()
 include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
 
-add_executable(Breakout-SDL2 src/main.cpp src/render/SDLRender.cpp src/events/eventManager.cpp src/player/player.cpp src/resourceManager/assetsManager.cpp)
+add_executable(Breakout-SDL2 src/main.cpp src/render/SDLRender.cpp src/events/eventManager.cpp src/events/input/GameController.cpp src/player/player.cpp src/resourceManager/assetsManager.cpp)
 
 
 if(WIN32)

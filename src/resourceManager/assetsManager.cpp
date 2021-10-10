@@ -10,12 +10,15 @@ GameEngine::AssetManager* GameEngine::AssetManager::getInstance() {
 
 }
 
-
+/**
+ * \brief Adds a new Texture and loads it on the GPU.
+ */
 SDL_Texture* GameEngine::AssetManager::AddTexture(const char* path,const char* key) {
 
     //Load a Surface and copy pixels
     SDL_Surface *surface = IMG_Load(path);
     SDL_Texture *text = SDL_CreateTextureFromSurface(actualRenderer->getInternalRender(), surface);
+    
 
     if(text) {
         textures.insert(std::make_pair(key,text));

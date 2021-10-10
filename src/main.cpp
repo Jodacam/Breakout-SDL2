@@ -5,28 +5,36 @@
 #include "player/player.h"
 #include "render/SDLRender.h"
 #include "events/eventManager.h"
+#include "resourceManager/assetsManager.h"
+#include <time.h>
 const int SCREEN_WIDTH = 480;
 const int SCREEN_HEIGHT = 320;
 bool appIsRunning = true;
 int main(int argc, char *argv[])
 {
 
-	//The surface contained by the window
 	GameEngine::Renderer *render = new GameEngine::Renderer();
-	GameEngine::EventManager *eventManager = new GameEngine::EventManager();
-	GameEngine::Player * player = new GameEngine::Player();   
-	player->SetX(100);
-	player->SetY(100);
+	GameEngine::AssetManager::InitInstance(render);
+
+	
+
 	SDL_Event event;
-	if (!render->Init(SCREEN_WIDTH, SCREEN_HEIGHT,"Test"))
+	if (!render->Init(SCREEN_WIDTH, SCREEN_HEIGHT, "Test"))
 	{
 		std::cin.get();
 		return -1;
 	}
 
+	GameEngine::EventManager *eventManager = new GameEngine::EventManager();
 
-	SDL_Texture * background = render->LoadTexture("resources/img/Hexagon_Pattern.png");
+	GameEngine::Player *player = new GameEngine::Player();
+	player->SetX(220);
+	player->SetY(300);
 
+	SDL_Texture *background = GameEngine::AssetManager::getInstance()->AddTexture("resources/img/Hexagon_Pattern.png", "background");
+
+	float deltaTime = 0.0f;
+	auto start = SDL_GetTicks();
 	while (appIsRunning)
 	{
 		
@@ -40,13 +48,22 @@ int main(int argc, char *argv[])
 			}
 		}
 
-		
 		eventManager->ReadKeyBoard();
-		if(eventManager->IsKeyPress(SDL_SCANCODE_C)) appIsRunning = false;
-
+		if (eventManager->IsKeyPress(SDL_SCANCODE_C))
+			appIsRunning = false;
+		if(eventManager->IsButtonPress(SDL_CONTROLLER_BUTTON_START))
+			appIsRunning = false;
 		render->ClearScreen();
-		render->DrawImage(background,rand() % 480,rand() % 320,100,100);
+		render->DrawImage(background, 0, 0, 480, 320);
+		player->Render(render);
+		player->Update(eventManager, deltaTime);
 		render->DrawScreen();
+		auto end = SDL_GetTicks();
+		float frameTime = end - start;
+		deltaTime = frameTime * 0.001;
+		//std::cout << "Tiempo en ms : " << frameTime << std::endl;
+		//std::cout << "Frames por segundo con esta medida  : " << (1.0f / (frameTime)) * 1000 << std::endl;
+		start = SDL_GetTicks();
 	}
 
 	render->Close();

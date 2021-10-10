@@ -3,7 +3,7 @@
 
 bool GameEngine::Renderer::Init(int SCREEN_WIDTH, int SCREEN_HEIGHT, const char *windowName)
 {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0)
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0)
     {
         std::cout << "Ha ocurrido un error" << SDL_GetError() << std::endl;
         return false;
@@ -21,7 +21,7 @@ bool GameEngine::Renderer::Init(int SCREEN_WIDTH, int SCREEN_HEIGHT, const char 
         std::cout << "Ha ocurrido un error" << SDL_GetError() << std::endl;
         return false;
     }
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
     return true;
 }
 
@@ -29,6 +29,7 @@ bool GameEngine::Renderer::Close()
 {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    IMG_Quit();
     SDL_Quit();
     return true;
 }
@@ -47,16 +48,22 @@ bool GameEngine::Renderer::DrawScreen()
     return true;
 }
 
-void GameEngine::Renderer::DrawImage(SDL_Texture *texture, int x,int y,int w,int h)
+void GameEngine::Renderer::DrawImage(SDL_Texture *texture, int x, int y, int w, int h)
+{
+
+    SDL_Rect position;
+	position.x = x; position.y = y; position.w = w; position.h = h;
+	SDL_RenderCopy(this->renderer, texture, NULL, &position);
+}
+
+void GameEngine::Renderer::DrawImage(SDL_Texture *texture, int x, int y)
 {
 
     SDL_Rect position;
     position.x = x;
     position.y = y;
-    position.w = w;
-    position.h = h;
     SDL_QueryTexture(texture, NULL, NULL, &position.w, &position.h);
-    SDL_RenderCopy(renderer, texture, NULL, &position);
+    SDL_RenderCopy(this->renderer, texture, NULL, &position);
 }
 
 SDL_Texture *GameEngine::Renderer::LoadTexture(const char *path)
@@ -72,6 +79,5 @@ bool GameEngine::Renderer::ClearScreen()
 {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
-    
     return SDL_RenderClear(renderer);
 }

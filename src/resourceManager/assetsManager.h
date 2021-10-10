@@ -17,6 +17,11 @@ namespace GameEngine {
         public:
              
             static AssetManager* getInstance();
+            static AssetManager* InitInstance(Renderer* renderer) {
+                AssetManager::getInstance()->Init(renderer);
+
+                return AssetManager::getInstance();
+            }
             inline SDL_Texture* getTexture(const char* key) {
                 return textures[key];
             }
@@ -25,10 +30,11 @@ namespace GameEngine {
                 actualRenderer = renderer;
                 if(clearTextures) {
                     //TODO clear all Texture data from the texture map.
+                    textures.clear();
                 }
                 return true;
             }
-            bool RemoveTexture();
+            bool RemoveTexture(const char* key);
             bool ClearData();
 
 

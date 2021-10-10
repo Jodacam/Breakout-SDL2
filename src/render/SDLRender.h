@@ -23,7 +23,8 @@ namespace GameEngine
             bool Close();
             bool DrawBackground(Color color);
             bool DrawScreen();
-            void DrawImage(SDL_Texture *texture,int x = 0,int y = 0,int w = 0,int h = 0);
+            void DrawImage(SDL_Texture *texture,int x,int y,int w,int h);
+            void DrawImage(SDL_Texture *texture,int x = 0,int y = 0);
             bool ClearScreen();
             SDL_Renderer *getInternalRender() {return renderer;}
             SDL_Texture* LoadTexture(const char* path);

@@ -8,9 +8,6 @@ void GameEngine::Player::Render(GameEngine::Renderer *renderer)
 
 void GameEngine::Player::Update(GameEngine::EventManager *eventManager, float dt)
 {
-
-    if (eventManager->IsKeyPress(SDL_SCANCODE_A))
-        x += speed * dt;
-    if (eventManager->IsKeyPress(SDL_SCANCODE_D))
-        x -= speed * dt;
+    GameController *controller = eventManager->GetController();
+    x += speed*dt*controller->GetAxisValue(GameAxisType::LEFT_X);
 }

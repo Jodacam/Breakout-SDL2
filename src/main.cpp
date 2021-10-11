@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 		eventManager->ReadKeyBoard();
 		if (eventManager->IsKeyPress(SDL_SCANCODE_C))
 			appIsRunning = false;
-		if(eventManager->IsButtonPress(SDL_CONTROLLER_BUTTON_START))
+		if(eventManager->GetController()->GetButton(GameEngine::GameButtonType::A).pressed)
 			appIsRunning = false;
 		render->ClearScreen();
 		render->DrawImage(background, 0, 0, 480, 320);

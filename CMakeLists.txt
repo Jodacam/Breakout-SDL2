@@ -1,25 +1,39 @@
 cmake_minimum_required(VERSION 3.7)
+#include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/switch/Switch.cmake)
 project(Breakout-SDL2 VERSION 0.1.0)
-
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
     if(${CMAKE_CXX_COMPILER_VERSION} STREQUAL "11.1.0")
         set(SWITCH true)
+        include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/switch/Switch.cmake)
         message(STATUS "Is switch compiler")
     endif()
 endif ()
 
+
 if(WIN32)
+    message(STATUS "Is Windows compiler")
     SET(SDL2_DIR libs/SDL2)
     find_package(SDL2 REQUIRED)
     set(SDL2_IMAGE_LIBRARY ${CMAKE_CURRENT_LIST_DIR}/libs/SDL2_image/lib/x64)
     set(SDL2_IMAGE_INCLUDE_DIRS libs/SDL2_image/include)
 ENDIF()
 
-if(UNIX)
+if(UNIX AND NOT ${SWITCH})
+    message(STATUS "Is Unix compiler")
     list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/sdl2)
     find_package(SDL2 REQUIRED)
     find_package(SDL2_image REQUIRED)
 ENDIF()
+
+if(${SWITCH})
+    message(STATUS "Is switch compiler")
+    list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/sdl2)
+    find_package(SDL2 CONFIG REQUIRED)
+    #find_package(SDL2_image REQUIRED)
+ENDIF()
+
+message(STATUS ${SDL2_INCLUDE_DIRS})
+
 include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
 
 add_executable(Breakout-SDL2 src/main.cpp src/render/SDLRender.cpp src/events/eventManager.cpp src/events/input/GameController.cpp src/player/player.cpp src/resourceManager/assetsManager.cpp)
@@ -39,6 +53,9 @@ if(UNIX)
     target_link_libraries(Breakout-SDL2 ${SDL2_LIBRARY})
     target_link_libraries(Breakout-SDL2 ${SDL2_IMAGE_LIBRARY})
 ENDIF()
-
-
+if(${SWITCH})
+        target_link_libraries(Breakout-SDL2 ${SDL2_LIBRARIES})        
+        target_link_libraries(Breakout-SDL2 -lSDL2 -lSDL2_ttf -lSDL2_image -lSDL2_mixer -lpng -lwebp -lz -ljpeg -lglad -lEGL -lglapi -ldrm_nouveau -lnx)
+ENDIF()
+        
 file(COPY resources DESTINATION ${CMAKE_BINARY_DIR})

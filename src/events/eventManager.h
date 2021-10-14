@@ -31,7 +31,7 @@ namespace GameEngine
                     controller = SDL_GameControllerOpen(i);
                     if (controller)
                     {
-                        std::cout << "El controlador se ha inicializado correctamente con la siguiente informacion : " << SDL_GameControllerGetType(controller) << ", " << SDL_GameControllerName(controller) << std::endl;
+                        std::cout << "El controlador se ha inicializado correctamente con la siguiente informacion : " << ", " << SDL_GameControllerName(controller) << std::endl;
                         this->gameController = new GameController(controller);
                         break;
                     }

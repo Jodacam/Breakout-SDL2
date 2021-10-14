@@ -17,6 +17,12 @@ namespace GameEngine
         private:
             SDL_Window *window = NULL;
 	        SDL_Renderer *renderer = NULL;
+            int windowHeight = 0;
+            int windowWidth = 0;
+            int screenHeight = 0;
+            int screenWidth = 0;
+            float scaleH = 1.0f;
+            float scaleW = 1.0f;
         public:
             Renderer() {}
             bool Init(int SCREEN_WIDTH,int SCREEN_HEIGHT,const char* windowName);
@@ -26,6 +32,7 @@ namespace GameEngine
             void DrawImage(SDL_Texture *texture,int x,int y,int w,int h);
             void DrawImage(SDL_Texture *texture,int x = 0,int y = 0);
             bool ClearScreen();
+            void HandleWindowEvent(const SDL_Event* event);
             SDL_Renderer *getInternalRender() {return renderer;}
             SDL_Texture* LoadTexture(const char* path);
 

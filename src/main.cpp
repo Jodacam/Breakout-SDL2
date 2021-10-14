@@ -16,8 +16,6 @@ int main(int argc, char *argv[])
 	GameEngine::Renderer *render = new GameEngine::Renderer();
 	GameEngine::AssetManager::InitInstance(render);
 
-	
-
 	SDL_Event event;
 	if (!render->Init(SCREEN_WIDTH, SCREEN_HEIGHT, "Test"))
 	{
@@ -37,7 +35,7 @@ int main(int argc, char *argv[])
 	auto start = SDL_GetTicks();
 	while (appIsRunning)
 	{
-		
+
 		while (eventManager->PollEvent(&event))
 		{
 			switch (event.type)
@@ -45,24 +43,27 @@ int main(int argc, char *argv[])
 			case SDL_QUIT:
 				appIsRunning = false;
 				break;
+			case SDL_WINDOWEVENT:
+				render->HandleWindowEvent(&event);
+				break;
 			}
 		}
 
 		eventManager->ReadKeyBoard();
 		if (eventManager->IsKeyPress(SDL_SCANCODE_C))
 			appIsRunning = false;
-		if(eventManager->GetController()->GetButton(GameEngine::GameButtonType::A).pressed)
+		if (eventManager->GetController()->GetButton(GameEngine::GameButtonType::START).pressed)
 			appIsRunning = false;
 		render->ClearScreen();
-		render->DrawImage(background, 0, 0, 480, 320);
+		render->DrawImage(background, 120, 0, 240, 320);
 		player->Render(render);
 		player->Update(eventManager, deltaTime);
 		render->DrawScreen();
 		auto end = SDL_GetTicks();
 		float frameTime = end - start;
 		deltaTime = frameTime * 0.001;
-		//std::cout << "Tiempo en ms : " << frameTime << std::endl;
-		//std::cout << "Frames por segundo con esta medida  : " << (1.0f / (frameTime)) * 1000 << std::endl;
+		// std::cout << "Tiempo en ms : " << frameTime << std::endl;
+		// std::cout << "Frames por segundo con esta medida  : " << (1.0f / (frameTime)) * 1000 << std::endl;
 		start = SDL_GetTicks();
 	}
 

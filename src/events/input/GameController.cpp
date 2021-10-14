@@ -1,9 +1,4 @@
 #include "GameController.h"
-/** 
- * Updates the game controller state. It fills the GameButton structs.
- * The GameButtonType should have the same index as the SDL_GameControllerButton enum. So it uses the int result to get the array.
- * Also, Keyboard keys can be bind to GameButtonType so the two work.
-*/
 void GameEngine::GameController::UpdateControllerState() {
     for (unsigned int i = 0; i < MAX_BUTTON_GAMEPAD; i++)
     {
@@ -28,10 +23,7 @@ void GameEngine::GameController::UpdateControllerState() {
     
     
 }
-/**
- * Retrieves a GameButton state for the "actual" frame. If it is called before UpdateContollerState it will have the same values as the previos frame.
- * 
-*/
+
 GameEngine::GameButton GameEngine::GameController::GetButton(GameButtonType button) {
     return buttons[static_cast<unsigned int>(button)];
 }

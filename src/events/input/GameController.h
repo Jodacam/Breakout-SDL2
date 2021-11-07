@@ -65,6 +65,35 @@ namespace GameEngine
         {
             this->controller = controller;
         }
+
+        GameController()
+        {
+            controller = NULL;
+            std::cout << "Numero de mandos:" << SDL_NumJoysticks() << std::endl;
+            for (int i = 0; i < SDL_NumJoysticks(); ++i)
+            {
+                if (SDL_IsGameController(i))
+                {
+                    controller = SDL_GameControllerOpen(i);
+                    if (controller)
+                    {
+                        std::cout << "El controlador se ha inicializado correctamente con la siguiente informacion : "
+                                  << " " << SDL_GameControllerName(controller) << std::endl;
+
+                        break;
+                    }
+                    else
+                    {
+                        std::cout << "Ha ocurrido un error" << SDL_GetError() << std::endl;
+                    }
+                }
+            }
+
+            if (controller == NULL)
+            {
+                std::cout << "No se ha encontrado ningun mando" << SDL_GetError() << std::endl;
+            }
+        }
         SDL_GameController *GetNativeController() { return controller; }
         /**
          * Updates the game controller state. It fills the GameButton structs.

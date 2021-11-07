@@ -15,7 +15,7 @@ bool GameEngine::Renderer::Init(int SCREEN_WIDTH, int SCREEN_HEIGHT, const char 
         SDL_Delay(3000);
         return false;
     }
-    window = SDL_CreateWindow(windowName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_MAXIMIZED | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+    window = SDL_CreateWindow(windowName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN  | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
     if (window == NULL)
     {
         std::cout << "Ha ocurrido un error" << SDL_GetError() << std::endl;
@@ -55,27 +55,37 @@ bool GameEngine::Renderer::DrawScreen()
     return true;
 }
 
-void GameEngine::Renderer::DrawImage(SDL_Texture *texture, int x, int y, int w, int h)
+void GameEngine::Renderer::DrawImage(SDL_Texture *texture, float x, float y, float w, float h)
 {
 
-    SDL_Rect position;
+    SDL_FRect position;
     position.x = x * scaleW;
     position.y = y * scaleH;
     position.w = w * scaleW;
     position.h = h * scaleH;
-    SDL_RenderCopy(this->renderer, texture, NULL, &position);
+    SDL_RenderCopyF(this->renderer, texture, NULL, &position);
 }
 
 void GameEngine::Renderer::DrawImage(SDL_Texture *texture, int x, int y)
 {
 
-    SDL_Rect position;
+    SDL_FRect position;
     position.x = x * scaleW;
     position.y = y * scaleH;
-    SDL_QueryTexture(texture, NULL, NULL, &position.w, &position.h);
-    position.h = position.h * scaleH;
-    position.w = position.w * scaleW;
-    SDL_RenderCopy(this->renderer, texture, NULL, &position);
+    int h = 0;
+    int w = 0;
+    SDL_QueryTexture(texture, NULL, NULL, &w, &h);
+    position.h = h * scaleH;
+    position.w = w * scaleW;
+    SDL_RenderCopyF(this->renderer, texture, NULL, &position);
+}
+
+void GameEngine::Renderer::DrawImage(SDL_Texture *texture, const Vector position) {
+    DrawImage(texture, position.x,position.y);
+}
+
+void GameEngine::Renderer::DrawImage(SDL_Texture *texture, const Vector position, const Vector size) {
+    DrawImage(texture, position.x,position.y,size.x,size.y);
 }
 
 SDL_Texture *GameEngine::Renderer::LoadTexture(const char *path)

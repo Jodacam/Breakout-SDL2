@@ -1,4 +1,4 @@
-#include "assetsManager.h"
+#include "AssetsManager.h"
 GameEngine::AssetManager* GameEngine::AssetManager::instance;
 GameEngine::AssetManager* GameEngine::AssetManager::getInstance() {
 
@@ -13,7 +13,7 @@ GameEngine::AssetManager* GameEngine::AssetManager::getInstance() {
 /**
  * \brief Adds a new Texture and loads it on the GPU.
  */
-SDL_Texture* GameEngine::AssetManager::AddTexture(const char* path,const char* key) {
+SDL_Texture* GameEngine::AssetManager::AddTexture(const char* path,std::string key) {
 
     //Load a Surface and copy pixels
     SDL_Surface *surface = IMG_Load(path);

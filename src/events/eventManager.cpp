@@ -32,6 +32,14 @@ bool GameEngine::EventManager::ReadKeyBoard(){
 bool GameEngine::EventManager::IsKeyPress(Uint8 key) {
     return (bool)keyBoardState[key];
 }
-bool GameEngine::EventManager::IsButtonPress(SDL_GameControllerButton button) {
-    return (bool)SDL_GameControllerGetButton(controller,button);
+
+
+
+
+
+GameEngine::EventManager* GameEngine::EventManager::instance = NULL;
+GameEngine::EventManager* GameEngine::EventManager::Instance(){
+    if(instance == NULL)
+        instance = new GameEngine::EventManager();
+    return instance;
 }

@@ -2,10 +2,11 @@
 #include <string>
 #define SDL_MAIN_HANDLED
 #include <SDL.h>
-#include "player/player.h"
 #include "render/SDLRender.h"
-#include "events/eventManager.h"
-#include "resourceManager/assetsManager.h"
+#include "events/EventManager.h"
+#include "resourceManager/AssetsManager.h"
+#include "game/SceneManager.h"
+#include "game/scenes/GameScene.h"
 #include <time.h>
 const int SCREEN_WIDTH = 480;
 const int SCREEN_HEIGHT = 320;
@@ -15,24 +16,18 @@ int main(int argc, char *argv[])
 
 	GameEngine::Renderer *render = new GameEngine::Renderer();
 	GameEngine::AssetManager::InitInstance(render);
-
 	SDL_Event event;
 	if (!render->Init(SCREEN_WIDTH, SCREEN_HEIGHT, "Test"))
 	{
 		std::cin.get();
 		return -1;
 	}
-
-	GameEngine::EventManager *eventManager = new GameEngine::EventManager();
-
-	GameEngine::Player *player = new GameEngine::Player();
-	player->SetX(220);
-	player->SetY(300);
-
-	SDL_Texture *background = GameEngine::AssetManager::getInstance()->AddTexture("resources/img/Hexagon_Pattern.png", "background");
-
+	GameEngine::EventManager *eventManager = GameEngine::EventManager::Instance();
 	float deltaTime = 0.0f;
 	auto start = SDL_GetTicks();
+	GameEngine::SceneManager* manager = GameEngine::SceneManager::Instance();
+	manager->AddScene(new GameEngine::GameScene());
+	manager->ChangeScene(0);
 	while (appIsRunning)
 	{
 
@@ -48,16 +43,17 @@ int main(int argc, char *argv[])
 				break;
 			}
 		}
-
 		eventManager->ReadKeyBoard();
 		if (eventManager->IsKeyPress(SDL_SCANCODE_C))
 			appIsRunning = false;
 		if (eventManager->GetController()->GetButton(GameEngine::GameButtonType::START).pressed)
 			appIsRunning = false;
+
+
+		GameEngine::Scene* _scene = manager->GetActualScene();
 		render->ClearScreen();
-		render->DrawImage(background, 120, 0, 240, 320);
-		player->Render(render);
-		player->Update(eventManager, deltaTime);
+		_scene->Render(render);
+		_scene->Update(deltaTime);
 		render->DrawScreen();
 		auto end = SDL_GetTicks();
 		float frameTime = end - start;

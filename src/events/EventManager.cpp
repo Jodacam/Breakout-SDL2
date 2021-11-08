@@ -1,4 +1,4 @@
-#include "EventManager.h"
+#include "eventManager.h"
 
 bool GameEngine::EventManager::ManageEvents()
 {   

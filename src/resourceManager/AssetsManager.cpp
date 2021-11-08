@@ -1,4 +1,4 @@
-#include "AssetsManager.h"
+#include "assetsManager.h"
 GameEngine::AssetManager* GameEngine::AssetManager::instance;
 GameEngine::AssetManager* GameEngine::AssetManager::getInstance() {
 

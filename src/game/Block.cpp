@@ -1,5 +1,5 @@
 #include "Block.h"
-#include "../resourceManager/AssetsManager.h"
+#include "../resourceManager/assetsManager.h"
 
 GameEngine::Block::Block(Vector position,std::string sprite) {
 

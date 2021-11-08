@@ -1,4 +1,4 @@
-#include "Player.h"
+#include "player.h"
 #include "../consts/game.h"
 void GameEngine::Player::Render(GameEngine::Renderer *renderer)
 {

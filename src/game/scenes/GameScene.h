@@ -1,6 +1,6 @@
 #ifndef _GAMESCENE_H_
 #define _GAMESCENE_H_
-#include "../../player/Player.h"
+#include "../../player/player.h"
 #include "../../player/Ball.h"
 #include "../Block.h"
 #include <SDL.h>

@@ -17,7 +17,7 @@ namespace GameEngine
             x = a.x;
             y = a.y;
         }
-        Vector(float x, float y) : x(x), y(y)
+        Vector(float x, float y=0) : x(x), y(y)
         {
         }
         Vector()

@@ -6,13 +6,27 @@ void GameEngine::Player::Render(GameEngine::Renderer *renderer)
     renderer->DrawImage(this->sprite, this->position);
 }
 
-void GameEngine::Player::Update(GameEngine::EventManager *eventManager, float dt)
+void GameEngine::Player::Update(GameEngine::EventManager *eventManager, Ball *ball, float dt)
 {
     GameController *controller = eventManager->GetController();
-    int lastX = position.x;
-    position.x += speed*dt*controller->GetAxisValue(GameAxisType::LEFT_X);
+
+    float delta = speed * dt * controller->GetAxisValue(GameAxisType::LEFT_X);
+    float newX = position.x + delta;
     //Check collisions
-    if(position.x+width >= GAME_FIELD_POSITIVE_X_LIMIT || position.x <= GAME_FIELD_NEGATIVE_X_LIMIT ) {
-        position.x = lastX;
+    if (newX + width < GAME_FIELD_POSITIVE_X_LIMIT && newX > GAME_FIELD_NEGATIVE_X_LIMIT)
+    {
+        position.x = newX;
+        if (ball->GetIsOnRacket())
+        {
+            ball->SetPosition(Vector(ball->GetPosition().x + delta, ball->GetPosition().y));
+            if (controller->GetButton(GameButtonType::A).isPressed)
+            {
+                ball->SetIsOnRacket(false);
+                int xDir = delta >= 0 ? 1 : -1;
+                Vector direction = Vector(xDir*0.5,-0.5);
+
+                ball->SetDirection(direction.Normalized());
+            }
+        }
     }
 }

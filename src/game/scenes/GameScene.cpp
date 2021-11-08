@@ -3,7 +3,7 @@
 void GameEngine::GameScene::Update(float dt)
 {
     GameEngine::EventManager *eventManager = GameEngine::EventManager::Instance();
-    player->Update(eventManager, dt);
+    player->Update(eventManager, ball, dt);
     //Comprobamos las colisiones.
     for (int i = 0; i < blocks.size(); i++)
     {
@@ -12,13 +12,22 @@ void GameEngine::GameScene::Update(float dt)
         {
             auto element = blocks[i];
             blocks.erase(blocks.begin() + i);
-            ball->SetSpeed(ball->GetSpeed()+SPEED_INCREMENT);
+            ball->SetSpeed(ball->GetSpeed() + SPEED_INCREMENT);
             delete element;
             break;
         }
     }
 
     ball->Update(dt, player);
+
+    auto ball_position = ball->GetPosition();
+
+    if (ball_position.y > GAME_FIELD_H)
+    {
+        lives--;
+        ball->SetPosition(Vector(player->GetPosition().x + 10, player->GetPosition().y - 5));
+        ball->SetIsOnRacket(true);
+    }
 }
 
 void GameEngine::GameScene::OnStart()
@@ -27,8 +36,8 @@ void GameEngine::GameScene::OnStart()
     player->SetX(220);
     player->SetY(300);
     ball->SetSpeed(100);
-    ball->SetDirection(Vector(1, -0.5).Normalized());
-
+    ball->SetIsOnRacket(true);
+    ball->SetPosition(Vector(230, 300 - 5));
     //Fill the screen with the blocks.
     int initialHeight = 50;
     int row_width = 24;
@@ -40,10 +49,9 @@ void GameEngine::GameScene::OnStart()
     {
         for (int i = 0; i < MAX_BLOCK_PER_ROW; i++)
         {
-            auto block = new Block(Vector(GAME_FIELD_NEGATIVE_X_LIMIT + row_width * i, initialHeight + (row_height*j)), "block");
+            auto block = new Block(Vector(GAME_FIELD_NEGATIVE_X_LIMIT + row_width * i, initialHeight + (row_height * j)), "block");
             blocks.push_back(block);
         }
-
     }
 }
 

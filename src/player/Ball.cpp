@@ -1,14 +1,21 @@
 #include "Ball.h"
 #include "../consts/game.h"
+#include "../consts/functions.h"
 void GameEngine::Ball::Update(float dt, GameEngine::Player *player)
 {
+    //If the ball is stuck on the racket move it like the player is moving.
     if (isOnRacket)
+    {
         return;
+    }
+
     Vector lastPosition = Vector(position);
     position = position + (direction * (speed * dt));
     //Check with player position
     Vector player_position = player->GetPosition();
-    if ((position.y + radius >= player_position.y && position.y <= player_position.y + player->height) && (position.x >= player_position.x && position.x <= player_position.x + player->width))
+    Vector center = Vector(position.x + radius, position.y + radius);
+    float vertex[4] = {player_position.x, player_position.x + player->width, player_position.y, player_position.y + player->height};
+    if (GameEngine::CheckCicleRectangleCollision(center, radius, vertex))
     {
         direction = Vector(direction.x, -direction.y);
         std::cout << "Position: " << position << " Direction: " << direction << " Speed " << speed << std::endl;
@@ -54,29 +61,26 @@ bool GameEngine::Ball::CheckBlockCollision(Block *block)
     Vector center = Vector(position.x + radius, position.y + radius);
     //New Type check.
     //Check if there is a collision. Then check where the colision is happening using vectors. After that use the reflect vector to change the direction.
-    float closestX = GameEngine::clamp(center.x, vertex[0], vertex[1]);
-    float closestY = GameEngine::clamp(center.y, vertex[2], vertex[3]);
-
-    float distanceX = center.x - closestX;
-    float distanceY = center.y - closestY;
-
-    // If the distance is less than the circle's radius, an intersection occurs
-    float distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
-    bool isColiding = distanceSquared < (radius * radius);
+    bool isColiding = GameEngine::CheckCicleRectangleCollision(center, radius, vertex);
 
     if (isColiding)
     {
         //Check were the colision is happening.
-        Vector distance = Vector(distanceX,distanceY);
-        Vector dNormal = Vector(-distanceY,distanceX);
+        float closestX = GameEngine::clamp(center.x, vertex[0], vertex[1]);
+        float closestY = GameEngine::clamp(center.y, vertex[2], vertex[3]);
 
-        float normal_angle = std::atan2(dNormal.y,dNormal.x);
-        float incoming_angle = std::atan2(direction.y,direction.x);
+        float distanceX = center.x - closestX;
+        float distanceY = center.y - closestY;
+        Vector distance = Vector(distanceX, distanceY);
+        Vector dNormal = Vector(-distanceY, distanceX);
 
-        float theta = normal_angle-incoming_angle;
+        float normal_angle = std::atan2(dNormal.y, dNormal.x);
+        float incoming_angle = std::atan2(direction.y, direction.x);
+
+        float theta = normal_angle - incoming_angle;
 
         //Here we can add a bit a random angle.
-        direction = direction.Rotate(2*theta).Normalized();
+        direction = direction.Rotate(2 * theta).Normalized();
     }
 
     return isColiding;

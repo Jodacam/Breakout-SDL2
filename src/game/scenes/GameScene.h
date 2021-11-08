@@ -21,7 +21,7 @@ namespace GameEngine
         Ball *ball;
         SDL_Texture *background;
         std::vector<Block *> blocks;
-
+        int lives = 3;
     public:
         GameScene()
         {

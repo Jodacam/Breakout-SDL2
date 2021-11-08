@@ -4,8 +4,10 @@
 #include "../render/SDLRender.h"
 #include "../resourceManager/AssetsManager.h"
 #include "../events/EventManager.h"
-namespace GameEngine {
+#include "Ball.h"
 
+namespace GameEngine {
+    class Ball;
     class Player {
         private:
             Vector position;
@@ -28,7 +30,7 @@ namespace GameEngine {
             inline float SetY(float y) { this->position.y = y; return position.y;}
             Vector GetPosition() {return position;}
             Vector SetPosition(Vector position) {this->position = position; return position;}
-            void Update(GameEngine::EventManager* eventManager, float dt = 1.0f/60.0f);
+            void Update(GameEngine::EventManager* eventManager, GameEngine::Ball* ball,float dt = 1.0f/60.0f);
             void Render(GameEngine::Renderer* renderer);
             float SetSpeed(float speed) {this->speed = speed; return speed;};
 

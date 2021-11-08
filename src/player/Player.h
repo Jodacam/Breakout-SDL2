@@ -2,8 +2,8 @@
 #define _PLAYER_H_
 #include <SDL.h>
 #include "../render/SDLRender.h"
-#include "../resourceManager/assetsManager.h"
-#include "../events/eventManager.h"
+#include "../resourceManager/AssetsManager.h"
+#include "../events/EventManager.h"
 #include "Ball.h"
 
 namespace GameEngine {

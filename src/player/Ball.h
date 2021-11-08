@@ -2,10 +2,10 @@
 #define _BALL_H_
 #include <SDL.h>
 #include "../render/SDLRender.h"
-#include "../resourceManager/assetsManager.h"
+#include "../resourceManager/AssetsManager.h"
 #include "../math/Vector.h"
 #include "../game/Block.h"
-#include "player.h"
+#include "Player.h"
 namespace GameEngine
 {
     class Player;

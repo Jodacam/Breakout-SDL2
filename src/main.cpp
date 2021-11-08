@@ -3,8 +3,8 @@
 #define SDL_MAIN_HANDLED
 #include <SDL.h>
 #include "render/SDLRender.h"
-#include "events/eventManager.h"
-#include "resourceManager/assetsManager.h"
+#include "events/EventManager.h"
+#include "resourceManager/AssetsManager.h"
 #include "game/SceneManager.h"
 #include "game/scenes/GameScene.h"
 #include <time.h>

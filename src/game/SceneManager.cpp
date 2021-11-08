@@ -1,4 +1,4 @@
-#include "sceneManager.h"
+#include "SceneManager.h"
 
 using namespace GameEngine;
 

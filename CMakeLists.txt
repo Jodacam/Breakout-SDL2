@@ -36,7 +36,7 @@ message(STATUS ${SDL2_INCLUDE_DIRS})
 
 include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
 
-add_executable(Breakout-SDL2 src/main.cpp src/render/SDLRender.cpp src/events/eventManager.cpp src/events/input/GameController.cpp src/player/player.cpp src/player/Ball.cpp src/resourceManager/assetsManager.cpp src/game/SceneManager.cpp src/game/scenes/GameScene.cpp src/game/Block.cpp)
+add_executable(Breakout-SDL2 src/main.cpp src/render/SDLRender.cpp src/events/EventManager.cpp src/events/input/GameController.cpp src/player/Player.cpp src/player/Ball.cpp src/resourceManager/AssetsManager.cpp src/game/SceneManager.cpp src/game/scenes/GameScene.cpp src/game/Block.cpp)
 
 
 if(WIN32)

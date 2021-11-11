@@ -3,7 +3,7 @@
 #include "../../player/Player.h"
 #include "../../player/Ball.h"
 #include "../Block.h"
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include "Scene.h"
 #include <vector>
 

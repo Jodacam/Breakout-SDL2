@@ -4,7 +4,8 @@ BUILDDIR = build/Breakout-SDL2
 $(shell mkdir -p $(BUILDDIR))
 TARGET = $(BUILDDIR)/game
 SOURCEDIR=../src
-SOURCES = $(wildcard $(SOURCEDIR)/*.cpp $(SOURCEDIR)/*/*.cpp)
+OBJDIR =../obj
+SOURCES = $(wildcard $(SOURCEDIR)/*.cpp $(SOURCEDIR)/*/*.cpp $(SOURCEDIR)/*/*/*.cpp)
 $(info  $(SOURCES))
 OBJS = $(patsubst $(SOURCEDIR)/%.cpp,$(SOURCEDIR)/%.o,$(SOURCES))
 $(info  $(OBJS))
@@ -26,7 +27,7 @@ PSPSDK=$(shell psp-config --pspsdk-path)
 PSPBIN = $(PSPSDK)/../bin
 CFLAGS += $(shell $(PSPBIN)/sdl-config --cflags)
 #LIBS += $(shell $(PSPBIN)/sdl-config --libs) 
-LIBS +=-lSDL2 -lGL -lGLU -lglut -lz -lpspvfpu -lpsphprm -lpspsdk -lpspctrl -lpspumd -lpsprtc \
+LIBS +=-lSDL2 -lSDL2_image -lpng -ljpeg -lGL -lGLU -lglut -lz -lpspvfpu -lpsphprm -lpspsdk -lpspctrl -lpspumd -lpsprtc \
        -lpsppower -lpspgum -lpspgu -lpspaudiolib -lpspaudio -lpsphttp -lpspssl -lpspwlan \
 	   -lpspnet_adhocmatching -lpspnet_adhoc -lpspnet_adhocctl -lm -lpspvram -lSDLmain
 LIBS += -lstdc++ -lpspirkeyb -lpsppower

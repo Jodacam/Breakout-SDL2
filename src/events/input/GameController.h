@@ -4,7 +4,7 @@
 #define MAX_AXIS_GAMEPAD 4
 #define AXIS_DEADZONE 2500
 #define AXIS_UNIT_TRANSFORM 1.0f / (32767 - AXIS_DEADZONE)
-#include <SDL_gamecontroller.h>
+#include <SDL2/SDL_gamecontroller.h>
 #include <iostream>
 namespace GameEngine
 {

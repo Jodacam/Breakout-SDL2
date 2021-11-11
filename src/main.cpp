@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #define SDL_MAIN_HANDLED
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include "render/SDLRender.h"
 #include "events/EventManager.h"
 #include "resourceManager/AssetsManager.h"

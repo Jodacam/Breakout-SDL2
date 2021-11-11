@@ -1,7 +1,7 @@
 #ifndef _BLOCK_H_
 #define _BLOCK_H_
 #include "../math/Vector.h"
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include "../render/SDLRender.h"
 #include <string>
 namespace GameEngine

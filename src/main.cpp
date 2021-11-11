@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <sstream>
 #define SDL_MAIN_HANDLED
 #include <SDL2/SDL.h>
 #include "render/SDLRender.h"
@@ -8,12 +9,50 @@
 #include "game/SceneManager.h"
 #include "game/scenes/GameScene.h"
 #include <time.h>
+#include "consts/logger.h"
+#ifdef PSP
+#include <pspkernel.h>
+
+int exit_callback(int arg1, int arg2, void *common)
+{
+	sceKernelExitGame();
+	return 0;
+}
+
+int CallbackThread(SceSize args, void *argp)
+{
+	int cbid = sceKernelCreateCallback("Exit Callback", exit_callback, NULL);
+	sceKernelRegisterExitCallback(cbid);
+	sceKernelSleepThreadCB();
+
+	return 0;
+}
+
+int SetupCallbacks(void)
+{
+	int thid = sceKernelCreateThread("update_thread", CallbackThread, 0x11, 0xFA0, 0, 0);
+	if (thid >= 0)
+	{
+		sceKernelStartThread(thid, 0, 0);
+	}
+	return thid;
+}
+#endif
+
 const int SCREEN_WIDTH = 480;
+#ifdef PSP
 const int SCREEN_HEIGHT = 320;
+#endif
+#ifndef PSP
+const int SCREEN_HEIGHT = 320;
+#endif
 bool appIsRunning = true;
 int main(int argc, char *argv[])
 {
-
+#ifdef PSP
+	SetupCallbacks();
+#endif
+	InitLogger();
 	GameEngine::Renderer *render = new GameEngine::Renderer();
 	GameEngine::AssetManager::InitInstance(render);
 	SDL_Event event;
@@ -25,9 +64,12 @@ int main(int argc, char *argv[])
 	GameEngine::EventManager *eventManager = GameEngine::EventManager::Instance();
 	float deltaTime = 0.0f;
 	auto start = SDL_GetTicks();
-	GameEngine::SceneManager* manager = GameEngine::SceneManager::Instance();
+	GameEngine::SceneManager *manager = GameEngine::SceneManager::Instance();
 	manager->AddScene(new GameEngine::GameScene());
 	manager->ChangeScene(0);
+	float timer = 5;
+	float actualTimer = 0;
+	int frameCount = 0;
 	while (appIsRunning)
 	{
 
@@ -46,11 +88,10 @@ int main(int argc, char *argv[])
 		eventManager->ReadKeyBoard();
 		if (eventManager->IsKeyPress(SDL_SCANCODE_C))
 			appIsRunning = false;
-		if (eventManager->GetController()->GetButton(GameEngine::GameButtonType::START).pressed)
-			appIsRunning = false;
+		/* 		if (eventManager->GetController()->GetButton(GameEngine::GameButtonType::START).pressed)
+					appIsRunning = false; */
 
-
-		GameEngine::Scene* _scene = manager->GetActualScene();
+		GameEngine::Scene *_scene = manager->GetActualScene();
 		render->ClearScreen();
 		_scene->Render(render);
 		_scene->Update(deltaTime);
@@ -58,6 +99,18 @@ int main(int argc, char *argv[])
 		auto end = SDL_GetTicks();
 		float frameTime = end - start;
 		deltaTime = frameTime * 0.001;
+		actualTimer += deltaTime;
+		frameCount++;
+		if (actualTimer > timer)
+		{
+			float averageDelta = actualTimer / frameCount;
+			frameCount = 0;
+			actualTimer = 0;
+			std::stringstream s;
+			s << "La media de delta fue de : " << averageDelta;
+			printLog(s.str(),LOG_TO_CONSOLE);
+		}
+
 		// std::cout << "Tiempo en ms : " << frameTime << std::endl;
 		// std::cout << "Frames por segundo con esta medida  : " << (1.0f / (frameTime)) * 1000 << std::endl;
 		start = SDL_GetTicks();

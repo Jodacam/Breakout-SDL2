@@ -5,6 +5,9 @@
 #define AXIS_DEADZONE 2500
 #define AXIS_UNIT_TRANSFORM 1.0f / (32767 - AXIS_DEADZONE)
 #include <SDL2/SDL_gamecontroller.h>
+#ifdef PSP
+#include <pspctrl.h>
+#endif
 #include <iostream>
 namespace GameEngine
 {
@@ -59,7 +62,25 @@ namespace GameEngine
         GameButton buttons[MAX_BUTTON_GAMEPAD];
         const float axisConverterRate = AXIS_UNIT_TRANSFORM;
         float axisValues[MAX_AXIS_GAMEPAD] = {0.0f, 0.0f, 0.0f, 0.0f};
-
+#ifdef PSP
+        PspCtrlButtons PSP_BUTTONS[15] = {
+            PSP_CTRL_CROSS,
+            PSP_CTRL_CIRCLE,
+            PSP_CTRL_SQUARE,
+            PSP_CTRL_TRIANGLE,
+            PSP_CTRL_SELECT,
+            PSP_CTRL_HOME,
+            PSP_CTRL_START,
+            PSP_CTRL_VOLUP,
+            PSP_CTRL_VOLDOWN,
+            PSP_CTRL_LTRIGGER,
+            PSP_CTRL_RTRIGGER,
+            PSP_CTRL_UP,
+            PSP_CTRL_DOWN,
+            PSP_CTRL_LEFT,
+            PSP_CTRL_RIGHT,
+        };
+#endif
     public:
         GameController(SDL_GameController *controller)
         {

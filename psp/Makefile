@@ -12,7 +12,7 @@ $(info  $(OBJS))
 PSP_LARGE_MEMORY = 1
 
 INCDIR = include
-CFLAGS = -Os -G0 -Wall
+CFLAGS = -Os -G0 -Wall -DPSP
 CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti -std=c++14
 ASFLAGS = $(CFLAGS)
 

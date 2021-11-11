@@ -3,6 +3,7 @@
 
 bool GameEngine::Renderer::Init(int SCREEN_WIDTH, int SCREEN_HEIGHT, const char *windowName)
 {
+    SDL_SetMainReady();
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0)
     {
         std::cout << "Ha ocurrido un error" << SDL_GetError() << std::endl;
@@ -15,7 +16,14 @@ bool GameEngine::Renderer::Init(int SCREEN_WIDTH, int SCREEN_HEIGHT, const char 
         SDL_Delay(3000);
         return false;
     }
-    window = SDL_CreateWindow(windowName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN  | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+
+    #ifndef PSP
+    Uint32 SDL_Flag =  SDL_WINDOW_SHOWN  | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
+    #endif
+    #ifdef PSP
+    Uint32 SDL_Flag = SDL_WINDOW_MAXIMIZED;
+    #endif
+    window = SDL_CreateWindow(windowName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_Flag);
     if (window == NULL)
     {
         std::cout << "Ha ocurrido un error" << SDL_GetError() << std::endl;
@@ -27,7 +35,7 @@ bool GameEngine::Renderer::Init(int SCREEN_WIDTH, int SCREEN_HEIGHT, const char 
     std::cout << "Anchura en size: " << windowWidth << " Altura en size: " << windowHeight << std::endl;
     scaleH = (float)windowHeight / (float)screenHeight;
     scaleW = (float)windowWidth / (float)screenWidth;
-    renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED);
 
     return true;
 }

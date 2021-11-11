@@ -34,10 +34,10 @@ void GameEngine::GameScene::OnStart()
 {
     background = GameEngine::AssetManager::getInstance()->AddTexture("resources/img/Hexagon_Pattern.png", "background");
     player->SetX(220);
-    player->SetY(300);
+    player->SetY(230);
     ball->SetSpeed(100);
     ball->SetIsOnRacket(true);
-    ball->SetPosition(Vector(230, 300 - 5));
+    ball->SetPosition(Vector(230, 230 - 5));
     //Fill the screen with the blocks.
     int initialHeight = 50;
     int row_width = 24;

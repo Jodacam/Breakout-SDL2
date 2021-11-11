@@ -35,6 +35,7 @@ ENDIF()
 message(STATUS ${SDL2_INCLUDE_DIRS})
 
 include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
+include_directories(include)
 
 add_executable(Breakout-SDL2 src/main.cpp src/render/SDLRender.cpp src/events/EventManager.cpp src/events/input/GameController.cpp src/player/Player.cpp src/player/Ball.cpp src/resourceManager/AssetsManager.cpp src/game/SceneManager.cpp src/game/scenes/GameScene.cpp src/game/Block.cpp)
 

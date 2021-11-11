@@ -25,7 +25,6 @@ PSP_EBOOT_ICON = ../resources/psp/ICON.png
 PSPSDK=$(shell psp-config --pspsdk-path)
 PSPBIN = $(PSPSDK)/../bin
 CFLAGS += $(shell $(PSPBIN)/sdl-config --cflags)
-#LIBS += $(shell $(PSPBIN)/sdl-config --libs) 
 LIBS +=-lSDL2 -lGL -lGLU -lglut -lz -lpspvfpu -lpsphprm -lpspsdk -lpspctrl -lpspumd -lpsprtc \
        -lpsppower -lpspgum -lpspgu -lpspaudiolib -lpspaudio -lpsphttp -lpspssl -lpspwlan \
 	   -lpspnet_adhocmatching -lpspnet_adhoc -lpspnet_adhocctl -lm -lpspvram -lSDLmain

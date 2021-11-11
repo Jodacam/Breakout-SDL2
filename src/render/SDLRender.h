@@ -1,7 +1,7 @@
 #ifndef _RENDER_H_
 #define _RENDER_H_
-#include <SDL.h>
-#include <SDL_image.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include "../math/Vector.h"
 namespace GameEngine
 {

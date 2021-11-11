@@ -1,9 +1,9 @@
 #ifndef _EVENTMANAGER_H_
 #define _EVENTMANAGER_H_
 #include <iostream>
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include "input/GameController.h"
-#include <SDL_gamecontroller.h>
+#include <SDL2/SDL_gamecontroller.h>
 namespace GameEngine
 {
 

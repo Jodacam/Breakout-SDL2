@@ -1,6 +1,6 @@
 #ifndef _BALL_H_
 #define _BALL_H_
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include "../render/SDLRender.h"
 #include "../resourceManager/AssetsManager.h"
 #include "../math/Vector.h"

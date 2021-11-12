@@ -65,5 +65,4 @@
         "chrono": "cpp",
         "numeric": "cpp"
     },
-    "C_Cpp.dimInactiveRegions": false
 }

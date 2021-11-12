@@ -25,7 +25,7 @@ void GameEngine::GameScene::Update(float dt)
     if (ball_position.y > GAME_FIELD_H)
     {
         lives--;
-        ball->SetPosition(Vector(player->GetPosition().x + 10, player->GetPosition().y - 5));
+        ball->SetPosition(Vector(player->GetPosition().x+(player->width/2)-2.5, player->GetPosition().y - 5));
         ball->SetIsOnRacket(true);
     }
 }
@@ -34,10 +34,10 @@ void GameEngine::GameScene::OnStart()
 {
     background = GameEngine::AssetManager::getInstance()->AddTexture("resources/img/Hexagon_Pattern.png", "background");
     player->SetX(220);
-    player->SetY(230);
+    player->SetY(250);
     ball->SetSpeed(100);
     ball->SetIsOnRacket(true);
-    ball->SetPosition(Vector(230, 230 - 5));
+    ball->SetPosition(Vector(player->GetPosition().x+(player->width/2)-2.5, player->GetPosition().y - 5));
     //Fill the screen with the blocks.
     int initialHeight = 50;
     int row_width = 24;
@@ -58,7 +58,7 @@ void GameEngine::GameScene::OnStart()
 void GameEngine::GameScene::Render(GameEngine::Renderer *renderer)
 {
 
-    renderer->DrawImage(background, 120, 0, 240, 320);
+    renderer->DrawImage(background, 120, 0, 240, 277);
     ball->Render(renderer);
     player->Render(renderer);
 

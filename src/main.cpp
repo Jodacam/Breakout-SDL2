@@ -41,10 +41,10 @@ int SetupCallbacks(void)
 
 const int SCREEN_WIDTH = 480;
 #ifdef PSP
-const int SCREEN_HEIGHT = 320;
+const int SCREEN_HEIGHT = 277;
 #endif
 #ifndef PSP
-const int SCREEN_HEIGHT = 320;
+const int SCREEN_HEIGHT = 277;
 #endif
 bool appIsRunning = true;
 int main(int argc, char *argv[])
@@ -72,7 +72,6 @@ int main(int argc, char *argv[])
 	int frameCount = 0;
 	while (appIsRunning)
 	{
-		/*
 
 		while (eventManager->PollEvent(&event))
 		{
@@ -86,11 +85,9 @@ int main(int argc, char *argv[])
 				break;
 			}
 		}
-
+		eventManager->ReadKeyBoard();
 		if (eventManager->IsKeyPress(SDL_SCANCODE_C))
 			appIsRunning = false;
-				 */
-		eventManager->ReadKeyBoard();
 		if (eventManager->GetController()->GetButton(GameEngine::GameButtonType::START).pressed)
 			appIsRunning = false;
 		GameEngine::Scene *_scene = manager->GetActualScene();

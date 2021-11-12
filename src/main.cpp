@@ -12,7 +12,7 @@
 #include "consts/logger.h"
 #ifdef PSP
 #include <pspkernel.h>
-
+PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER | THREAD_ATTR_VFPU);
 int exit_callback(int arg1, int arg2, void *common)
 {
 	sceKernelExitGame();
@@ -72,6 +72,7 @@ int main(int argc, char *argv[])
 	int frameCount = 0;
 	while (appIsRunning)
 	{
+		/*
 
 		while (eventManager->PollEvent(&event))
 		{
@@ -85,12 +86,13 @@ int main(int argc, char *argv[])
 				break;
 			}
 		}
-		eventManager->ReadKeyBoard();
+
 		if (eventManager->IsKeyPress(SDL_SCANCODE_C))
 			appIsRunning = false;
-		/* 		if (eventManager->GetController()->GetButton(GameEngine::GameButtonType::START).pressed)
-					appIsRunning = false; */
-
+				 */
+		eventManager->ReadKeyBoard();
+		if (eventManager->GetController()->GetButton(GameEngine::GameButtonType::START).pressed)
+			appIsRunning = false;
 		GameEngine::Scene *_scene = manager->GetActualScene();
 		render->ClearScreen();
 		_scene->Render(render);
@@ -108,7 +110,7 @@ int main(int argc, char *argv[])
 			actualTimer = 0;
 			std::stringstream s;
 			s << "La media de delta fue de : " << averageDelta;
-			printLog(s.str(),LOG_TO_CONSOLE);
+			printLog(s.str());
 		}
 
 		// std::cout << "Tiempo en ms : " << frameTime << std::endl;

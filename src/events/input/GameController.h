@@ -2,11 +2,15 @@
 #define _GAMECONTROLLER_H_
 #define MAX_BUTTON_GAMEPAD 15
 #define MAX_AXIS_GAMEPAD 4
+#ifndef PSP
 #define AXIS_DEADZONE 2500
 #define AXIS_UNIT_TRANSFORM 1.0f / (32767 - AXIS_DEADZONE)
+#endif
 #include <SDL2/SDL_gamecontroller.h>
 #ifdef PSP
 #include <pspctrl.h>
+#define AXIS_DEADZONE 0
+#define AXIS_UNIT_TRANSFORM 1.0f / (128 - AXIS_DEADZONE)
 #endif
 #include <iostream>
 namespace GameEngine
@@ -80,6 +84,7 @@ namespace GameEngine
             PSP_CTRL_LEFT,
             PSP_CTRL_RIGHT,
         };
+        SceCtrlData axisData;
 #endif
     public:
         GameController(SDL_GameController *controller)
@@ -89,6 +94,9 @@ namespace GameEngine
 
         GameController()
         {
+
+// Not working on PSP so...
+#ifndef PSP
             controller = NULL;
             std::cout << "Numero de mandos:" << SDL_NumJoysticks() << std::endl;
             for (int i = 0; i < SDL_NumJoysticks(); ++i)
@@ -114,6 +122,11 @@ namespace GameEngine
             {
                 std::cout << "No se ha encontrado ningun mando" << SDL_GetError() << std::endl;
             }
+#endif
+#ifdef PSP
+            sceCtrlSetSamplingCycle(0);
+            sceCtrlSetSamplingMode(1);
+#endif
         }
         SDL_GameController *GetNativeController() { return controller; }
         /**

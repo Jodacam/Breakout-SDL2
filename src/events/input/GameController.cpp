@@ -1,5 +1,7 @@
 #include "GameController.h"
-
+#include "../../consts/logger.h"
+#include <string>
+#include <sstream>
 #ifndef PSP
 
 void GameEngine::GameController::UpdateControllerState()
@@ -30,9 +32,31 @@ void GameEngine::GameController::UpdateControllerState()
 #ifdef PSP
 void GameEngine::GameController::UpdateControllerState()
 {
+    // Digital buttons.
+    // Axis. Because the PSP only has one Axis control (the left stick) the readding only work for GameAxisType::LEFT_X and GameAxisType::LEFT_Y
+    sceCtrlSetSamplingCycle(0);
+    sceCtrlSetSamplingMode(1);
+    int result = sceCtrlReadBufferPositive(&axisData, 1);
+    axisValues[0] = 0.0f;
+    axisValues[1] = 0.0f;
+
+    std::stringstream s;
+
+
+    if ((axisData.Lx-128) > AXIS_DEADZONE || (axisData.Lx-128) < -AXIS_DEADZONE)
+        axisValues[0] = (float)((axisData.Lx-128) - AXIS_DEADZONE) * axisConverterRate;
+
+    s << "El axis x es: " << axisData.Lx << "Con valor normalizado de "<<axisValues[0]<< " Y el axis y es: " << axisData.Ly;
+
+    if (axisData.Buttons & PSP_CTRL_TRIANGLE)
+    {
+        printLog(s.str());
+    }
+
+    // Buttons
     SceCtrlLatch data;
-    int result = sceCtrlReadLatch(&data);
-    
+    result = sceCtrlReadLatch(&data);
+
     for (unsigned int i = 0; i < MAX_BUTTON_GAMEPAD; i++)
     {
         buttons[i].isPressed = data.uiPress & PSP_BUTTONS[i];

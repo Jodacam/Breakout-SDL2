@@ -59,6 +59,11 @@
         "fstream": "cpp",
         "sstream": "cpp",
         "cinttypes": "cpp",
-        "random": "cpp"
-    }
+        "random": "cpp",
+        "ratio": "cpp",
+        "functional": "cpp",
+        "chrono": "cpp",
+        "numeric": "cpp"
+    },
+    "C_Cpp.dimInactiveRegions": false
 }

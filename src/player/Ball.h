@@ -12,7 +12,7 @@ namespace GameEngine
     class Ball
     {
     private:
-        SDL_Texture *sprite;
+        Image *sprite;
         Vector position;
         float speed;
         Vector direction;

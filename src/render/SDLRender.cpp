@@ -17,12 +17,12 @@ bool GameEngine::Renderer::Init(int SCREEN_WIDTH, int SCREEN_HEIGHT, const char 
         return false;
     }
 
-    #ifndef PSP
-    Uint32 SDL_Flag =  SDL_WINDOW_SHOWN  | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
-    #endif
-    #ifdef PSP
+#ifndef PSP
+    Uint32 SDL_Flag = SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
+#endif
+#ifdef PSP
     Uint32 SDL_Flag = SDL_WINDOW_MAXIMIZED;
-    #endif
+#endif
     window = SDL_CreateWindow(windowName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_Flag);
     if (window == NULL)
     {
@@ -65,7 +65,6 @@ bool GameEngine::Renderer::DrawScreen()
 
 void GameEngine::Renderer::DrawImage(SDL_Texture *texture, float x, float y, float w, float h)
 {
-
     SDL_FRect position;
     position.x = x * scaleW;
     position.y = y * scaleH;
@@ -73,10 +72,8 @@ void GameEngine::Renderer::DrawImage(SDL_Texture *texture, float x, float y, flo
     position.h = h * scaleH;
     SDL_RenderCopyF(this->renderer, texture, NULL, &position);
 }
-
-void GameEngine::Renderer::DrawImage(SDL_Texture *texture, int x, int y)
+void GameEngine::Renderer::DrawImage(SDL_Texture *texture, float x, float y)
 {
-
     SDL_FRect position;
     position.x = x * scaleW;
     position.y = y * scaleH;
@@ -87,13 +84,57 @@ void GameEngine::Renderer::DrawImage(SDL_Texture *texture, int x, int y)
     position.w = w * scaleW;
     SDL_RenderCopyF(this->renderer, texture, NULL, &position);
 }
-
-void GameEngine::Renderer::DrawImage(SDL_Texture *texture, const Vector position) {
-    DrawImage(texture, position.x,position.y);
+void GameEngine::Renderer::DrawImage(SDL_Texture *texture, const Vector position)
+{
+    DrawImage(texture, position.x, position.y);
+}
+void GameEngine::Renderer::DrawImage(SDL_Texture *texture, const Vector position, const Vector size)
+{
+    DrawImage(texture, position.x, position.y, size.x, size.y);
 }
 
-void GameEngine::Renderer::DrawImage(SDL_Texture *texture, const Vector position, const Vector size) {
-    DrawImage(texture, position.x,position.y,size.x,size.y);
+void GameEngine::Renderer::DrawImage(const Image *image, const Vector position)
+{
+    DrawImage(image, position.x, position.y,image->width, image->height);
+}
+
+void GameEngine::Renderer::DrawImage(const Image *image, const Vector position, const Vector size)
+{
+    DrawImage(image, position.x, position.y, size.x, size.y);
+}
+void GameEngine::Renderer::DrawImage(const Image *image, float x, float y)
+{
+    DrawImage(image->texture, x, y, image->width, image->height);
+}
+void GameEngine::Renderer::DrawImage(const Image *image, float x, float y, float w, float h)
+{
+    DrawImage(image->texture, x, y, w, h);
+}
+
+void GameEngine::Renderer::DrawSprite(Sprite *sprite, float x, float y, float w, float h)
+{
+    /**
+     * TODO
+     * - Offset Sprite. If using the same Texture offset the sprite coordinates.
+    */
+    SDL_Rect srcrect = {x : sprite->width*sprite->x, y : sprite->width*sprite->y, w : sprite->width, h : sprite->height};
+    SDL_FRect dstrect = {x : x, y : y, w : w, h : h};
+    SDL_RenderCopyF(this->renderer, sprite->source->texture, &srcrect, &dstrect);
+}
+
+void GameEngine::Renderer::DrawSprite(Sprite *sprite, float x, float y)
+{
+    DrawSprite(sprite, x, y, sprite->width, sprite->height);
+}
+
+void GameEngine::Renderer::DrawSprite(Sprite *sprite, const Vector position)
+{
+    DrawSprite(sprite, position.x, position.y, sprite->width, sprite->height);
+}
+
+void GameEngine::Renderer::DrawSprite(Sprite *sprite, const Vector position, const Vector size)
+{
+    DrawSprite(sprite, position.x, position.y, size.x, size.y);
 }
 
 SDL_Texture *GameEngine::Renderer::LoadTexture(const char *path)

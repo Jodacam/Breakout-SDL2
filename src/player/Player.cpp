@@ -3,7 +3,7 @@
 void GameEngine::Player::Render(GameEngine::Renderer *renderer)
 {
     //Draw the palet.
-    renderer->DrawImage(this->sprite, this->position);
+    renderer->DrawSprite(&this->sprite, this->position.x, this->position.y);
 }
 
 void GameEngine::Player::Update(GameEngine::EventManager *eventManager, Ball *ball, float dt)

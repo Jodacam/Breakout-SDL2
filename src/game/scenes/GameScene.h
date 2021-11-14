@@ -19,7 +19,7 @@ namespace GameEngine
         /* data */
         Player *player;
         Ball *ball;
-        SDL_Texture *background;
+        Image *background;
         std::vector<Block *> blocks;
         int lives = 3;
     public:

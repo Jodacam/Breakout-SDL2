@@ -12,7 +12,7 @@ namespace GameEngine
     private:
         Vector position;
         Vector size;
-        SDL_Texture* sprite;
+        Image* sprite;
     public:
         Block(Vector position, std::string sprite);
         void Render(Renderer* renderer);

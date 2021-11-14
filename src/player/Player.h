@@ -16,14 +16,17 @@ namespace GameEngine {
             float speed = 300.0f;
             //Internal colision rectangle.
             //use Now, when animation is implemented,change to Sprite Class 
-            SDL_Texture * sprite;
+            Sprite sprite;
         public:
             int width = 0;
             int height = 0;
             Player() {
                 position = Vector(0,0);
-                sprite = GameEngine::AssetManager::getInstance()->AddTexture("resources/img/Racket.png","player");
-                SDL_QueryTexture(sprite, NULL, NULL, &width, &height);
+                GameEngine::AssetManager::getInstance()->AddTexture("resources/img/Racket.png","player");
+                GameEngine::AssetManager::getInstance()->GetSprite(&sprite,"player");
+                width = sprite.width;
+                height = sprite.height;
+                //SDL_QueryTexture(sprite, NULL, NULL, &width, &height);
             }
             bool SetSprite();
             inline float SetX(float x) { this->position.x = x; return this->position.x;}

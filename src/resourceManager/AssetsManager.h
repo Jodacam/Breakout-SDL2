@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <unordered_map>
+#include "../render/Graphics.h"
 #include "../render/SDLRender.h"
 namespace GameEngine
 {
@@ -11,11 +12,11 @@ namespace GameEngine
     {
     private:
         static AssetManager *instance;
-        std::unordered_map<std::string, SDL_Texture *> textures;
+        std::unordered_map<std::string, Image *> textures;
         Renderer *actualRenderer;
         AssetManager()
         {
-            textures = std::unordered_map<std::string, SDL_Texture *>();
+            textures = std::unordered_map<std::string, Image *>();
         }
 
     public:
@@ -26,11 +27,11 @@ namespace GameEngine
 
             return AssetManager::getInstance();
         }
-        inline SDL_Texture *getTexture(std::string key)
+        inline Image *getTexture(std::string key)
         {
             return textures[key];
         }
-        SDL_Texture *AddTexture(const char *path, std::string key);
+        Image *AddTexture(const char *path, std::string key);
         inline bool Init(Renderer *renderer, bool clearTextures = false)
         {
             actualRenderer = renderer;
@@ -41,6 +42,8 @@ namespace GameEngine
             }
             return true;
         }
+        bool GetSprite(Sprite *outSprite, std::string imageKey);
+        bool GetSprite(Sprite *outSprite, std::string imageKey, int width, int height);
         bool RemoveTexture(const char *key);
         bool ClearData();
     };

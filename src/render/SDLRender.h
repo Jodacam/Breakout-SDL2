@@ -2,13 +2,14 @@
 #define _RENDER_H_
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include "Graphics.h"
 #include "../math/Vector.h"
 namespace GameEngine
 {
     struct Color
     {
         int red = 0;
-        int green = 0;
+        int green = 255;
         int blue = 255;
         int alpha = 255;
     };
@@ -31,13 +32,29 @@ namespace GameEngine
         bool Close();
         bool DrawBackground(Color color);
         bool DrawScreen();
+        /**
+         * Draws and image or a SDL_Texture to the screen.
+         * x and y is the position on the screen and w,h is the final size of the image.
+         * By default stretch is used
+        */
         void DrawImage(SDL_Texture *texture, float x, float y, float w, float h);
-        void DrawImage(SDL_Texture *texture, int x = 0, int y = 0);
+        void DrawImage(SDL_Texture *texture, float x = 0, float y = 0);
         void DrawImage(SDL_Texture *texture, const Vector position);
         void DrawImage(SDL_Texture *texture, const Vector position, const Vector size);
+        void DrawImage(const Image *image, float x, float y);
+        void DrawImage(const Image *image, float x, float y, float w, float h);
+        void DrawImage(const Image *image, const Vector position);
+        void DrawImage(const Image *image, const Vector position, const Vector size);
+        /**
+         * Draws a Sprite
+        */
+        void DrawSprite(Sprite *sprite, float x, float y, float w, float h);
+        void DrawSprite(Sprite *sprite, float x, float y);
+        void DrawSprite(Sprite *sprite, const Vector position);
+        void DrawSprite(Sprite *sprite, const Vector position, const Vector size);
         bool ClearScreen();
         void HandleWindowEvent(const SDL_Event *event);
-        SDL_Renderer *getInternalRender() { return renderer; }
+        SDL_Renderer *GetInternalRender() { return renderer; }
         SDL_Texture *LoadTexture(const char *path);
     };
 

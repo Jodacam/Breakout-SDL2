@@ -22,8 +22,8 @@ namespace GameEngine {
             int height = 0;
             Player() {
                 position = Vector(0,0);
-                GameEngine::AssetManager::getInstance()->AddTexture("resources/img/Racket.png","player");
-                GameEngine::AssetManager::getInstance()->GetSprite(&sprite,"player");
+                GameEngine::AssetManager::GetInstance()->AddTexture("resources/img/Racket.png","player");
+                GameEngine::AssetManager::GetInstance()->GetSprite(&sprite,"player");
                 width = sprite.width;
                 height = sprite.height;
                 //SDL_QueryTexture(sprite, NULL, NULL, &width, &height);

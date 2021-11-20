@@ -11,7 +11,7 @@
 
 static const char *LOG_FILE_INIT = "log.txt";
 static std::string LOG_FILE = std::string(LOG_FILE_INIT);
-static void printLog(const char *stream, uint8_t options = LOG_TO_FILE)
+static void printLog(const char *stream, uint8_t options = LOG_ALL)
 {
     using namespace std;
     auto end = chrono::system_clock::now();

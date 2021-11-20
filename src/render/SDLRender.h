@@ -2,7 +2,9 @@
 #define _RENDER_H_
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include "Graphics.h"
+#include "Text.h"
 #include "../math/Vector.h"
 namespace GameEngine
 {
@@ -17,8 +19,10 @@ namespace GameEngine
     class Renderer
     {
     private:
+        static Renderer* instance;
         SDL_Window *window = NULL;
         SDL_Renderer *renderer = NULL;
+        TTF_Font *font = NULL;
         int windowHeight = 0;
         int windowWidth = 0;
         int screenHeight = 0;
@@ -52,10 +56,24 @@ namespace GameEngine
         void DrawSprite(Sprite *sprite, float x, float y);
         void DrawSprite(Sprite *sprite, const Vector position);
         void DrawSprite(Sprite *sprite, const Vector position, const Vector size);
+
+        /**
+         * Draws Text
+        */
+       void DrawText(const StaticText& text);
+       void DrawText(const StaticText& text, Vector position);
+       void DrawText(const Text& text, Vector position);
+        /**
+         * Generates Text.
+        */
+        StaticText GenerateStaticText(std::string text);
+        StaticText GenerateStaticText(std::string text, Vector size);
+        SDL_Texture* GenerateTextTexture(std::string text);
         bool ClearScreen();
         void HandleWindowEvent(const SDL_Event *event);
         SDL_Renderer *GetInternalRender() { return renderer; }
         SDL_Texture *LoadTexture(const char *path);
+        static Renderer* GetInstance();
     };
 
 }

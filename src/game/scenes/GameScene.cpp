@@ -25,26 +25,31 @@ void GameEngine::GameScene::Update(float dt)
     if (ball_position.y > GAME_FIELD_H)
     {
         lives--;
-        ball->SetPosition(Vector(player->GetPosition().x+(player->width/2)-2.5, player->GetPosition().y - 5));
+        std::stringstream s;
+        s << "Lives: " << lives;
+        score.SetText(s.str());
+        ball->SetPosition(Vector(player->GetPosition().x + (player->width / 2) - 2.5, player->GetPosition().y - 5));
         ball->SetIsOnRacket(true);
     }
 }
 
 void GameEngine::GameScene::OnStart()
 {
-    background = GameEngine::AssetManager::getInstance()->AddTexture("resources/img/Hexagon_Pattern.png", "background");
+    score.SetText("Lives: 3", true);
+    score.size = score.size*1.5;
+    background = GameEngine::AssetManager::GetInstance()->AddTexture("resources/img/Hexagon_Pattern.png", "background");
     player->SetX(220);
     player->SetY(250);
     ball->SetSpeed(100);
     ball->SetIsOnRacket(true);
-    ball->SetPosition(Vector(player->GetPosition().x+(player->width/2)-2.5, player->GetPosition().y - 5));
+    ball->SetPosition(Vector(player->GetPosition().x + (player->width / 2) - 2.5, player->GetPosition().y - 5));
     //Fill the screen with the blocks.
     int initialHeight = 50;
     int row_width = 24;
     int row_height = 9;
 
     //Init the block colors
-    AssetManager::getInstance()->AddTexture("resources/img/Block.png", "block");
+    AssetManager::GetInstance()->AddTexture("resources/img/Block.png", "block");
     for (int j = 0; j < MAX_BLOCK_ROWS; j++)
     {
         for (int i = 0; i < MAX_BLOCK_PER_ROW; i++)
@@ -57,7 +62,7 @@ void GameEngine::GameScene::OnStart()
 
 void GameEngine::GameScene::Render(GameEngine::Renderer *renderer)
 {
-
+    //auto t = renderer->GenerateStaticText("Hello world");
     renderer->DrawImage(background, 120, 0, 240, 277);
     ball->Render(renderer);
     player->Render(renderer);
@@ -66,6 +71,7 @@ void GameEngine::GameScene::Render(GameEngine::Renderer *renderer)
     {
         blocks[i]->Render(renderer);
     }
+    renderer->DrawText(score, Vector(0, 0));
 }
 
 void GameEngine::GameScene::OnAdd()

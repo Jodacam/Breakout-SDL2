@@ -1,5 +1,19 @@
 #include "SDLRender.h"
+#include "../consts/logger.h"
 #include <iostream>
+
+GameEngine::Renderer *GameEngine::Renderer::instance;
+GameEngine::Renderer *GameEngine::Renderer::GetInstance()
+{
+
+    if (!GameEngine::Renderer::instance)
+    {
+        GameEngine::Renderer::instance = new GameEngine::Renderer();
+    }
+
+    return GameEngine::Renderer::instance;
+}
+
 
 bool GameEngine::Renderer::Init(int SCREEN_WIDTH, int SCREEN_HEIGHT, const char *windowName)
 {
@@ -14,6 +28,12 @@ bool GameEngine::Renderer::Init(int SCREEN_WIDTH, int SCREEN_HEIGHT, const char 
     {
         std::cout << "Ha ocurrido un error" << IMG_GetError() << std::endl;
         SDL_Delay(3000);
+        return false;
+    }
+
+    if (TTF_Init() < 0)
+    {
+        printLog(TTF_GetError());
         return false;
     }
 
@@ -37,6 +57,8 @@ bool GameEngine::Renderer::Init(int SCREEN_WIDTH, int SCREEN_HEIGHT, const char 
     scaleW = (float)windowWidth / (float)screenWidth;
     renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED);
 
+    font = TTF_OpenFont("resources/font/FSEX300.ttf", 16);
+
     return true;
 }
 
@@ -45,6 +67,7 @@ bool GameEngine::Renderer::Close()
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     IMG_Quit();
+    TTF_Quit();
     SDL_Quit();
     return true;
 }
@@ -61,6 +84,44 @@ bool GameEngine::Renderer::DrawScreen()
 
     SDL_RenderPresent(renderer);
     return true;
+}
+
+GameEngine::StaticText GameEngine::Renderer::GenerateStaticText(std::string text)
+{
+    SDL_Color color = {255, 255, 255};
+    SDL_Surface *surface = TTF_RenderText_Solid(font, text.c_str(), color);
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+    //Vector a;
+    int x, y;
+    SDL_QueryTexture(texture, NULL, NULL, &x, &y);
+
+    StaticText staticText {textureData : texture,text:text, size : Vector(x, y)};
+
+    SDL_FreeSurface(surface);
+
+    return staticText;
+}
+
+GameEngine::StaticText GameEngine::Renderer::GenerateStaticText(std::string text, Vector size)
+{
+    SDL_Color color = {255, 255, 255};
+    SDL_Surface *surface = TTF_RenderText_Solid(font, text.c_str(), color);
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+    //Vector a;
+
+    StaticText staticText{textureData : texture, size : size};
+
+    SDL_FreeSurface(surface);
+
+    return staticText;
+}
+
+SDL_Texture* GameEngine::Renderer::GenerateTextTexture(std::string text) {
+    SDL_Color color = {255, 255, 255};
+    SDL_Surface *surface = TTF_RenderText_Solid(font, text.c_str(), color);
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
+    return texture;
 }
 
 void GameEngine::Renderer::DrawImage(SDL_Texture *texture, float x, float y, float w, float h)
@@ -95,7 +156,7 @@ void GameEngine::Renderer::DrawImage(SDL_Texture *texture, const Vector position
 
 void GameEngine::Renderer::DrawImage(const Image *image, const Vector position)
 {
-    DrawImage(image, position.x, position.y,image->width, image->height);
+    DrawImage(image, position.x, position.y, image->width, image->height);
 }
 
 void GameEngine::Renderer::DrawImage(const Image *image, const Vector position, const Vector size)
@@ -117,8 +178,8 @@ void GameEngine::Renderer::DrawSprite(Sprite *sprite, float x, float y, float w,
      * TODO
      * - Offset Sprite. If using the same Texture offset the sprite coordinates.
     */
-    SDL_Rect srcrect = {x : sprite->width*sprite->x, y : sprite->width*sprite->y, w : sprite->width, h : sprite->height};
-    SDL_FRect dstrect = {x : x, y : y, w : w, h : h};
+    SDL_Rect srcrect = {x : sprite->width * sprite->x, y : sprite->width * sprite->y, w : sprite->width, h : sprite->height};
+    SDL_FRect dstrect = {x : x * scaleW, y : y * scaleH, w : w * scaleW, h : h * scaleW};
     SDL_RenderCopyF(this->renderer, sprite->source->texture, &srcrect, &dstrect);
 }
 
@@ -135,6 +196,25 @@ void GameEngine::Renderer::DrawSprite(Sprite *sprite, const Vector position)
 void GameEngine::Renderer::DrawSprite(Sprite *sprite, const Vector position, const Vector size)
 {
     DrawSprite(sprite, position.x, position.y, size.x, size.y);
+}
+
+void GameEngine::Renderer::DrawText(const StaticText &text, Vector position)
+{
+    SDL_FRect dstRect;
+    dstRect.x = position.x * scaleW;
+    dstRect.y = position.y * scaleH;
+    dstRect.w = text.size.x * scaleW;
+    dstRect.h = text.size.y * scaleH;
+    SDL_RenderCopyF(this->renderer, text.textureData, NULL, &dstRect);
+}
+void GameEngine::Renderer::DrawText(const Text &text, Vector position)
+{
+    SDL_FRect dstRect;
+    dstRect.x = position.x * scaleW;
+    dstRect.y = position.y * scaleH;
+    dstRect.w = text.size.x * scaleW;
+    dstRect.h = text.size.y * scaleH;
+    SDL_RenderCopyF(this->renderer, text.textureData, NULL, &dstRect);
 }
 
 SDL_Texture *GameEngine::Renderer::LoadTexture(const char *path)

@@ -1,6 +1,6 @@
 #include "AssetsManager.h"
 GameEngine::AssetManager *GameEngine::AssetManager::instance;
-GameEngine::AssetManager *GameEngine::AssetManager::getInstance()
+GameEngine::AssetManager *GameEngine::AssetManager::GetInstance()
 {
 
     if (!GameEngine::AssetManager::instance)

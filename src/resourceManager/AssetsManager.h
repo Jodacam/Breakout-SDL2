@@ -20,12 +20,12 @@ namespace GameEngine
         }
 
     public:
-        static AssetManager *getInstance();
+        static AssetManager *GetInstance();
         static AssetManager *InitInstance(Renderer *renderer)
         {
-            AssetManager::getInstance()->Init(renderer);
+            AssetManager::GetInstance()->Init(renderer);
 
-            return AssetManager::getInstance();
+            return AssetManager::GetInstance();
         }
         inline Image *getTexture(std::string key)
         {

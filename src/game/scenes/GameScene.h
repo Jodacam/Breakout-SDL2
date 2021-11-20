@@ -6,6 +6,7 @@
 #include <SDL2/SDL.h>
 #include "Scene.h"
 #include <vector>
+#include <sstream>
 
 const int MAX_BLOCK_PER_ROW = 10;
 const int MAX_BLOCK_ROWS = 5;
@@ -21,6 +22,7 @@ namespace GameEngine
         Ball *ball;
         Image *background;
         std::vector<Block *> blocks;
+        Text score;
         int lives = 3;
     public:
         GameScene()

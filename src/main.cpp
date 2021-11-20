@@ -53,7 +53,8 @@ int main(int argc, char *argv[])
 	SetupCallbacks();
 #endif
 	InitLogger();
-	GameEngine::Renderer *render = new GameEngine::Renderer();
+	//GameEngine::Renderer *render = new GameEngine::Renderer();
+	GameEngine::Renderer *render = GameEngine::Renderer::GetInstance();
 	GameEngine::AssetManager::InitInstance(render);
 	SDL_Event event;
 	if (!render->Init(SCREEN_WIDTH, SCREEN_HEIGHT, "Test"))
@@ -62,11 +63,12 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 	GameEngine::EventManager *eventManager = GameEngine::EventManager::Instance();
-	float deltaTime = 0.0f;
-	auto start = SDL_GetTicks();
 	GameEngine::SceneManager *manager = GameEngine::SceneManager::Instance();
 	manager->AddScene(new GameEngine::GameScene());
 	manager->ChangeScene(0);
+
+	float deltaTime = 0.0f;
+	auto start = SDL_GetTicks();
 	float timer = 5;
 	float actualTimer = 0;
 	int frameCount = 0;
@@ -109,9 +111,6 @@ int main(int argc, char *argv[])
 			s << "La media de delta fue de : " << averageDelta;
 			printLog(s.str());
 		}
-
-		// std::cout << "Tiempo en ms : " << frameTime << std::endl;
-		// std::cout << "Frames por segundo con esta medida  : " << (1.0f / (frameTime)) * 1000 << std::endl;
 		start = SDL_GetTicks();
 	}
 

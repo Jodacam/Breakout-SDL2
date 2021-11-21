@@ -23,11 +23,13 @@ namespace GameEngine
     public:
         Ball(float x, float y) : position(x, y)
         {
-            sprite = AssetManager::GetInstance()->AddTexture("resources/img/Ball.png", "ball");
+            AssetManager::GetInstance()->AddTexture("resources/img/Ball.png", "ball");
+            sprite =  AssetManager::GetInstance()->getTexture("ball");
         }
         Ball(Vector position) : position(position)
         {
-            sprite = AssetManager::GetInstance()->AddTexture("resources/img/Ball.png", "ball");
+            AssetManager::GetInstance()->AddTexture("resources/img/Ball.png", "ball");
+            sprite =  AssetManager::GetInstance()->getTexture("ball");
         }
         void Update(float dt, GameEngine::Player *player);
         void Render(Renderer *renderer);

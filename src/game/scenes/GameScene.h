@@ -21,6 +21,7 @@ namespace GameEngine
         Player *player;
         Ball *ball;
         Image *background;
+        Image *borders[3];
         std::vector<Block *> blocks;
         Text score;
         int lives = 3;

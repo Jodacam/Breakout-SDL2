@@ -3,6 +3,7 @@
 #include <sstream>
 #define SDL_MAIN_HANDLED
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
 #include "render/SDLRender.h"
 #include "events/EventManager.h"
 #include "resourceManager/AssetsManager.h"
@@ -62,6 +63,11 @@ int main(int argc, char *argv[])
 		std::cin.get();
 		return -1;
 	}
+
+	if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == -1)
+		return -1;
+
+	auto music = Mix_LoadWAV("resources/audio/test.wav");
 	GameEngine::EventManager *eventManager = GameEngine::EventManager::Instance();
 	GameEngine::SceneManager *manager = GameEngine::SceneManager::Instance();
 	manager->AddScene(new GameEngine::GameScene());
@@ -72,6 +78,8 @@ int main(int argc, char *argv[])
 	float timer = 5;
 	float actualTimer = 0;
 	int frameCount = 0;
+
+	Mix_PlayChannel(-1,music, -1);
 	while (appIsRunning)
 	{
 
@@ -113,8 +121,10 @@ int main(int argc, char *argv[])
 		}
 		start = SDL_GetTicks();
 	}
+	Mix_FreeChunk(music);
 
+	// quit SDL_mixer
+	Mix_CloseAudio();
 	render->Close();
-
 	return 0;
 }

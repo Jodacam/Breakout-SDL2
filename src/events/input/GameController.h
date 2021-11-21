@@ -9,7 +9,7 @@
 #include <SDL2/SDL_gamecontroller.h>
 #ifdef PSP
 #include <pspctrl.h>
-#define AXIS_DEADZONE 0
+#define AXIS_DEADZONE 16
 #define AXIS_UNIT_TRANSFORM 1.0f / (128 - AXIS_DEADZONE)
 #endif
 #include <iostream>

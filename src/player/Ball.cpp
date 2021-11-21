@@ -15,8 +15,9 @@ void GameEngine::Ball::Update(float dt, GameEngine::Player *player)
     Vector player_position = player->GetPosition();
     Vector center = Vector(position.x + radius, position.y + radius);
     float vertex[4] = {player_position.x, player_position.x + player->width, player_position.y, player_position.y + player->height};
-    if (GameEngine::CheckCicleRectangleCollision(center, radius, vertex))
+    if (collisionCooldown <= 0 && GameEngine::CheckCicleRectangleCollision(center, radius, vertex))
     {
+        collisionCooldown = 0.25f;
         direction = Vector(direction.x, -direction.y);
         std::cout << "Position: " << position << " Direction: " << direction << " Speed " << speed << std::endl;
         position = lastPosition;
@@ -26,7 +27,6 @@ void GameEngine::Ball::Update(float dt, GameEngine::Player *player)
     else if (position.y < 0)
     {
         direction = Vector(direction.x, -direction.y);
-        std::cout << "Position: " << position << " Direction: " << direction << " Speed " << speed << std::endl;
         position = lastPosition;
     }
     //Check left wall position
@@ -36,15 +36,20 @@ void GameEngine::Ball::Update(float dt, GameEngine::Player *player)
         //Change the direction.
         //When it collides with a wall use a 90º angle with the direction.
         direction = Vector(-direction.x, direction.y);
-        std::cout << "Position: " << position << " Direction: " << direction << " Speed " << speed << std::endl;
         position = lastPosition;
     }
     //Check right wall position
-    else if (position.x > GAME_FIELD_POSITIVE_X_LIMIT)
+    else if (position.x + radius * 2 > GAME_FIELD_POSITIVE_X_LIMIT)
     {
         direction = Vector(-direction.x, direction.y);
-        std::cout << "Position: " << position << " Direction: " << direction << " Speed " << speed << std::endl;
         position = lastPosition;
+    }
+
+    if (collisionCooldown > 0)
+    {
+        collisionCooldown -= dt;
+        if (collisionCooldown < 0)
+            collisionCooldown = 0;
     }
 }
 void GameEngine::Ball::Render(GameEngine::Renderer *renderer)

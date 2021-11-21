@@ -17,6 +17,7 @@ namespace GameEngine
         float speed;
         Vector direction;
         bool isOnRacket = false;
+        float collisionCooldown = 0.0f;
         //Colision radius
         float radius = 2.5;
 

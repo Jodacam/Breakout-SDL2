@@ -38,6 +38,9 @@ void GameEngine::GameScene::OnStart()
     score.SetText("Lives: 3", true);
     score.size = score.size*1.5;
     background = GameEngine::AssetManager::GetInstance()->AddTexture("resources/img/Hexagon_Pattern.png", "background");
+    borders[0] = GameEngine::AssetManager::GetInstance()->AddTexture("resources/img/Border_Left.png", "leftborder");
+    borders[1] = GameEngine::AssetManager::GetInstance()->AddTexture("resources/img/Border_Right.png", "rightborder");
+    borders[2] = GameEngine::AssetManager::GetInstance()->AddTexture("resources/img/Border_Top.png", "topborder");
     player->SetX(220);
     player->SetY(250);
     ball->SetSpeed(100);
@@ -71,6 +74,11 @@ void GameEngine::GameScene::Render(GameEngine::Renderer *renderer)
     {
         blocks[i]->Render(renderer);
     }
+
+    renderer->DrawImage(borders[0],GAME_FIELD_NEGATIVE_X_LIMIT-6,7);
+    renderer->DrawImage(borders[1],GAME_FIELD_POSITIVE_X_LIMIT,7);
+    renderer->DrawImage(borders[2],GAME_FIELD_NEGATIVE_X_LIMIT-6,0);
+
     renderer->DrawText(score, Vector(0, 0));
 }
 

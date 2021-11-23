@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
 	if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == -1)
 		return -1;
 
-	auto music = Mix_LoadWAV("resources/audio/test.wav");
+	auto music = Mix_LoadMUSType_RW("resources/audio/test.wav",Mix_MusicType::MUS_WAV);
 	GameEngine::EventManager *eventManager = GameEngine::EventManager::Instance();
 	GameEngine::SceneManager *manager = GameEngine::SceneManager::Instance();
 	manager->AddScene(new GameEngine::GameScene());
@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
 	float actualTimer = 0;
 	int frameCount = 0;
 
-	Mix_PlayChannel(-1,music, -1);
+	Mix_PlayMusic(music, -1);
 	while (appIsRunning)
 	{
 
@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
 		}
 		start = SDL_GetTicks();
 	}
-	Mix_FreeChunk(music);
+	Mix_FreeMusic(music);
 
 	// quit SDL_mixer
 	Mix_CloseAudio();

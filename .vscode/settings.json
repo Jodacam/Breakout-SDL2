@@ -63,6 +63,11 @@
         "ratio": "cpp",
         "functional": "cpp",
         "chrono": "cpp",
-        "numeric": "cpp"
+        "numeric": "cpp",
+        "dynamic_ogg.h": "c",
+        "stdio.h": "c",
+        "sdl_mixer.h": "c",
+        "string.h": "c",
+        "sdl_config.h": "c"
     },
 }

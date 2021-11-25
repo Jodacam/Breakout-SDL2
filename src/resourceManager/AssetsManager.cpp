@@ -1,4 +1,5 @@
 #include "AssetsManager.h"
+#include "../consts/logger.h"
 GameEngine::AssetManager *GameEngine::AssetManager::instance;
 GameEngine::AssetManager *GameEngine::AssetManager::GetInstance()
 {
@@ -21,10 +22,10 @@ GameEngine::Image *GameEngine::AssetManager::AddTexture(const char *path, std::s
     SDL_Surface *surface = IMG_Load(path);
     SDL_Texture *text = SDL_CreateTextureFromSurface(actualRenderer->GetInternalRender(), surface);
 
-    Image* image =new Image();
-    image->texture=text;
-    
-    SDL_QueryTexture(text,NULL,NULL,&image->width,&image->height);
+    Image *image = new Image();
+    image->texture = text;
+
+    SDL_QueryTexture(text, NULL, NULL, &image->width, &image->height);
 
     if (text)
     {
@@ -51,12 +52,31 @@ bool GameEngine::AssetManager::GetSprite(GameEngine::Sprite *outSprite, std::str
 
 bool GameEngine::AssetManager::GetSprite(GameEngine::Sprite *outSprite, std::string imageKey, int width, int height)
 {
-    if(GetSprite(outSprite, imageKey)) {
+    if (GetSprite(outSprite, imageKey))
+    {
         outSprite->width = width;
         outSprite->height = height;
         return true;
     }
 
     return false;
-    
+}
+
+GameEngine::Song GameEngine::AssetManager::AddSong(const char *path, std::string key)
+{
+    auto song = Mix_LoadMUS(path);
+
+    if (song == NULL) {
+        auto err = Mix_GetError();
+        SDL_Log(err);
+
+        printLog(err,LOG_TO_FILE);
+    }
+
+    if (song)
+    {
+        songs.insert(std::make_pair(key, Song{audio : song, duration : 0}));
+    }
+
+    return songs[key];
 }

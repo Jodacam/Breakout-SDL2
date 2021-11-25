@@ -38,7 +38,7 @@ bool GameEngine::Renderer::Init(int SCREEN_WIDTH, int SCREEN_HEIGHT, const char 
     }
 
 #ifndef PSP
-    Uint32 SDL_Flag = SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
+    Uint32 SDL_Flag = SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE ;
 #endif
 #ifdef PSP
     Uint32 SDL_Flag = SDL_WINDOW_MAXIMIZED;
@@ -55,7 +55,7 @@ bool GameEngine::Renderer::Init(int SCREEN_WIDTH, int SCREEN_HEIGHT, const char 
     std::cout << "Anchura en size: " << windowWidth << " Altura en size: " << windowHeight << std::endl;
     scaleH = (float)windowHeight / (float)screenHeight;
     scaleW = (float)windowWidth / (float)screenWidth;
-    renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED);
+    renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
 
     font = TTF_OpenFont("resources/font/FSEX300.ttf", 16);
 
@@ -89,7 +89,7 @@ bool GameEngine::Renderer::DrawScreen()
 GameEngine::StaticText GameEngine::Renderer::GenerateStaticText(std::string text)
 {
     SDL_Color color = {255, 255, 255};
-    SDL_Surface *surface = TTF_RenderText_Solid(font, text.c_str(), color);
+    SDL_Surface *surface = TTF_RenderText_Blended_Wrapped(font, text.c_str(), color,480);
     SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
     //Vector a;
     int x, y;
@@ -118,7 +118,7 @@ GameEngine::StaticText GameEngine::Renderer::GenerateStaticText(std::string text
 
 SDL_Texture* GameEngine::Renderer::GenerateTextTexture(std::string text) {
     SDL_Color color = {255, 255, 255};
-    SDL_Surface *surface = TTF_RenderText_Solid(font, text.c_str(), color);
+    SDL_Surface *surface = TTF_RenderText_Blended_Wrapped(font, text.c_str(), color,480);
     SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
     return texture;

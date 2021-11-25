@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include "../render/Graphics.h"
 #include "../render/SDLRender.h"
+#include "../audio/Audio.h"
 namespace GameEngine
 {
 
@@ -13,6 +14,8 @@ namespace GameEngine
     private:
         static AssetManager *instance;
         std::unordered_map<std::string, Image *> textures;
+        std::unordered_map<std::string, Song> songs;
+        std::unordered_map<std::string, SoundEffect> soundEffects;
         Renderer *actualRenderer;
         AssetManager()
         {
@@ -31,7 +34,18 @@ namespace GameEngine
         {
             return textures[key];
         }
+        inline Song GetSong(std::string key)
+        {
+            return songs[key];
+        }
+        inline SoundEffect GetSoundEffect(std::string key)
+        {
+            return soundEffects[key];
+        }
+        //Change to shared_pointer;
         Image *AddTexture(const char *path, std::string key);
+        Song AddSong(const char *path, std::string key);
+        SoundEffect AddSoundEffect(const char *path, std::string key);
         inline bool Init(Renderer *renderer, bool clearTextures = false)
         {
             actualRenderer = renderer;

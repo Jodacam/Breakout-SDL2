@@ -9,6 +9,7 @@
 #include "resourceManager/AssetsManager.h"
 #include "game/SceneManager.h"
 #include "game/scenes/GameScene.h"
+#include "audio/AudioManager.h"
 #include <time.h>
 #include "consts/logger.h"
 #ifdef PSP
@@ -64,22 +65,23 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
-	if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == -1)
-		return -1;
+	GameEngine::AudioManager::Init(22050, MIX_DEFAULT_FORMAT, 2, 4096);
 
-	auto music = Mix_LoadMUSType_RW("resources/audio/test.wav",Mix_MusicType::MUS_WAV);
 	GameEngine::EventManager *eventManager = GameEngine::EventManager::Instance();
 	GameEngine::SceneManager *manager = GameEngine::SceneManager::Instance();
 	manager->AddScene(new GameEngine::GameScene());
 	manager->ChangeScene(0);
 
+	auto song = GameEngine::AssetManager::GetInstance()->AddSong("resources/audio/music/test.ogg", "default");
+	GameEngine::AudioManager::GetInstance()->PlayMusic(song,true);
+
 	float deltaTime = 0.0f;
 	auto start = SDL_GetTicks();
-	float timer = 5;
+	float timer = 0.32;
 	float actualTimer = 0;
 	int frameCount = 0;
-
-	Mix_PlayMusic(music, -1);
+	GameEngine::Text frameText;
+	frameText.size = GameEngine::Vector(100, 16);
 	while (appIsRunning)
 	{
 
@@ -104,27 +106,25 @@ int main(int argc, char *argv[])
 		render->ClearScreen();
 		_scene->Render(render);
 		_scene->Update(deltaTime);
+		render->DrawText(frameText, GameEngine::Vector(0, 50));
 		render->DrawScreen();
 		auto end = SDL_GetTicks();
 		float frameTime = end - start;
 		deltaTime = frameTime * 0.001;
 		actualTimer += deltaTime;
 		frameCount++;
+		start = SDL_GetTicks();
 		if (actualTimer > timer)
 		{
 			float averageDelta = actualTimer / frameCount;
 			frameCount = 0;
 			actualTimer = 0;
 			std::stringstream s;
-			s << "La media de delta fue de : " << averageDelta;
-			printLog(s.str());
+			s << "Delta: " << int(averageDelta*1000) << "ms\nFrames: " << int(1 / (averageDelta));
+			frameText.SetText(s.str(),true);
 		}
-		start = SDL_GetTicks();
+		
 	}
-	Mix_FreeMusic(music);
-
-	// quit SDL_mixer
-	Mix_CloseAudio();
 	render->Close();
 	return 0;
 }

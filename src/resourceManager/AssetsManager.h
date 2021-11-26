@@ -2,7 +2,9 @@
 #define _ASSETMANAGER_H_
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <memory>
 #include <unordered_map>
+
 #include "../render/Graphics.h"
 #include "../render/SDLRender.h"
 #include "../audio/Audio.h"
@@ -14,8 +16,8 @@ namespace GameEngine
     private:
         static AssetManager *instance;
         std::unordered_map<std::string, Image *> textures;
-        std::unordered_map<std::string, Song> songs;
-        std::unordered_map<std::string, SoundEffect> soundEffects;
+        std::unordered_map<std::string, std::shared_ptr<Song>> songs;
+        std::unordered_map<std::string, std::shared_ptr<SoundEffect>> soundEffects;
         Renderer *actualRenderer;
         AssetManager()
         {
@@ -34,18 +36,18 @@ namespace GameEngine
         {
             return textures[key];
         }
-        inline Song GetSong(std::string key)
+        inline std::shared_ptr<Song> GetSong(std::string key)
         {
             return songs[key];
         }
-        inline SoundEffect GetSoundEffect(std::string key)
+        inline std::shared_ptr<SoundEffect> GetSoundEffect(std::string key)
         {
             return soundEffects[key];
         }
         //Change to shared_pointer;
         Image *AddTexture(const char *path, std::string key);
-        Song AddSong(const char *path, std::string key);
-        SoundEffect AddSoundEffect(const char *path, std::string key);
+        std::shared_ptr<Song> AddSong(const char *path, std::string key);
+        std::shared_ptr<SoundEffect> AddSoundEffect(const char *path, std::string key);
         inline bool Init(Renderer *renderer, bool clearTextures = false)
         {
             actualRenderer = renderer;
@@ -58,7 +60,7 @@ namespace GameEngine
         }
         bool GetSprite(Sprite *outSprite, std::string imageKey);
         bool GetSprite(Sprite *outSprite, std::string imageKey, int width, int height);
-        bool RemoveTexture(const char *key);
+        bool RemoveTexture(std::string *key);
         bool ClearData();
     };
 

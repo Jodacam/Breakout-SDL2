@@ -57,7 +57,7 @@ bool GameEngine::Renderer::Init(int SCREEN_WIDTH, int SCREEN_HEIGHT, const char 
     scaleW = (float)windowWidth / (float)screenWidth;
     renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
 
-    font = TTF_OpenFont("resources/font/FSEX300.ttf", 16);
+    font = TTF_OpenFont("resources/font/KenneyPixelSquare.ttf", 16);
 
     return true;
 }

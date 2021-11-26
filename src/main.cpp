@@ -69,19 +69,27 @@ int main(int argc, char *argv[])
 
 	GameEngine::EventManager *eventManager = GameEngine::EventManager::Instance();
 	GameEngine::SceneManager *manager = GameEngine::SceneManager::Instance();
+
+	//Load all needed data for the game.
+	GameEngine::AssetManager::GetInstance()->AddSong("resources/audio/music/test.ogg", "default");
+	GameEngine::AssetManager::GetInstance()->AddSoundEffect("resources/audio/sfx/Collide/bonk-4.wav","bounce");
+	GameEngine::AssetManager::GetInstance()->AddTexture("resources/img/Hexagon_Pattern.png", "background");
+	GameEngine::AssetManager::GetInstance()->AddTexture("resources/img/Border_Left.png", "leftborder");
+	GameEngine::AssetManager::GetInstance()->AddTexture("resources/img/Border_Right.png", "rightborder");
+	GameEngine::AssetManager::GetInstance()->AddTexture("resources/img/Border_Top.png", "topborder");
+
+
+	//Load Game first scene
 	manager->AddScene(new GameEngine::GameScene());
 	manager->ChangeScene(0);
 
-	auto song = GameEngine::AssetManager::GetInstance()->AddSong("resources/audio/music/test.ogg", "default");
-	GameEngine::AudioManager::GetInstance()->PlayMusic(song,true);
-
 	float deltaTime = 0.0f;
 	auto start = SDL_GetTicks();
-	float timer = 0.32;
+	float timer = 5;
 	float actualTimer = 0;
 	int frameCount = 0;
 	GameEngine::Text frameText;
-	frameText.size = GameEngine::Vector(100, 16);
+	frameText.SetText("Loading Frame Data", true);
 	while (appIsRunning)
 	{
 
@@ -97,17 +105,18 @@ int main(int argc, char *argv[])
 				break;
 			}
 		}
-		eventManager->ReadKeyBoard();
-		if (eventManager->IsKeyPress(SDL_SCANCODE_C))
-			appIsRunning = false;
+		eventManager->UpdateInput();
+
 		if (eventManager->GetController()->GetButton(GameEngine::GameButtonType::START).pressed)
 			appIsRunning = false;
-		GameEngine::Scene *_scene = manager->GetActualScene();
+
+		GameEngine::Scene *scene = manager->GetActualScene();
 		render->ClearScreen();
-		_scene->Render(render);
-		_scene->Update(deltaTime);
+		scene->Update(deltaTime);
+		scene->Render(render);
 		render->DrawText(frameText, GameEngine::Vector(0, 50));
 		render->DrawScreen();
+
 		auto end = SDL_GetTicks();
 		float frameTime = end - start;
 		deltaTime = frameTime * 0.001;
@@ -120,11 +129,11 @@ int main(int argc, char *argv[])
 			frameCount = 0;
 			actualTimer = 0;
 			std::stringstream s;
-			s << "Delta: " << int(averageDelta*1000) << "ms\nFrames: " << int(1 / (averageDelta));
-			frameText.SetText(s.str(),true);
+			s << "Delta: " << int(averageDelta * 1000) << "ms\nFrames: " << int(1 / (averageDelta));
+			frameText.SetText(s.str(), true);
 		}
-		
 	}
 	render->Close();
+
 	return 0;
 }

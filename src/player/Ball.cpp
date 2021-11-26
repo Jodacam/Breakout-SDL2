@@ -1,6 +1,7 @@
 #include "Ball.h"
 #include "../consts/game.h"
 #include "../consts/functions.h"
+#include "../audio/AudioManager.h"
 void GameEngine::Ball::Update(float dt, GameEngine::Player *player)
 {
     //If the ball is stuck on the racket move it like the player is moving.
@@ -21,6 +22,7 @@ void GameEngine::Ball::Update(float dt, GameEngine::Player *player)
         direction = Vector(direction.x, -direction.y);
         std::cout << "Position: " << position << " Direction: " << direction << " Speed " << speed << std::endl;
         position = lastPosition;
+        AudioManager::GetInstance()->PlaySoundEffect("bounce");
     }
     //Check the Wall position here.
     //Check top wall position

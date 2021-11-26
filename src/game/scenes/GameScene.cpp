@@ -1,4 +1,5 @@
 #include "GameScene.h"
+#include "../../audio/AudioManager.h"
 #include "../../consts/game.h"
 void GameEngine::GameScene::Update(float dt)
 {
@@ -37,10 +38,12 @@ void GameEngine::GameScene::OnStart()
 {
     score.SetText("Lives: 3", true);
     score.size = score.size*1.5;
-    background = GameEngine::AssetManager::GetInstance()->AddTexture("resources/img/Hexagon_Pattern.png", "background");
-    borders[0] = GameEngine::AssetManager::GetInstance()->AddTexture("resources/img/Border_Left.png", "leftborder");
-    borders[1] = GameEngine::AssetManager::GetInstance()->AddTexture("resources/img/Border_Right.png", "rightborder");
-    borders[2] = GameEngine::AssetManager::GetInstance()->AddTexture("resources/img/Border_Top.png", "topborder");
+
+    //Preload this and get it later.
+    background = GameEngine::AssetManager::GetInstance()->getTexture("background");
+    borders[0] = GameEngine::AssetManager::GetInstance()->getTexture("leftborder");
+    borders[1] = GameEngine::AssetManager::GetInstance()->getTexture("rightborder");
+    borders[2] = GameEngine::AssetManager::GetInstance()->getTexture("topborder");
     player->SetX(220);
     player->SetY(250);
     ball->SetSpeed(100);
@@ -61,6 +64,10 @@ void GameEngine::GameScene::OnStart()
             blocks.push_back(block);
         }
     }
+
+    //Play the music.
+    AudioManager::GetInstance()->PlayMusic(*(AssetManager::GetInstance()->GetSong("default").get()),true);
+
 }
 
 void GameEngine::GameScene::Render(GameEngine::Renderer *renderer)

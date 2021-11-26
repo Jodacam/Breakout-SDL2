@@ -1,4 +1,5 @@
 #include "AudioManager.h"
+#include "../resourceManager/AssetsManager.h"
 #include "../consts/logger.h"
 GameEngine::AudioManager *GameEngine::AudioManager::instance;
 
@@ -17,6 +18,12 @@ bool GameEngine::AudioManager::Init(int frequency, Uint16 format, int channels, 
 
     if (Mix_OpenAudio(frequency, format, channels, chunksize) == -1)
         return false;
+
+    //Mix_Init(MIX_INIT_OGG);
+
+    //Allocate chanels on memory for sound effects.
+    Mix_AllocateChannels(8);
+
     return true;
 }
 
@@ -29,6 +36,13 @@ bool GameEngine::AudioManager::Close()
 
 bool GameEngine::AudioManager::PlayMusic(const Song &song, bool loop)
 {
-    //printLog("Hello",LOG_TO_FILE);
     return Mix_PlayMusic(song.audio, loop ? -1 : 1) == 1;
+}
+int GameEngine::AudioManager::PlaySoundEffect(std::string asset, bool loop) {
+    return PlaySoundEffect(*(AssetManager::GetInstance()->GetSoundEffect(asset).get()));
+}
+int GameEngine::AudioManager::PlaySoundEffect(const SoundEffect &effect, bool loop)
+{
+
+    return Mix_PlayChannel(-1, effect.audio, loop ? -1 : 0);
 }

@@ -2,6 +2,7 @@
 #define AUDIO_MANAGER_H_
 #include <SDL2/SDL_mixer.h>
 #include "Audio.h"
+#include <string>
 namespace GameEngine
 {
     class AudioManager
@@ -14,7 +15,18 @@ namespace GameEngine
         static AudioManager *GetInstance();
         static bool Init(int frequency, Uint16 format, int channels, int chunksize);
         bool Close();
-        bool PlayMusic(const Song &song, bool loop);
+        /**
+         * Plays a song at the background.
+        */
+        bool PlayMusic(const Song &song, bool loop = true);
+        /**
+         * Plays a sound effect.
+         * Returns the channel used for the effect. Becuase the effect has a duration,
+         * the int could change and point to another sound effect.
+         * 
+        */
+        int PlaySoundEffect(std::string asset, bool loop = false);
+        int PlaySoundEffect(const SoundEffect &effect, bool loop = false);
     };
 }
 

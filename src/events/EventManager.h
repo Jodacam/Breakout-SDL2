@@ -25,7 +25,7 @@ namespace GameEngine
         }
         static EventManager* Instance();
         int PollEvent(SDL_Event *event);
-        bool ReadKeyBoard();
+        bool UpdateInput();
         bool IsKeyPress(Uint8 key);
         ~EventManager() { delete gameController; }
     };

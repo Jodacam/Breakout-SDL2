@@ -62,21 +62,50 @@ bool GameEngine::AssetManager::GetSprite(GameEngine::Sprite *outSprite, std::str
     return false;
 }
 
-GameEngine::Song GameEngine::AssetManager::AddSong(const char *path, std::string key)
+std::shared_ptr<GameEngine::Song> GameEngine::AssetManager::AddSong(const char *path, std::string key)
 {
     auto song = Mix_LoadMUS(path);
 
-    if (song == NULL) {
+    if (song == NULL)
+    {
         auto err = Mix_GetError();
         SDL_Log(err);
 
-        printLog(err,LOG_TO_FILE);
+        printLog(err, LOG_TO_FILE);
+    }
+
+
+
+    if (song)
+    {
+        
+        songs.insert(std::make_pair(key, std::make_shared<Song>(song)));
+    }
+
+    return songs[key];
+}
+
+std::shared_ptr<GameEngine::SoundEffect> GameEngine::AssetManager::AddSoundEffect(const char *path, std::string key)
+{
+    auto song = Mix_LoadWAV(path);
+
+    if (song == NULL)
+    {
+        auto err = Mix_GetError();
+        SDL_Log(err);
+
+        printLog(err, LOG_TO_FILE);
     }
 
     if (song)
     {
-        songs.insert(std::make_pair(key, Song{audio : song, duration : 0}));
+        soundEffects.insert(std::make_pair(key, std::make_shared<SoundEffect>(song)));
     }
 
-    return songs[key];
+    return soundEffects[key];
+}
+
+bool GameEngine::AssetManager::ClearData()
+{
+    return true;
 }

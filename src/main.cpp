@@ -12,6 +12,7 @@
 #include "audio/AudioManager.h"
 #include <time.h>
 #include "consts/logger.h"
+#include "canvas/Canvas.h"
 #ifdef PSP
 #include <pspkernel.h>
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER | THREAD_ATTR_VFPU);
@@ -92,6 +93,10 @@ int main(int argc, char *argv[])
 	int frameCount = 0;
 	GameEngine::Text frameText;
 	frameText.SetText("Delta : ms\nFrames:  ", true);
+
+
+	GameEngine::Canvas c = GameEngine::Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
+	c.AddElementOfType<GameEngine::UIImage>(new GameEngine::UIImage("background"));
 	while (appIsRunning)
 	{
 
@@ -116,6 +121,7 @@ int main(int argc, char *argv[])
 		render->ClearScreen();
 		scene->Update(deltaTime);
 		scene->Render(render);
+		c.Render(render);
 		render->DrawText(frameText, GameEngine::Vector(0, 50));
 		render->DrawScreen();
 

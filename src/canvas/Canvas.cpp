@@ -1,8 +1,8 @@
 #include "Canvas.h"
 #include <algorithm>
 GameEngine::Canvas::Canvas(int w, int h)
-{   
-    texture = SDL_CreateTexture(Renderer::GetInstance()->GetInternalRender(),SDL_PIXELFORMAT_RGBA4444,SDL_TEXTUREACCESS_TARGET,w,h);
+{
+    texture = SDL_CreateTexture(Renderer::GetInstance()->GetInternalRender(), SDL_PIXELFORMAT_RGBA4444, SDL_TEXTUREACCESS_TARGET, w, h);
 }
 
 GameEngine::Canvas::~Canvas()
@@ -33,11 +33,22 @@ void GameEngine::Canvas::Render(GameEngine::Renderer *renderer)
     {
         //Change the render target.
         renderer->ChangeRenderTarget(texture);
+
+        SDL_SetRenderDrawColor(renderer->GetInternalRender(), 0, 0, 0, SDL_ALPHA_TRANSPARENT);
+        SDL_RenderClear(renderer->GetInternalRender());
         for (auto &&i : elements)
         {
             i->Render(renderer);
         }
         //Change the render target and draw the new Canvas Texture.
         renderer->ChangeRenderTarget(NULL);
+        SDL_SetRenderDrawColor(renderer->GetInternalRender(), 0, 0, 0, 255);
     }
+
+    renderer->DrawImage(texture);
+}
+
+void GameEngine::Canvas::AddElement(const std::shared_ptr<GameEngine::UIElement> &element)
+{
+     elements.push_back(element);
 }

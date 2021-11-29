@@ -18,7 +18,8 @@ namespace GameEngine
         /**
          * Internal texture.
         */
-        SDL_Texture* texture;
+        SDL_Texture *texture;
+
     public:
         int width, height = 0;
         /**
@@ -27,15 +28,38 @@ namespace GameEngine
         Canvas(int w = 0, int h = 0);
         ~Canvas();
 
-
         void Update(float dt);
-        void Render(Renderer* renderer);
+        void Render(Renderer *renderer);
 
         /**
          * @brief Add a new UI element to the array. If the element is already in the array it will create a new one.
          * @return The newly created element into a weak_ptr so it can be changed. It used weak pointers because
         */
-        std::shared_ptr<UIElement> AddElement(UIElement *element);  
+        template <typename Ty,typename ...Targs>
+        std::shared_ptr<Ty> AddElementOfType(Targs ...args)
+        {
+            auto pointer = std::shared_ptr<Ty>(args...);
+
+            elements.push_back(pointer);
+
+            return pointer;
+        }
+
+        void AddElement(const std::shared_ptr<UIElement> &element);
+
+        /**
+         * @brief Add a new UI element to the array from scrach. Is usefull when we want to init a new type
+         * @return The newly created element into a weak_ptr so it can be changed. It used weak pointers because
+        */
+        template <typename T>
+        std::shared_ptr<T> CreateElementOfType()
+        {
+
+            //We make a
+            auto p = std::make_shared<T>();
+            elements.push_back(p);
+            return p;
+        }
     };
 
 }

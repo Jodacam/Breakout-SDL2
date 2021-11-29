@@ -1,6 +1,7 @@
 #ifndef GAME_ENGINE_UIELEMENT_H
 #define GAME_ENGINE_UIELEMENT_H
 #include <memory>
+#include <string>
 #include "../math/Vector.h"
 #include "../render/SDLRender.h"
 namespace GameEngine
@@ -21,13 +22,16 @@ namespace GameEngine
 
     public:
         bool visible;
-        UIElement();
         virtual void Render(GameEngine::Renderer *renderer) = 0;
         virtual void Update(float dt) = 0;
         /**
          * @return The state of the UIElement. When is dirty a re-render will be trigger on the canvas element.
         */
         inline bool GetIsDirty() const { return isDirty; }
+        inline Vector GetPosition() const { return position; }
+        inline Vector GetSize() const { return size; }
+        void SetPosition(const Vector &pos);
+        void SetSize(const Vector &s);
     };
 #pragma endregion
 
@@ -40,11 +44,13 @@ namespace GameEngine
     {
 
     private:
-        std::shared_ptr<Image> image;
+        //TODO Change image API
+        std::shared_ptr<Sprite> image;
 
     public:
         void Update(float dt);
         void Render(GameEngine::Renderer *renderer);
+        UIImage(std::string asset);
     };
 
 #pragma endregion

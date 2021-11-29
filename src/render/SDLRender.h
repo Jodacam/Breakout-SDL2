@@ -73,6 +73,9 @@ namespace GameEngine
         void HandleWindowEvent(const SDL_Event *event);
         SDL_Renderer *GetInternalRender() { return renderer; }
         SDL_Texture *LoadTexture(const char *path);
+        int ChangeRenderTarget(SDL_Texture *texture);
+
+        
         static Renderer* GetInstance();
     };
 

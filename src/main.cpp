@@ -44,8 +44,10 @@ int SetupCallbacks(void)
 const int SCREEN_WIDTH = 480;
 #ifdef PSP
 const int SCREEN_HEIGHT = 277;
+const int AUDIO_WAVE_LENGTH = 22050/2;
 #endif
 #ifndef PSP
+const int AUDIO_WAVE_LENGTH = 22050*2;
 const int SCREEN_HEIGHT = 277;
 #endif
 bool appIsRunning = true;
@@ -65,7 +67,7 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
-	GameEngine::AudioManager::Init(22050, MIX_DEFAULT_FORMAT, 2, 4096);
+	GameEngine::AudioManager::Init(AUDIO_WAVE_LENGTH, MIX_DEFAULT_FORMAT, 2, 4096);
 
 	GameEngine::EventManager *eventManager = GameEngine::EventManager::Instance();
 	GameEngine::SceneManager *manager = GameEngine::SceneManager::Instance();
@@ -89,7 +91,7 @@ int main(int argc, char *argv[])
 	float actualTimer = 0;
 	int frameCount = 0;
 	GameEngine::Text frameText;
-	frameText.SetText("Loading Frame Data", true);
+	frameText.SetText("Delta : ms\nFrames:  ", true);
 	while (appIsRunning)
 	{
 

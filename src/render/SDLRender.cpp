@@ -226,6 +226,11 @@ SDL_Texture *GameEngine::Renderer::LoadTexture(const char *path)
     return text;
 }
 
+int GameEngine::Renderer::ChangeRenderTarget(SDL_Texture *texture) {
+    return SDL_SetRenderTarget(renderer ,texture);
+}
+
+
 bool GameEngine::Renderer::ClearScreen()
 {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);

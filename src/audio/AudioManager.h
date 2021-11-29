@@ -19,6 +19,9 @@ namespace GameEngine
          * Plays a song at the background.
         */
         bool PlayMusic(const Song &song, bool loop = true);
+        bool PlayMusic(std::string asset, bool loop = true);
+
+        bool PauseMusic();
         /**
          * Plays a sound effect.
          * Returns the channel used for the effect. Becuase the effect has a duration,

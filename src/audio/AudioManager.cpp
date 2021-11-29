@@ -38,8 +38,21 @@ bool GameEngine::AudioManager::PlayMusic(const Song &song, bool loop)
 {
     return Mix_PlayMusic(song.audio, loop ? -1 : 1) == 1;
 }
-int GameEngine::AudioManager::PlaySoundEffect(std::string asset, bool loop) {
-    return PlaySoundEffect(*(AssetManager::GetInstance()->GetSoundEffect(asset).get()));
+
+bool GameEngine::AudioManager::PlayMusic(std::string asset, bool loop)
+{
+    return PlayMusic(*(AssetManager::GetInstance()->GetSong(asset).get()), loop);
+}
+
+bool GameEngine::AudioManager::PauseMusic()
+{
+    Mix_PauseMusic();
+    return true;
+}
+
+int GameEngine::AudioManager::PlaySoundEffect(std::string asset, bool loop)
+{
+    return PlaySoundEffect(*(AssetManager::GetInstance()->GetSoundEffect(asset).get()), loop);
 }
 int GameEngine::AudioManager::PlaySoundEffect(const SoundEffect &effect, bool loop)
 {

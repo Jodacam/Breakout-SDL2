@@ -25,19 +25,19 @@ namespace GameEngine
             x = 0.0f;
             y = 0.0f;
         }
-        Vector operator+(const Vector a)
+        Vector  operator+(const Vector &a)
         {
             return Vector(a.x + x, a.y + y);
         }
-        Vector operator-(const Vector a)
+        Vector  operator-(const Vector &a)
         {
             return Vector(x - a.x, y - a.y);
         }
-        Vector operator*(const float m)
+        Vector operator*(const float &m)
         {
             return Vector(m * x, m * y);
         }
-        Vector operator/(const float m)
+        Vector operator/(const float &m)
         {
             return Vector(x / m, y / m);
         }
@@ -51,7 +51,7 @@ namespace GameEngine
         }
 
         //TODO optimize module cache. sqrt is a expensive operation
-        inline float Module() { return sqrt(x * x + y * y); }
+        inline float Module() const { return sqrt(x * x + y * y); }
         /**
          * Return the non square root of the module. Basically is x^2+y^2. This is useful when you want to check distances. When you're checking if the point a is closer to another point than point b
          * you can compare the non square root modules because sqrt(x) < sqrt(y) <===> x < y
@@ -65,12 +65,12 @@ namespace GameEngine
         */
         static float Distance(Vector _a, Vector _b) { return (_b - _a).Module(); }
 
-        static float DotProduct(const Vector _a, const Vector _b)
+        static float DotProduct(const Vector &_a, const Vector &_b)
         {
             return _a.x * _b.x + _a.y * _b.y;
         }
 
-        static Vector Rotate(float angle, Vector _a) { 
+        static Vector Rotate(float angle, const Vector &_a) { 
 
             auto cs = std::cos(angle);
             auto sn = std::sin(angle);
@@ -80,7 +80,7 @@ namespace GameEngine
             return Vector(nX, nY);
         }
 
-        static float Angle(Vector _a, Vector _b) { return acos(Vector::DotProduct(_a, _b) / (_a.Module() * _b.Module())); }
+        static float Angle(const Vector &_a, const Vector &_b) { return acos(Vector::DotProduct(_a, _b) / (_a.Module() * _b.Module())); }
 
         friend std::ostream &operator<<(std::ostream &os, const Vector &v)
         {

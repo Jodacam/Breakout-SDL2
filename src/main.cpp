@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
 		}
 		eventManager->UpdateInput();
 
-		if (eventManager->GetController()->GetButton(GameEngine::GameButtonType::START).pressed)
+		if (eventManager->GetController()->GetButton(GameEngine::GameButtonType::B).pressed)
 			appIsRunning = false;
 
 		GameEngine::Scene *scene = manager->GetActualScene();

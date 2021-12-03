@@ -97,6 +97,7 @@ namespace GameEngine
 
 // Not working on PSP so...
 #ifndef PSP
+            SDL_GameControllerAddMappingsFromFile("resources/controller/gamecontrollerdb.txt");
             controller = NULL;
             std::cout << "Numero de mandos:" << SDL_NumJoysticks() << std::endl;
             for (int i = 0; i < SDL_NumJoysticks(); ++i)

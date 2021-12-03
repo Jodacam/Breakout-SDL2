@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
 
 	float deltaTime = 0.0f;
 	auto start = SDL_GetTicks();
-	float timer = 5;
+	float timer = 2;
 	float actualTimer = 0;
 	int frameCount = 0;
 	GameEngine::Text frameText;
@@ -96,7 +96,6 @@ int main(int argc, char *argv[])
 
 
 	GameEngine::Canvas c = GameEngine::Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
-	c.AddElementOfType<GameEngine::UIImage>(new GameEngine::UIImage("background"));
 	while (appIsRunning)
 	{
 

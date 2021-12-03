@@ -23,6 +23,16 @@ GameEngine::UIImage::UIImage(std::string asset)
     }
 }
 
+GameEngine::UIImage::UIImage(std::string asset,Vector position)
+{
+    Sprite *s = new Sprite();
+    if (AssetManager::GetInstance()->GetSprite(s, asset)) {
+        image = std::shared_ptr<Sprite>(s);
+        this->position = position;
+        size = Vector(image->width,image->height);
+    }
+}
+
 void GameEngine::UIImage::Render(GameEngine::Renderer *renderer)
 {
     renderer->DrawSprite(image.get(), position, size);

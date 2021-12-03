@@ -1,16 +1,8 @@
 cmake_minimum_required(VERSION 3.7)
 #include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/switch/Switch.cmake)
 project(Breakout-SDL2 VERSION 0.1.0)
-set(CMAKE_CURRENT_BINARY_DIR ${CMAKE_CURRENT_LIST_DIR}/build/Breakout-SDL2)
-if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
-    if(${CMAKE_CXX_COMPILER_VERSION} STREQUAL "11.1.0")
-        set(SWITCH true)
-        include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/switch/Switch.cmake)
-        message(STATUS "Is switch compiler")
-    endif()
-endif ()
-
-
+set(CMAKE_BINARY_DIR ${CMAKE_CURRENT_LIST_DIR}/build/Breakout-SDL2/${CMAKE_BUILD_TYPE})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/build/Breakout-SDL2/${CMAKE_BUILD_TYPE})
 if(WIN32)
     message(STATUS "Is Windows compiler")
     SET(SDL2_DIR libs/SDL2)
@@ -42,9 +34,8 @@ include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
 include_directories(include)
 
 
-set(CPP_SOURCES src/main.cpp src/render/SDLRender.cpp src/render/Text.cpp src/events/EventManager.cpp src/events/input/GameController.cpp src/player/Player.cpp src/player/Ball.cpp src/resourceManager/AssetsManager.cpp src/game/SceneManager.cpp src/game/scenes/GameScene.cpp src/game/Block.cpp src/audio/AudioManager.cpp)
-set(CPP_SOURCES ${CPP_SOURCES} src/canvas/Canvas.cpp src/canvas/UIElements.cpp)
-add_executable(Breakout-SDL2 ${CPP_SOURCES})
+file(GLOB SRC_FILES src/*.cpp src/*/*.cpp src/*/*/*.cpp)
+add_executable(Breakout-SDL2 ${SRC_FILES})
 
 if(WIN32)
     target_link_libraries(Breakout-SDL2 ${SDL2_LIBRARY})

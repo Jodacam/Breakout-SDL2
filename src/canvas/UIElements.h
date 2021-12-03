@@ -51,6 +51,7 @@ namespace GameEngine
         void Update(float dt);
         void Render(GameEngine::Renderer *renderer);
         UIImage(std::string asset);
+        UIImage(std::string asset,Vector position);
     };
 
 #pragma endregion

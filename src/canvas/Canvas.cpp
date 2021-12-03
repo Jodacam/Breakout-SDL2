@@ -3,6 +3,7 @@
 GameEngine::Canvas::Canvas(int w, int h)
 {
     texture = SDL_CreateTexture(Renderer::GetInstance()->GetInternalRender(), SDL_PIXELFORMAT_RGBA4444, SDL_TEXTUREACCESS_TARGET, w, h);
+    SDL_SetTextureBlendMode(texture,SDL_BLENDMODE_BLEND);
 }
 
 GameEngine::Canvas::~Canvas()
@@ -52,3 +53,5 @@ void GameEngine::Canvas::AddElement(const std::shared_ptr<GameEngine::UIElement>
 {
      elements.push_back(element);
 }
+
+

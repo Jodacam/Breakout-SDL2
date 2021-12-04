@@ -4,15 +4,15 @@
 #define SDL_MAIN_HANDLED
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
-#include "render/SDLRender.h"
-#include "events/EventManager.h"
-#include "resourceManager/AssetsManager.h"
-#include "game/SceneManager.h"
+#include "engine/render/SDLRender.h"
+#include "engine/events/EventManager.h"
+#include "engine/resourceManager/AssetsManager.h"
+#include "engine/scenes/SceneManager.h"
 #include "game/scenes/GameScene.h"
-#include "audio/AudioManager.h"
+#include "engine/audio/AudioManager.h"
 #include <time.h>
-#include "consts/logger.h"
-#include "canvas/Canvas.h"
+#include "engine/consts/logger.h"
+#include "engine/canvas/Canvas.h"
 #ifdef PSP
 #include <pspkernel.h>
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER | THREAD_ATTR_VFPU);
@@ -91,11 +91,14 @@ int main(int argc, char *argv[])
 	float timer = 2;
 	float actualTimer = 0;
 	int frameCount = 0;
-	GameEngine::Text frameText;
-	frameText.SetText("Delta : ms\nFrames:  ", true);
+	/* GameEngine::Text frameText;
+	frameText.SetText("Delta : ms\nFrames:  ", true); */
 
 
 	GameEngine::Canvas c = GameEngine::Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+	auto frameText = c.CreateElementOfType<GameEngine::UIText>("Delta : ms\nFrames:  ",GameEngine::Vector(0,50));
+
 	while (appIsRunning)
 	{
 
@@ -121,7 +124,6 @@ int main(int argc, char *argv[])
 		scene->Update(deltaTime);
 		scene->Render(render);
 		c.Render(render);
-		render->DrawText(frameText, GameEngine::Vector(0, 50));
 		render->DrawScreen();
 
 		auto end = SDL_GetTicks();
@@ -137,7 +139,7 @@ int main(int argc, char *argv[])
 			actualTimer = 0;
 			std::stringstream s;
 			s << "Delta: " << int(averageDelta * 1000) << "ms\nFrames: " << int(1 / (averageDelta));
-			frameText.SetText(s.str(), true);
+			frameText->SetText(s.str(), true);
 		}
 	}
 	render->Close();

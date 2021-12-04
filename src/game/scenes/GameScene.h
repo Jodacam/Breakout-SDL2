@@ -1,10 +1,10 @@
 #ifndef _GAMESCENE_H_
 #define _GAMESCENE_H_
-#include "../../player/Player.h"
-#include "../../player/Ball.h"
+#include "../player/Player.h"
+#include "../player/Ball.h"
 #include "../Block.h"
 #include <SDL2/SDL.h>
-#include "Scene.h"
+#include "../../engine/scenes/Scene.h"
 #include <vector>
 #include <sstream>
 

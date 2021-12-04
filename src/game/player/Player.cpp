@@ -1,5 +1,5 @@
 #include "Player.h"
-#include "../consts/game.h"
+#include "../../engine/consts/game.h"
 void GameEngine::Player::Render(GameEngine::Renderer *renderer)
 {
     //Draw the palet.

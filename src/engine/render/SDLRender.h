@@ -45,6 +45,7 @@ namespace GameEngine
         void DrawImage(SDL_Texture *texture, float x = 0, float y = 0);
         void DrawImage(SDL_Texture *texture, const Vector position);
         void DrawImage(SDL_Texture *texture, const Vector position, const Vector size);
+        void DrawFillScreen(SDL_Texture *texture);
         void DrawImage(const Image *image, float x, float y);
         void DrawImage(const Image *image, float x, float y, float w, float h);
         void DrawImage(const Image *image, const Vector position);
@@ -60,9 +61,10 @@ namespace GameEngine
         /**
          * Draws Text
         */
-       void DrawText(const StaticText& text);
-       void DrawText(const StaticText& text, Vector position);
-       void DrawText(const Text& text, Vector position);
+        void DrawText(const StaticText& text);
+        void DrawText(const StaticText& text, const Vector &position);
+        void DrawText(const Text& text, const Vector &position);
+        void DrawText(const Text& text, const Vector &position, const Vector &size);
         /**
          * Generates Text.
         */
@@ -73,7 +75,7 @@ namespace GameEngine
         void HandleWindowEvent(const SDL_Event *event);
         SDL_Renderer *GetInternalRender() { return renderer; }
         SDL_Texture *LoadTexture(const char *path);
-        int ChangeRenderTarget(SDL_Texture *texture);
+        int ChangeRenderTarget(SDL_Texture *texture,int w= 0, int h = 0);
 
         
         static Renderer* GetInstance();

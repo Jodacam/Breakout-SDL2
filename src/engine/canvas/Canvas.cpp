@@ -4,6 +4,8 @@ GameEngine::Canvas::Canvas(int w, int h)
 {
     texture = SDL_CreateTexture(Renderer::GetInstance()->GetInternalRender(), SDL_PIXELFORMAT_RGBA4444, SDL_TEXTUREACCESS_TARGET, w, h);
     SDL_SetTextureBlendMode(texture,SDL_BLENDMODE_BLEND);
+    width = w;
+    height = h;
 }
 
 GameEngine::Canvas::~Canvas()
@@ -33,7 +35,7 @@ void GameEngine::Canvas::Render(GameEngine::Renderer *renderer)
     if (isDirty)
     {
         //Change the render target.
-        renderer->ChangeRenderTarget(texture);
+        renderer->ChangeRenderTarget(texture,width,height);
 
         SDL_SetRenderDrawColor(renderer->GetInternalRender(), 0, 0, 0, SDL_ALPHA_TRANSPARENT);
         SDL_RenderClear(renderer->GetInternalRender());
@@ -46,7 +48,7 @@ void GameEngine::Canvas::Render(GameEngine::Renderer *renderer)
         SDL_SetRenderDrawColor(renderer->GetInternalRender(), 0, 0, 0, 255);
     }
 
-    renderer->DrawImage(texture);
+    renderer->DrawFillScreen(texture);
 }
 
 void GameEngine::Canvas::AddElement(const std::shared_ptr<GameEngine::UIElement> &element)

@@ -1,8 +1,8 @@
 #ifndef _BLOCK_H_
 #define _BLOCK_H_
-#include "../math/Vector.h"
+#include "../engine/math/Vector.h"
 #include <SDL2/SDL.h>
-#include "../render/SDLRender.h"
+#include "../engine/render/SDLRender.h"
 #include <string>
 namespace GameEngine
 {

@@ -21,7 +21,7 @@ namespace GameEngine
 
     /**
      * Container struct for static text.
-     * It can't change its text.
+     * Change the text can be expensive.
     */
     class Text
     {
@@ -33,7 +33,7 @@ namespace GameEngine
         SDL_Texture *textureData = NULL;
         Vector size;
 
-        std::string GetText() {return text;}
+        inline std::string GetText() {return text;}
         /**
          * Changes the inner text. It can be a expensive operation to do each frame.
         */

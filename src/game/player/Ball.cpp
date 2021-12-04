@@ -1,7 +1,7 @@
 #include "Ball.h"
-#include "../consts/game.h"
-#include "../consts/functions.h"
-#include "../audio/AudioManager.h"
+#include "../../engine/consts/game.h"
+#include "../../engine/consts/functions.h"
+#include "../../engine/audio/AudioManager.h"
 void GameEngine::Ball::Update(float dt, GameEngine::Player *player)
 {
     //If the ball is stuck on the racket move it like the player is moving.

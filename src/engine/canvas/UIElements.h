@@ -43,7 +43,7 @@ namespace GameEngine
     class UIImage : public UIElement
     {
 
-    private:
+    protected:
         //TODO Change image API
         std::shared_ptr<Sprite> image;
 
@@ -51,7 +51,24 @@ namespace GameEngine
         void Update(float dt);
         void Render(GameEngine::Renderer *renderer);
         UIImage(std::string asset);
-        UIImage(std::string asset,Vector position);
+        UIImage(std::string asset,const Vector &position);
+    };
+
+#pragma endregion
+
+#pragma region UIText
+
+    class UIText : public UIElement {
+        protected:
+            Text text;
+        public:
+            void Render(GameEngine::Renderer *renderer);
+            bool SetText(const std::string &t,bool changeSize = false);
+            inline std::string GetText() { return text.GetText();}
+            void Update(float dt) {}
+            UIText(const std::string &text);
+            UIText(const std::string &text,const Vector &pos);
+            UIText(const std::string &text, const Vector &pos,const Vector &s);
     };
 
 #pragma endregion

@@ -1,6 +1,6 @@
 #include "GameScene.h"
-#include "../../audio/AudioManager.h"
-#include "../../consts/game.h"
+#include "../../engine/audio/AudioManager.h"
+#include "../../engine/consts/game.h"
 void GameEngine::GameScene::Update(float dt)
 {
     GameEngine::EventManager *eventManager = GameEngine::EventManager::Instance();

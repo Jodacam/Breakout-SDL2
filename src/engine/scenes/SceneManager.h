@@ -3,7 +3,7 @@
 #define _SCENEMANAGER_H_
 
 #include <vector>
-#include "scenes/Scene.h"
+#include "Scene.h"
 
 namespace GameEngine
 {

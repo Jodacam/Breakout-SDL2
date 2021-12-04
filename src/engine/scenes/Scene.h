@@ -1,6 +1,6 @@
 #ifndef _SCENE_H_
 #define _SCENE_H_
-#include "../../render/SDLRender.h"
+#include "../render/SDLRender.h"
 #include <string>
 namespace GameEngine
 {

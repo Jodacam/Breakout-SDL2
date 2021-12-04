@@ -1,8 +1,3 @@
-cmake_minimum_required(VERSION 3.7)
-#include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/switch/Switch.cmake)
-project(Breakout-SDL2 VERSION 0.1.0)
-set(CMAKE_BINARY_DIR ${CMAKE_CURRENT_LIST_DIR}/build/Breakout-SDL2/${CMAKE_BUILD_TYPE})
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/build/Breakout-SDL2/${CMAKE_BUILD_TYPE})
 if(WIN32)
     message(STATUS "Is Windows compiler")
     SET(SDL2_DIR libs/SDL2)
@@ -41,13 +36,6 @@ file(GLOB SRC_FILES src/*.cpp src/game/*.cpp src/game/*/*.cpp src/game/*/*/*.cpp
 add_executable(Breakout-SDL2 ${SRC_FILES})
 
 if(WIN32)
-
-    target_link_libraries(LightCanvasCpp ${SDL2_LIBRARY})
-    target_link_libraries(LightCanvasCpp ${SDL2_IMAGE_LIBRARY}/SDL2_image.lib)
-    target_link_libraries(LightCanvasCpp ${SDL2_TTF_LIBRARY}/SDL2_ttf.lib)
-    target_link_libraries(LightCanvasCpp ${SDL2_MIXER_LIBRARY}/SDL2_mixer.lib)
-
-
     target_link_libraries(Breakout-SDL2 ${SDL2_LIBRARY})
     target_link_libraries(Breakout-SDL2 ${SDL2_IMAGE_LIBRARY}/SDL2_image.lib)
     target_link_libraries(Breakout-SDL2 ${SDL2_TTF_LIBRARY}/SDL2_ttf.lib)
@@ -62,12 +50,6 @@ if(WIN32)
     file(COPY ${SDL2_MIXER_LIBRARY}/ DESTINATION ${CMAKE_BINARY_DIR})
 ENDIF()
 if(UNIX)
-
-    target_link_libraries(LightCanvasCpp ${SDL2_LIBRARY})
-    target_link_libraries(LightCanvasCpp ${SDL2_IMAGE_LIBRARY})
-    target_link_libraries(LightCanvasCpp ${SDL2_TTF_LIBRARY})
-    target_link_libraries(LightCanvasCpp ${SDL2_MIXER_LIBRARY})
-
     target_link_libraries(Breakout-SDL2 ${SDL2_LIBRARY})
     target_link_libraries(Breakout-SDL2 ${SDL2_IMAGE_LIBRARY})
     target_link_libraries(Breakout-SDL2 ${SDL2_TTF_LIBRARY})

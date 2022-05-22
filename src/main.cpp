@@ -10,6 +10,7 @@
 #include "engine/scenes/SceneManager.h"
 #include "game/scenes/GameScene.h"
 #include "engine/audio/AudioManager.h"
+#include "engine/scenes/LuaScene.h"
 #include <time.h>
 #include "engine/consts/logger.h"
 #include "engine/canvas/Canvas.h"
@@ -83,7 +84,7 @@ int main(int argc, char *argv[])
 
 
 	//Load Game first scene
-	manager->AddScene(new GameEngine::GameScene());
+	manager->AddScene(new GameEngine::LuaScene("resources/scripts/scene1.lua"));
 	manager->ChangeScene(0);
 
 	float deltaTime = 0.0f;

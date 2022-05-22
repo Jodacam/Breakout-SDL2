@@ -32,6 +32,7 @@ message(STATUS ${SDL2_INCLUDE_DIRS})
 
 include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
 include_directories(include)
+include_directories(src/engine)
 
 file(GLOB ENGINE_FILES src/engine/*.cpp src/engine/*/*.cpp src/engine/*/*/*.cpp )
 
@@ -46,8 +47,9 @@ if(WIN32)
     target_link_libraries(LightCanvasCpp ${SDL2_IMAGE_LIBRARY}/SDL2_image.lib)
     target_link_libraries(LightCanvasCpp ${SDL2_TTF_LIBRARY}/SDL2_ttf.lib)
     target_link_libraries(LightCanvasCpp ${SDL2_MIXER_LIBRARY}/SDL2_mixer.lib)
+    target_link_libraries(LightCanvasCpp ${CMAKE_CURRENT_LIST_DIR}/libs/lua/liblua54.a)
 
-
+    target_link_libraries(Breakout-SDL2 ${CMAKE_CURRENT_LIST_DIR}/libs/lua/liblua54.a)
     target_link_libraries(Breakout-SDL2 ${SDL2_LIBRARY})
     target_link_libraries(Breakout-SDL2 ${SDL2_IMAGE_LIBRARY}/SDL2_image.lib)
     target_link_libraries(Breakout-SDL2 ${SDL2_TTF_LIBRARY}/SDL2_ttf.lib)

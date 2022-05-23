@@ -2,6 +2,8 @@
 #define _SCRIPTMANAGER_H_
 #include <lua/lua.hpp>
 #include <string>
+#include <map>
+#include <functional>
 namespace GameEngine
 {
     class ScriptManager
@@ -10,28 +12,28 @@ namespace GameEngine
         /**
          * Executes a command on lua. Returns false on error. Check GetError function to get the log.
          */
-        bool ExecuteCommand(const std::string &command);
+        bool ExecuteCommand(const std::string& command);
         /**
          * Executes a file as an scripts. Returns false on error. Check GetError funtion to get the log.
          */
-        bool ExecuteFile(const std::string &path);
+        bool ExecuteFile(const std::string& path);
         /**
          * Loads a file into the lua virtual machine memory. Usefull when used with defined functions.
          */
-        bool LoadFile(const std::string &path);
+        bool LoadFile(const std::string& path);
 
         /**
          * @brief Calls a function on the lua virtual machine.
          * @param function The function name
          */
-        bool CallFunction(const std::string &function);
+        bool CallFunction(const std::string& function);
         /**
          * @brief Calls a function on the lua virtual machine.
          * @param function The function name
          * @tparam ...Targs Args passed down to the function as new values.
          */
         template <typename... Targs>
-        bool CallFunction(const std::string &function, Targs... args)
+        bool CallFunction(const std::string& function, Targs... args)
         {
 
             int return_code = lua_getglobal(_lua, function.c_str());
@@ -56,9 +58,9 @@ namespace GameEngine
         }
 
         template <typename T>
-        T *CreateUserData()
+        T* CreateUserData()
         {
-            T *data = (T *)lua_newuserdata(_lua, sizeof(T));
+            T* data = (T*)lua_newuserdata(_lua, sizeof(T));
             return data;
         }
 
@@ -67,14 +69,14 @@ namespace GameEngine
          *
          */
         template <typename T>
-        int PushValue(T *value)
+        int PushValue(T* value)
         {
             lua_pushlightuserdata(_lua, value);
             return 1;
         }
 
         template <typename T, typename... Targs>
-        int PushValue(T *value, Targs... args)
+        int PushValue(T* value, Targs... args)
         {
             lua_pushlightuserdata(_lua, value);
             return 1 + PushValue(args...);
@@ -86,12 +88,12 @@ namespace GameEngine
             lua_pushinteger(_lua, value);
             return 1;
         }
-        int PushValue(const char *value)
+        int PushValue(const char* value)
         {
             lua_pushstring(_lua, value);
             return 1;
         }
-        int PushValue(const std::string &value)
+        int PushValue(const std::string& value)
         {
             lua_pushstring(_lua, value.c_str());
             return 1;
@@ -114,14 +116,14 @@ namespace GameEngine
             return 1 + PushValue(args...);
         }
         template <typename... Targs>
-        int PushValue(const std::string &value, Targs... args)
+        int PushValue(const std::string& value, Targs... args)
         {
             lua_pushstring(_lua, value.c_str());
             return 1 + PushValue(args...);
         }
 
         template <typename... Targs>
-        int PushValue(const char *value, Targs... args)
+        int PushValue(const char* value, Targs... args)
         {
             lua_pushstring(_lua, value);
             return 1 + PushValue(args...);
@@ -144,18 +146,18 @@ namespace GameEngine
          * @brief Gets a global value from the global stack.
          */
         template <typename T>
-        T *GetGlobalUserData(const std::string &name)
+        T* GetGlobalUserData(const std::string& name)
         {
             int a = lua_getglobal(_lua, name.c_str());
-            if (!lua_isuserdata(_lua,-1))
+            if (!lua_isuserdata(_lua, -1))
                 return nullptr;
-            auto data = static_cast<T *>(lua_touserdata(_lua, -1));
+            auto data = static_cast<T*>(lua_touserdata(_lua, -1));
             return (data);
         };
 
 #pragma region Value Getters.
 
-        int GetGlobalInteger(const std::string &name)
+        int GetGlobalInteger(const std::string& name)
         {
             int a = lua_getglobal(_lua, name.c_str());
 
@@ -164,7 +166,7 @@ namespace GameEngine
 
             return lua_tointeger(_lua, -1);
         }
-        const char *GetGlobalString(const std::string &name)
+        const char* GetGlobalString(const std::string& name)
         {
             int a = lua_getglobal(_lua, name.c_str());
 
@@ -174,14 +176,14 @@ namespace GameEngine
             return lua_tostring(_lua, -1);
         }
 
-        bool GetGlobalBoolean(const std::string &name)
+        bool GetGlobalBoolean(const std::string& name)
         {
             int a = lua_getglobal(_lua, name.c_str());
             if (a != LUA_TBOOLEAN)
                 return false;
             return lua_toboolean(_lua, -1);
         }
-        float GetGlobalNumber(const std::string &name)
+        float GetGlobalNumber(const std::string& name)
         {
             int a = lua_getglobal(_lua, name.c_str());
             if (a != LUA_TNUMBER)
@@ -194,9 +196,13 @@ namespace GameEngine
         /**
          * Adds a function to the lua virtual machine so it can call c/c++ code.
          */
-        void RegisterFunction(const std::string &name, lua_CFunction function);
+        void RegisterFunction(const std::string& name, lua_CFunction function);
+        void RegisterFunction(const std::string& name, std::function<int(ScriptManager* scriptManager)>);
 
-        inline const std::string GetError() { return _error; }
+        inline const std::string GetError()
+        {
+            return _error;
+        }
         ScriptManager()
         {
             this->open();
@@ -209,7 +215,7 @@ namespace GameEngine
         /**
          * @brief Returns the lua_State associated with this Script Manager
          */
-        inline lua_State *GetInternalVM() { return _lua; }
+        inline lua_State* GetInternalVM() { return _lua; }
 
         void Close();
 
@@ -217,10 +223,16 @@ namespace GameEngine
         /**
          * Opens the conection with the lua virtual machine.
          */
+        std::map<std::string, std::function<int(ScriptManager* scriptManager)>> functionMap;
+        int CallInternalFunction(const std::string& name) {
+            return functionMap[name](this);
+        }
         bool open();
 
         std::string _error = "";
-        lua_State *_lua;
+        lua_State* _lua;
+
+        // Functions calls.
     };
 
 }

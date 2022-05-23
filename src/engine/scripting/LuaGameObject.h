@@ -4,7 +4,7 @@
 namespace GameEngine {
     class LuaGameObject {
         public:
-            int pos;
+            float pos;
     };
 }
 #endif

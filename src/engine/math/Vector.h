@@ -63,7 +63,7 @@ namespace GameEngine
         /**
          * Return the distances between two point. Is the module of _b-_a
         */
-        static float Distance(Vector _a, Vector _b) { return (_b - _a).Module(); }
+        static float Distance(const Vector &_a, const Vector &_b) { return (Vector(_b.x - _a.x,_b.y - _a.y)).Module(); }
 
         static float DotProduct(const Vector &_a, const Vector &_b)
         {
@@ -81,6 +81,13 @@ namespace GameEngine
         }
 
         static float Angle(const Vector &_a, const Vector &_b) { return acos(Vector::DotProduct(_a, _b) / (_a.Module() * _b.Module())); }
+
+        /**
+         * @brief Creates a new Vector that is the result of multipliying a.x*b.x and a.y*b.y
+        */
+        static Vector LinearMultiply(const Vector &_a, const Vector &_b) {
+            return Vector(_a.x*_b.x , _a.y*_b.y);
+        }
 
         friend std::ostream &operator<<(std::ostream &os, const Vector &v)
         {

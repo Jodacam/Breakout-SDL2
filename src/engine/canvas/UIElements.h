@@ -45,7 +45,7 @@ namespace GameEngine
 
     protected:
         //TODO Change image API
-        std::shared_ptr<Sprite> image;
+        Sprite image;
 
     public:
         void Update(float dt);

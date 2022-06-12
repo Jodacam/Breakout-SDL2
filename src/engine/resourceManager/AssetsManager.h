@@ -58,8 +58,8 @@ namespace GameEngine
             }
             return true;
         }
-        bool GetSprite(Sprite *outSprite, std::string imageKey);
-        bool GetSprite(Sprite *outSprite, std::string imageKey, int width, int height);
+        Sprite GetSprite(std::string imageKey);
+        Sprite GetSprite(std::string imageKey, int width, int height);
         bool RemoveTexture(std::string *key);
         bool ClearData();
     };

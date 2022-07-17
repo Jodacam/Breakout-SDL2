@@ -6,6 +6,7 @@
 #include "../math/Vector.h"
 #include "Transform.h"
 #include "../render/SDLRender.h"
+#include "../scripting/ScriptManager.h"
 namespace GameEngine {
     class Node {
     public:
@@ -63,6 +64,20 @@ namespace GameEngine {
         std::vector<std::shared_ptr<Node>> toDelete;
         std::vector<std::shared_ptr<Node>> toPush;
         std::shared_ptr<Node> parent;
+    };
+    /**
+     * @brief Wrapper class to use with the Lua engine. Stores a raw pointer of the real Node so it can be use to register functions.
+    */
+    class Lua_Node {
+        public:
+            Lua_Node(Node* node):_node(node) {};
+            Lua_Node(std::shared_ptr<Node> node):_node(node.get()) {};
+            static int CreateOne(GameEngine::ScriptManager* m);
+            static void CreateLuaMetaInfo(GameEngine::ScriptManager* m);
+            static int CreateLuaMetaTableFunctions(GameEngine::ScriptManager* m);
+            Node* GetInternal() { return _node; };
+        protected:
+            Node* _node;
     };
 }
 #endif

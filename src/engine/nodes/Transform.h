@@ -7,7 +7,7 @@ namespace GameEngine {
         /* data */
         Vector position;
         float rotation;
-        Vector scale;
+        Vector scale = Vector(1,1);
     public:
         Transform(/* args */);
         ~Transform();

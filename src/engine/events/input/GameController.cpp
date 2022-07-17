@@ -71,9 +71,19 @@ GameEngine::GameButton GameEngine::GameController::GetButton(GameButtonType butt
 {
     return buttons[static_cast<unsigned int>(button)];
 }
+GameEngine::GameButton GameEngine::GameController::GetButton(unsigned int button)
+{
+    return buttons[button];
+}
 
 float GameEngine::GameController::GetAxisValue(GameAxisType axis)
 {
 
     return axisValues[static_cast<unsigned int>(axis)];
+}
+
+float GameEngine::GameController::GetAxisValue(unsigned int axis)
+{
+
+    return axisValues[axis];
 }

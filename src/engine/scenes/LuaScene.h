@@ -13,6 +13,7 @@ namespace GameEngine
     public:
         LuaScene(std::string scriptPath) {
             script = scriptPath;
+            //Load the script.
         }
         ~LuaScene() {};
         void OnAdd() override;
@@ -26,14 +27,35 @@ namespace GameEngine
             nodes.push_back(node);
             return node;
         };
+        template <typename N>
+        std::shared_ptr<N> AddNode(N* node) {
+            
+            auto n = std::shared_ptr<N>(node);
+            nodes.push_back(n);
+            return n;
+        };
 
     protected:
         ScriptManager luaVM;
         std::string script = "";
+        const char* l_updateScriptFunction = "Update";
         std::vector<std::shared_ptr<Node>> nodes;
         std::vector<std::shared_ptr<Node>> objectsToDelete;
 
         void RegisterFunctions();
+        void RegisterMetaTable();
+    };
+
+    /**
+     * @brief Wrapper class for scenes.
+     *
+     */
+    class Lua_Scene {
+    public:
+        LuaScene* GetScene() const { return _scene; }
+        Lua_Scene(LuaScene* scene) : _scene(scene) {};
+    protected:
+        LuaScene* _scene;
     };
 }
 #endif //_LUASCENE_H_

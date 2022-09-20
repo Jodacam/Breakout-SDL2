@@ -1,4 +1,5 @@
 #include "ScriptManager.h"
+#include "../nodes/lua/all.h"
 bool GameEngine::ScriptManager::open()
 {
     // Load the virtual machine.
@@ -57,6 +58,8 @@ bool GameEngine::ScriptManager::LoadFile(const std::string& path)
 bool GameEngine::ScriptManager::CallFunction(const std::string& function)
 {
 
+
+
     int return_code = lua_getglobal(_lua, function.c_str());
 
     if (!lua_isfunction(_lua, -1))
@@ -102,4 +105,61 @@ void GameEngine::ScriptManager::RegisterFunction(const std::string& name, std::f
         },
         arguments);
     lua_setglobal(_lua, name.c_str());
+}
+
+void GameEngine::ScriptManager::RegisterNodeFunction(const std::string& node_name, std::function<int(ScriptManager* scriptManager)> fn) {
+    types.push_back(fn);
+    CallTableFunction("Light_Canvas", "RegisterType", (int)(types.size() - 1), node_name);
+}
+
+void GameEngine::ScriptManager::RegisterBasics() {
+
+    //Register all basic types.
+    GameEngine::Lua_Node::CreateLuaMetaInfo(this);
+    GameEngine::Lua_SpriteNode::CreateLuaMetaInfo(this);
+
+    this->RegisterNodeFunction("node", GameEngine::Lua_Node::CreateOne);
+    this->RegisterNodeFunction("sprite", GameEngine::Lua_SpriteNode::CreateOne);
+
+
+    this->RegisterFunction("LCCP_CreateNode", [this](GameEngine::ScriptManager* m)
+        {
+            auto L = m->GetInternalVM();
+            int type = lua_tonumber(L, 1);
+            return this->types[type](m);
+        });
+
+    this->RegisterFunction("LCCP_DeleteNode", [this](GameEngine::ScriptManager*)
+        {
+
+            //Obtain the node and clear it from his parent.
+            //If the node has no parent it means it was a root node and it will no be "Real deleted".
+            //You can use the Scene::DeleteNode if you are using scenes.
+            return 0;
+        });
+
+    //Register the input functions.
+    lua_getglobal(_lua, "Light_Canvas");
+    int LC = lua_gettop(_lua);
+    lua_getfield(_lua, LC, "Input");
+    int LC_input = lua_gettop(_lua);
+
+    SetTableValue("GetButton", [](lua_State* L)
+        {
+            if (!lua_isnumber(L, 1)) return 0;
+            GameEngine::ScriptManager* m = (GameEngine::ScriptManager*)lua_touserdata(L, lua_upvalueindex(1));
+            auto input = GameEngine::EventManager::Instance()->GetController()->GetButton(lua_tointeger(L, 1));
+            m->PushValue(input);
+            return 1;
+        });
+    SetTableValue("GetAxis", [](lua_State* L)
+        {
+            if (!lua_isnumber(L, 1)) return 0;
+            GameEngine::ScriptManager* m = (GameEngine::ScriptManager*)lua_touserdata(L, lua_upvalueindex(1));
+            auto input = GameEngine::EventManager::Instance()->GetController()->GetAxisValue(lua_tointeger(L, 1));
+            m->PushValue(input);
+            return 1;
+        });
+
+    lua_settop(_lua, LC - 1);
 }

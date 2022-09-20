@@ -58,6 +58,12 @@ namespace GameEngine
         void DrawSprite(Sprite *sprite, const Vector position);
         void DrawSprite(Sprite *sprite, const Vector position, const Vector size);
 
+        void DrawSprite(Sprite sprite, float x, float y, float w, float h);
+        void DrawSprite(Sprite sprite, float x, float y);
+        void DrawSprite(Sprite sprite, const Vector position);
+        void DrawSprite(Sprite sprite, const Vector position, const Vector size);
+
+
         /**
          * Draws Text
         */

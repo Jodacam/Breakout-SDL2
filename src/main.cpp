@@ -77,6 +77,7 @@ int main(int argc, char *argv[])
 	//Load all needed data for the game.
 	GameEngine::AssetManager::GetInstance()->AddSong("resources/audio/music/test.ogg", "default");
 	GameEngine::AssetManager::GetInstance()->AddSoundEffect("resources/audio/sfx/Collide/bonk-4.wav","bounce");
+	GameEngine::AssetManager::GetInstance()->AddTexture("resources/img/Racket.png","player");
 	GameEngine::AssetManager::GetInstance()->AddTexture("resources/img/Hexagon_Pattern.png", "background");
 	GameEngine::AssetManager::GetInstance()->AddTexture("resources/img/Border_Left.png", "leftborder");
 	GameEngine::AssetManager::GetInstance()->AddTexture("resources/img/Border_Right.png", "rightborder");

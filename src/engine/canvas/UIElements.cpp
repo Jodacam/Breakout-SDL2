@@ -16,29 +16,21 @@ void GameEngine::UIElement::SetSize(const Vector &s)
 // TODO CHANGE
 GameEngine::UIImage::UIImage(std::string asset)
 {
-    Sprite *s = new Sprite();
-    if (AssetManager::GetInstance()->GetSprite(s, asset))
-    {
-        image = std::shared_ptr<Sprite>(s);
-        position = Vector(0, 0);
-        size = Vector(image->width, image->height);
-    }
+    image = AssetManager::GetInstance()->GetSprite(asset);
+    position = Vector(0, 0);
+    size = Vector(image.width, image.height);
 }
 
 GameEngine::UIImage::UIImage(std::string asset, const Vector &position)
 {
-    Sprite *s = new Sprite();
-    if (AssetManager::GetInstance()->GetSprite(s, asset))
-    {
-        image = std::shared_ptr<Sprite>(s);
-        this->position = position;
-        size = Vector(image->width, image->height);
-    }
+    image = AssetManager::GetInstance()->GetSprite(asset);
+    this->position = position;
+    size = Vector(image.width, image.height);
 }
 
 void GameEngine::UIImage::Render(GameEngine::Renderer *renderer)
 {
-    renderer->DrawSprite(image.get(), position, size);
+    renderer->DrawSprite(&image, position, size);
     isDirty = false;
 }
 

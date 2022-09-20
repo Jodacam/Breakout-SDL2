@@ -44,7 +44,6 @@ namespace GameEngine
         DPAD_DOWN = 12,
         DPAD_LEFT = 13,
         DPAD_RIGHT = 14
-
     };
     /**
      * Like the buttons the axis use the XBOX scheme.
@@ -141,12 +140,14 @@ namespace GameEngine
          *
          */
         GameButton GetButton(GameButtonType b);
+        GameButton GetButton(unsigned int b);
         /**
          *Retrieves a Axis value for the "actual" frame. If it is called before UpdateContollerState it will have the same values as the previos frame.
          *The range of the value is normaliced and it is between -1 and 1. (The triggers are a special case where they can not be less than 0)
          *If the GameController is configured to use the DPAD as an Axis and the DPAD is trigger, the value would be 1 or -1 respectively
          */
         float GetAxisValue(GameAxisType axis);
+        float GetAxisValue(unsigned int axis);
     };
 }
 #endif

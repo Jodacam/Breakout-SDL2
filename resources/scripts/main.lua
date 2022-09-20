@@ -1,8 +1,10 @@
-function CreateObject()
-    sprite = LCCP_CreateLuaObject()
-    print(sprite)
-end
 
-function printName()
-    print(sprite.name)   
-end
+package.path = './resources/scripts/?.lua;' .. package.path
+
+--Import all the libs.
+require "libs.init"
+require "libs.vector"
+require "libs.input"
+require "libs.types"
+require "libs.callbacks"
+require "libs.scene"

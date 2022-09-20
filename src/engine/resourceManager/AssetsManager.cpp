@@ -36,30 +36,29 @@ GameEngine::Image *GameEngine::AssetManager::AddTexture(const char *path, std::s
 
     return image;
 }
-bool GameEngine::AssetManager::GetSprite(GameEngine::Sprite *outSprite, std::string imageKey)
+GameEngine::Sprite GameEngine::AssetManager::GetSprite(std::string imageKey)
 {
     Image *image = getTexture(imageKey);
 
     if (image == NULL)
-        return false;
-    outSprite->x = 0;
-    outSprite->y = 0;
-    outSprite->width = image->width;
-    outSprite->height = image->height;
-    outSprite->source = image;
-    return true;
+        throw "Error";
+    Sprite outSprite;
+
+    outSprite.x = 0;
+    outSprite.y = 0;
+    outSprite.width = image->width;
+    outSprite.height = image->height;
+    outSprite.source = image;
+    return outSprite;
 }
 
-bool GameEngine::AssetManager::GetSprite(GameEngine::Sprite *outSprite, std::string imageKey, int width, int height)
+GameEngine::Sprite GameEngine::AssetManager::GetSprite(std::string imageKey, int width, int height)
 {
-    if (GetSprite(outSprite, imageKey))
-    {
-        outSprite->width = width;
-        outSprite->height = height;
-        return true;
-    }
 
-    return false;
+    auto outSprite = GetSprite(imageKey);
+    outSprite.width = width;
+    outSprite.height = height;
+    return outSprite;
 }
 
 std::shared_ptr<GameEngine::Song> GameEngine::AssetManager::AddSong(const char *path, std::string key)

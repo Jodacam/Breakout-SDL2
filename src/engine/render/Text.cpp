@@ -1,7 +1,7 @@
 #include "Text.h"
 #include "SDLRender.h"
 #pragma region StaticText
-GameEngine::StaticText::~StaticText()
+LightCanvas::StaticText::~StaticText()
 {
     if (textureData)
         SDL_DestroyTexture(textureData);
@@ -10,7 +10,7 @@ GameEngine::StaticText::~StaticText()
 
 #pragma region Text
 
-GameEngine::Text::Text(std::string t)
+LightCanvas::Text::Text(std::string t)
 {
     textureData = Renderer::GetInstance()->GenerateTextTexture(t);
     text = t;
@@ -18,20 +18,20 @@ GameEngine::Text::Text(std::string t)
     SDL_QueryTexture(textureData, NULL, NULL, &w, &h);
     size = Vector(w, h);
 }
-GameEngine::Text::Text(std::string t, Vector s)
+LightCanvas::Text::Text(std::string t, Vector s)
 {
     textureData = Renderer::GetInstance()->GenerateTextTexture(t);
     text = t;
     size = s;
 }
 
-GameEngine::Text::~Text()
+LightCanvas::Text::~Text()
 {
     if (textureData)
         SDL_DestroyTexture(textureData);
 }
 
-void GameEngine::Text::SetText(std::string t, bool resize)
+void LightCanvas::Text::SetText(std::string t, bool resize)
 {
 
     //Clear the  previous texture.

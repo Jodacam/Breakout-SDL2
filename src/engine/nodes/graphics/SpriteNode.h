@@ -3,7 +3,7 @@
 #include "../Node.h"
 #include "../../render/Graphics.h"
 #include "../../resourceManager/AssetsManager.h"
-namespace GameEngine {
+namespace LightCanvas {
     class SpriteNode : public Node {
     public:
         SpriteNode(const std::string& name) : Node(name) {};
@@ -11,7 +11,7 @@ namespace GameEngine {
             sprite = AssetManager::GetInstance()->GetSprite(spriteResource);
         };
         virtual void Update(float dt);
-        virtual void Render(GameEngine::Renderer* renderer);
+        virtual void Render(LightCanvas::Renderer* renderer);
         bool SetSprite(const std::string& sprite);
     protected:
         Sprite sprite;
@@ -23,9 +23,9 @@ namespace GameEngine {
         Lua_SpriteNode(SpriteNode* node) :Lua_Node(node) {};
         Lua_SpriteNode(std::shared_ptr<SpriteNode> node) :Lua_Node(node.get()) {}; 
 
-        static int CreateOne(GameEngine::ScriptManager* m);
-        static void CreateLuaMetaInfo(GameEngine::ScriptManager* m);
-        static int CreateLuaMetaTableFunctions(GameEngine::ScriptManager* m);
+        static int CreateOne(LightCanvas::ScriptManager* m);
+        static void CreateLuaMetaInfo(LightCanvas::ScriptManager* m);
+        static int CreateLuaMetaTableFunctions(LightCanvas::ScriptManager* m);
     };
 }
 

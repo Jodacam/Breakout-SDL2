@@ -1,6 +1,6 @@
 #include "EventManager.h"
 
-bool GameEngine::EventManager::ManageEvents()
+bool LightCanvas::EventManager::ManageEvents()
 {   
     while (SDL_PollEvent(actualEvent))
     {
@@ -15,7 +15,7 @@ bool GameEngine::EventManager::ManageEvents()
     return true;
 }
 
-int GameEngine::EventManager::PollEvent(SDL_Event *event) {
+int LightCanvas::EventManager::PollEvent(SDL_Event *event) {
     
     int result = SDL_PollEvent(event);
 
@@ -23,13 +23,13 @@ int GameEngine::EventManager::PollEvent(SDL_Event *event) {
 
 }
 
-bool GameEngine::EventManager::UpdateInput(){
+bool LightCanvas::EventManager::UpdateInput(){
     keyBoardState = SDL_GetKeyboardState(NULL);
     gameController->UpdateControllerState();
     return true;
 }
 
-bool GameEngine::EventManager::IsKeyPress(Uint8 key) {
+bool LightCanvas::EventManager::IsKeyPress(Uint8 key) {
     return (bool)keyBoardState[key];
 }
 
@@ -37,9 +37,9 @@ bool GameEngine::EventManager::IsKeyPress(Uint8 key) {
 
 
 
-GameEngine::EventManager* GameEngine::EventManager::instance = NULL;
-GameEngine::EventManager* GameEngine::EventManager::Instance(){
+LightCanvas::EventManager* LightCanvas::EventManager::instance = NULL;
+LightCanvas::EventManager* LightCanvas::EventManager::Instance(){
     if(instance == NULL)
-        instance = new GameEngine::EventManager();
+        instance = new LightCanvas::EventManager();
     return instance;
 }

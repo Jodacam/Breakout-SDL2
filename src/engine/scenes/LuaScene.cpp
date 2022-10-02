@@ -1,24 +1,24 @@
 #include "LuaScene.h"
 #include "../events/EventManager.h"
-int LCCP_CreateLuaObject(GameEngine::ScriptManager* m)
+int LCCP_CreateLuaObject(LightCanvas::ScriptManager* m)
 {
 
     auto L = m->GetInternalVM();
 
     const char* name = lua_tostring(L, 1);
 
-    void* obj = lua_newuserdata(L, sizeof(GameEngine::Node));
+    void* obj = lua_newuserdata(L, sizeof(LightCanvas::Node));
 
-    new (obj) GameEngine::Node(name);
+    new (obj) LightCanvas::Node(name);
 
-    std::cout << ((GameEngine::Node*)obj)->GetPosition() << std::endl;
+    std::cout << ((LightCanvas::Node*)obj)->GetPosition() << std::endl;
 
     return 1;
 }
 
 
 
-void GameEngine::LuaScene::OnAdd()
+void LightCanvas::LuaScene::OnAdd()
 {
     //Register all the Lua Related functions.
     RegisterFunctions();
@@ -28,7 +28,7 @@ void GameEngine::LuaScene::OnAdd()
     }
 }
 
-void GameEngine::LuaScene::RegisterFunctions() {
+void LightCanvas::LuaScene::RegisterFunctions() {
 
     luaL_newmetatable(luaVM.GetInternalVM(), "Vector");
 
@@ -43,11 +43,11 @@ void GameEngine::LuaScene::RegisterFunctions() {
 
 
     luaVM.RegisterFunction("LCCP_GetActualScene", [this]
-    (GameEngine::ScriptManager* m)
+    (LightCanvas::ScriptManager* m)
         {
             auto _lua = m->GetInternalVM();
-            GameEngine::Lua_Scene* s = (GameEngine::Lua_Scene*)lua_newuserdata(_lua, sizeof(GameEngine::Lua_Scene));
-            new (s) GameEngine::Lua_Scene(this);
+            LightCanvas::Lua_Scene* s = (LightCanvas::Lua_Scene*)lua_newuserdata(_lua, sizeof(LightCanvas::Lua_Scene));
+            new (s) LightCanvas::Lua_Scene(this);
             luaL_setmetatable(_lua, "Scene");
             return 1;
         }
@@ -59,8 +59,8 @@ int AddNodeToScene(lua_State* L) {
 
     if (!lua_isuserdata(L, 1) || !lua_isuserdata(L, 2))  throw std::invalid_argument("Not valid parameters");
 
-    GameEngine::Lua_Scene* scene = (GameEngine::Lua_Scene*)lua_touserdata(L, 1);
-    GameEngine::Lua_Node* node = (GameEngine::Lua_Node*)lua_touserdata(L, 2);
+    LightCanvas::Lua_Scene* scene = (LightCanvas::Lua_Scene*)lua_touserdata(L, 1);
+    LightCanvas::Lua_Node* node = (LightCanvas::Lua_Node*)lua_touserdata(L, 2);
 
     scene->GetScene()->AddNode(node->GetInternal());
 
@@ -68,24 +68,24 @@ int AddNodeToScene(lua_State* L) {
 
 }
 int RegisterUpdate(lua_State* L) {
-    GameEngine::ScriptManager* m = (GameEngine::ScriptManager*)lua_touserdata(L, lua_upvalueindex(1));
+    LightCanvas::ScriptManager* m = (LightCanvas::ScriptManager*)lua_touserdata(L, lua_upvalueindex(1));
     if (!lua_isuserdata(L, 1) || !lua_isfunction(L, 2))  throw std::invalid_argument("Not valid parameters");
 
-    GameEngine::Lua_Scene* scene = (GameEngine::Lua_Scene*)lua_touserdata(L, 1);
+    LightCanvas::Lua_Scene* scene = (LightCanvas::Lua_Scene*)lua_touserdata(L, 1);
 
     //m->CallFunction("LC_RegisterUpdate",scene->GetScene(),lua_to(L,2));
     return 0;
 }
 
 int GetNative(lua_State* L) {
-    GameEngine::ScriptManager* m = (GameEngine::ScriptManager*)lua_touserdata(L, lua_upvalueindex(1));
+    LightCanvas::ScriptManager* m = (LightCanvas::ScriptManager*)lua_touserdata(L, lua_upvalueindex(1));
     if (!lua_isuserdata(L, 1))  throw std::invalid_argument("Not valid parameters");
-    GameEngine::Lua_Scene* scene = (GameEngine::Lua_Scene*)lua_touserdata(L, 1);
+    LightCanvas::Lua_Scene* scene = (LightCanvas::Lua_Scene*)lua_touserdata(L, 1);
     return m->PushValue(scene->GetScene());
 }
 #pragma endregion
 
-void GameEngine::LuaScene::RegisterMetaTable() {
+void LightCanvas::LuaScene::RegisterMetaTable() {
     auto L = luaVM.GetInternalVM();
     lua_newtable(L);
     int index = lua_gettop(L);
@@ -103,25 +103,29 @@ void GameEngine::LuaScene::RegisterMetaTable() {
     lua_settable(L, -3);
 }
 
-void GameEngine::LuaScene::Update(float dt)
+void LightCanvas::LuaScene::Update(float dt)
 {
     //Each update, update the Input.
 
-    
+
 
     for (auto&& i : nodes)
     {
         i->Update(dt);
+        //Call the lua update function.
+        luaVM.CallTableFunction("Light_Canvas", "CallUpdate", i.get(), dt);
     }
 
-    luaVM.CallTableFunction("Light_Canvas" ,"CallUpdate", this, dt);
+    luaVM.CallTableFunction("Light_Canvas", "CallUpdate", this, dt);
 
-    
-    
+
+
+
+
 
 }
 
-void GameEngine::LuaScene::Render(GameEngine::Renderer* renderer)
+void LightCanvas::LuaScene::Render(LightCanvas::Renderer* renderer)
 {
     for (auto&& i : nodes)
     {
@@ -130,7 +134,7 @@ void GameEngine::LuaScene::Render(GameEngine::Renderer* renderer)
 
 }
 
-void GameEngine::LuaScene::OnStart()
+void LightCanvas::LuaScene::OnStart()
 {
 
 }

@@ -4,7 +4,7 @@
 #include <string>
 #include "../math/Vector.h"
 #include "../render/SDLRender.h"
-namespace GameEngine
+namespace LightCanvas
 {
 #pragma region UIElement
 
@@ -22,7 +22,7 @@ namespace GameEngine
 
     public:
         bool visible;
-        virtual void Render(GameEngine::Renderer *renderer) = 0;
+        virtual void Render(LightCanvas::Renderer *renderer) = 0;
         virtual void Update(float dt) = 0;
         /**
          * @return The state of the UIElement. When is dirty a re-render will be trigger on the canvas element.
@@ -49,7 +49,7 @@ namespace GameEngine
 
     public:
         void Update(float dt);
-        void Render(GameEngine::Renderer *renderer);
+        void Render(LightCanvas::Renderer *renderer);
         UIImage(std::string asset);
         UIImage(std::string asset,const Vector &position);
     };
@@ -62,7 +62,7 @@ namespace GameEngine
         protected:
             Text text;
         public:
-            void Render(GameEngine::Renderer *renderer);
+            void Render(LightCanvas::Renderer *renderer);
             bool SetText(const std::string &t,bool changeSize = false);
             inline std::string GetText() { return text.GetText();}
             void Update(float dt) {}

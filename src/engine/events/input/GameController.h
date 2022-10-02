@@ -13,7 +13,7 @@
 #define AXIS_UNIT_TRANSFORM 1.0f / (128 - AXIS_DEADZONE)
 #endif
 #include <iostream>
-namespace GameEngine
+namespace LightCanvas
 {
     struct GameButton
     {

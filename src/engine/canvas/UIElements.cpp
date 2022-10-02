@@ -1,12 +1,12 @@
 #include "UIElements.h"
 #include "../resourceManager/AssetsManager.h"
-void GameEngine::UIElement::SetPosition(const Vector &pos)
+void LightCanvas::UIElement::SetPosition(const Vector &pos)
 {
     position = pos;
     isDirty = true;
 }
 
-void GameEngine::UIElement::SetSize(const Vector &s)
+void LightCanvas::UIElement::SetSize(const Vector &s)
 {
     size = s;
     isDirty = true;
@@ -14,54 +14,54 @@ void GameEngine::UIElement::SetSize(const Vector &s)
 
 #pragma region UIImage
 // TODO CHANGE
-GameEngine::UIImage::UIImage(std::string asset)
+LightCanvas::UIImage::UIImage(std::string asset)
 {
     image = AssetManager::GetInstance()->GetSprite(asset);
     position = Vector(0, 0);
     size = Vector(image.width, image.height);
 }
 
-GameEngine::UIImage::UIImage(std::string asset, const Vector &position)
+LightCanvas::UIImage::UIImage(std::string asset, const Vector &position)
 {
     image = AssetManager::GetInstance()->GetSprite(asset);
     this->position = position;
     size = Vector(image.width, image.height);
 }
 
-void GameEngine::UIImage::Render(GameEngine::Renderer *renderer)
+void LightCanvas::UIImage::Render(LightCanvas::Renderer *renderer)
 {
     renderer->DrawSprite(&image, position, size);
     isDirty = false;
 }
 
-void GameEngine::UIImage::Update(float dt)
+void LightCanvas::UIImage::Update(float dt)
 {
 }
 #pragma endregion
 
 #pragma region UIText
 
-GameEngine::UIText::UIText(const std::string &t, const Vector &pos)
+LightCanvas::UIText::UIText(const std::string &t, const Vector &pos)
 {
     text.SetText(t, true);
     position = pos;
     size = text.size;
 }
 
-GameEngine::UIText::UIText(const std::string &t, const Vector &pos, const Vector &s)
+LightCanvas::UIText::UIText(const std::string &t, const Vector &pos, const Vector &s)
 {
     text.SetText(t, true);
     position = pos;
     size = s;
 }
 
-bool GameEngine::UIText::SetText(const std::string &t,bool changeText) {
+bool LightCanvas::UIText::SetText(const std::string &t,bool changeText) {
     isDirty = true;
     text.SetText(t, changeText);
     return true;
 }
 
-void GameEngine::UIText::Render(GameEngine::Renderer *renderer)
+void LightCanvas::UIText::Render(LightCanvas::Renderer *renderer)
 {
     renderer->DrawText(text,position,size);
     isDirty = false;

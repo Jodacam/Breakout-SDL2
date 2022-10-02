@@ -8,7 +8,7 @@
 #include "../render/Graphics.h"
 #include "../render/SDLRender.h"
 #include "../audio/Audio.h"
-namespace GameEngine
+namespace LightCanvas
 {
 
     class AssetManager

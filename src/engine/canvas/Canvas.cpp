@@ -1,6 +1,6 @@
 #include "Canvas.h"
 #include <algorithm>
-GameEngine::Canvas::Canvas(int w, int h)
+LightCanvas::Canvas::Canvas(int w, int h)
 {
     texture = SDL_CreateTexture(Renderer::GetInstance()->GetInternalRender(), SDL_PIXELFORMAT_RGBA4444, SDL_TEXTUREACCESS_TARGET, w, h);
     SDL_SetTextureBlendMode(texture,SDL_BLENDMODE_BLEND);
@@ -8,12 +8,12 @@ GameEngine::Canvas::Canvas(int w, int h)
     height = h;
 }
 
-GameEngine::Canvas::~Canvas()
+LightCanvas::Canvas::~Canvas()
 {
     SDL_DestroyTexture(texture);
 }
 
-void GameEngine::Canvas::Update(float dt)
+void LightCanvas::Canvas::Update(float dt)
 {
 
     //Internal update.
@@ -25,7 +25,7 @@ void GameEngine::Canvas::Update(float dt)
     }
 }
 
-void GameEngine::Canvas::Render(GameEngine::Renderer *renderer)
+void LightCanvas::Canvas::Render(LightCanvas::Renderer *renderer)
 {
 
     //Check first if any of the elements it's dirty.
@@ -51,7 +51,7 @@ void GameEngine::Canvas::Render(GameEngine::Renderer *renderer)
     renderer->DrawFillScreen(texture);
 }
 
-void GameEngine::Canvas::AddElement(const std::shared_ptr<GameEngine::UIElement> &element)
+void LightCanvas::Canvas::AddElement(const std::shared_ptr<LightCanvas::UIElement> &element)
 {
      elements.push_back(element);
 }

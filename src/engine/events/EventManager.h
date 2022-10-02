@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 #include "input/GameController.h"
 #include <SDL2/SDL_gamecontroller.h>
-namespace GameEngine
+namespace LightCanvas
 {
 
     class EventManager

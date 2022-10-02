@@ -4,7 +4,7 @@
 #include <memory>
 #include "../render/SDLRender.h"
 #include "UIElements.h"
-namespace GameEngine
+namespace LightCanvas
 {
     /**
      * A structure used for store UI Elements.

@@ -11,7 +11,7 @@
 const int MAX_BLOCK_PER_ROW = 10;
 const int MAX_BLOCK_ROWS = 5;
 const float SPEED_INCREMENT = 2.0f;
-namespace GameEngine
+namespace LightCanvas
 {
 
     class GameScene : public Scene
@@ -28,12 +28,12 @@ namespace GameEngine
     public:
         GameScene()
         {
-            this->player = new GameEngine::Player();
-            this->ball = new GameEngine::Ball(220, 280);
+            this->player = new LightCanvas::Player();
+            this->ball = new LightCanvas::Ball(220, 280);
             blocks.reserve(MAX_BLOCK_ROWS*MAX_BLOCK_PER_ROW);
         }
 
-        void Render(GameEngine::Renderer *renderer);
+        void Render(LightCanvas::Renderer *renderer);
         void Update(float dt);
         void OnAdd();
         void OnStart();

@@ -1,7 +1,7 @@
 #ifndef GAME_ENGINE_AUDIO_H_
 #define GAME_ENGINE_AUDIO_H_
 #include <SDL2/SDL_mixer.h>
-namespace GameEngine
+namespace LightCanvas
 {
     /**
     * Define structs to store music or sound effects.

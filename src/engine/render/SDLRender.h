@@ -6,7 +6,7 @@
 #include "Graphics.h"
 #include "Text.h"
 #include "../math/Vector.h"
-namespace GameEngine
+namespace LightCanvas
 {
     struct Color
     {

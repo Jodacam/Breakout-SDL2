@@ -6,7 +6,7 @@
 #include "../scripting/ScriptManager.h"
 #include "../nodes/Node.h"
 #include "../nodes/graphics/SpriteNode.h"
-namespace GameEngine
+namespace LightCanvas
 {
     class LuaScene : public Scene
     {
@@ -19,7 +19,7 @@ namespace GameEngine
         void OnAdd() override;
         void OnStart() override;
         void Update(float dt) override;
-        void Render(GameEngine::Renderer* renderer) override;
+        void Render(LightCanvas::Renderer* renderer) override;
 
         template <typename N, typename ...Carg>
         std::shared_ptr<N> AddNodeOfType(Carg ...constructorArgs) {

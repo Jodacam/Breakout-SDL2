@@ -2,7 +2,7 @@
 #define _VECTOR_H_
 #include <math.h>
 #include <iostream>
-namespace GameEngine
+namespace LightCanvas
 {
 
     /**

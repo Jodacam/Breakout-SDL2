@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include "../math/Vector.h"
-namespace GameEngine
+namespace LightCanvas
 {
     /**
      * Container struct for static text.

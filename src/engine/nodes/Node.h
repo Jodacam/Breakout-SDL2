@@ -7,7 +7,7 @@
 #include "Transform.h"
 #include "../render/SDLRender.h"
 #include "../scripting/ScriptManager.h"
-namespace GameEngine {
+namespace LightCanvas {
     class Node {
     public:
         Node() {
@@ -35,7 +35,7 @@ namespace GameEngine {
          * @param dt Delta time. Time pased betwen this frame and others.
         */
         virtual void Update(float dt = 0.0f);
-        virtual void Render(GameEngine::Renderer* renderer);
+        virtual void Render(LightCanvas::Renderer* renderer);
 
 
         template <typename NodeDerivate, typename ...Carg>
@@ -72,9 +72,9 @@ namespace GameEngine {
         public:
             Lua_Node(Node* node):_node(node) {};
             Lua_Node(std::shared_ptr<Node> node):_node(node.get()) {};
-            static int CreateOne(GameEngine::ScriptManager* m);
-            static void CreateLuaMetaInfo(GameEngine::ScriptManager* m);
-            static int CreateLuaMetaTableFunctions(GameEngine::ScriptManager* m);
+            static int CreateOne(LightCanvas::ScriptManager* m);
+            static void CreateLuaMetaInfo(LightCanvas::ScriptManager* m);
+            static int CreateLuaMetaTableFunctions(LightCanvas::ScriptManager* m);
             Node* GetInternal() { return _node; };
         protected:
             Node* _node;

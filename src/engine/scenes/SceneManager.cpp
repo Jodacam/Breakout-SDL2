@@ -1,6 +1,6 @@
 #include "SceneManager.h"
 
-using namespace GameEngine;
+using namespace LightCanvas;
 
 SceneManager* SceneManager::instance = NULL;
 

@@ -1,6 +1,6 @@
 #pragma once
 #include "../math/Vector.h"
-namespace GameEngine {
+namespace LightCanvas {
     class Transform
     {
     private:

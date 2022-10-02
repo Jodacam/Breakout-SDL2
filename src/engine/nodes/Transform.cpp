@@ -1,9 +1,9 @@
 #include "Transform.h"
 
-GameEngine::Transform::Transform(/* args */)
+LightCanvas::Transform::Transform(/* args */)
 {
 }
 
-GameEngine::Transform::~Transform()
+LightCanvas::Transform::~Transform()
 {
 }

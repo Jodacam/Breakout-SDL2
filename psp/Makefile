@@ -5,13 +5,13 @@ $(shell mkdir -p $(BUILDDIR))
 TARGET = $(BUILDDIR)/game
 SOURCEDIR=../src
 OBJDIR =../obj
-SOURCES = $(wildcard $(SOURCEDIR)/*.cpp $(SOURCEDIR)/*/*.cpp $(SOURCEDIR)/*/*/*.cpp)
+SOURCES = $(wildcard $(SOURCEDIR)/*.cpp $(SOURCEDIR)/*/*.cpp $(SOURCEDIR)/*/*/*.cpp $(SOURCEDIR)/*/*/*/*.cpp)
 OBJS = $(patsubst $(SOURCEDIR)/%.cpp,$(SOURCEDIR)/%.o,$(SOURCES))
 PSP_LARGE_MEMORY = 1
 
-INCDIR = include
-CFLAGS = -Os -G0 -Wall -DPSP
-CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti -std=c++14
+INCDIR = ../include/psp ../src/engine
+CFLAGS = -Os -G0 -Wall -DPSP -DLUA_USE_C89 -DLUA_32BITS -DLUA_C89_NUMBERS
+CXXFLAGS = $(CFLAGS) -fexceptions -fno-rtti -std=c++14
 ASFLAGS = $(CFLAGS)
 
 LIBDIR = libs
@@ -23,11 +23,11 @@ PSP_EBOOT_ICON = ../resources/psp/ICON.png
 
 PSPSDK=$(shell psp-config --pspsdk-path)
 PSPBIN = $(PSPSDK)/../bin
-CFLAGS += $(shell $(PSPBIN)/sdl-config --cflags)
+CFLAGS += $(shell $(PSPBIN)/sdl-config --cflags)c
 #LIBS += $(shell $(PSPBIN)/sdl-config --libs) 
-LIBS +=-lSDL2 -lSDL2_mixer -logg -lSDL2  -lvorbisidec  -lz -lm -lSDL2_image -lpng -ljpeg -lSDL2_ttf -lfreetype -lGL -lGLU -lglut -lz -lpspvfpu -lpsphprm -lpspsdk -lpspctrl -lpspumd -lpsprtc \
+LIBS += -lSDL2 -lSDL2_mixer -logg -lSDL2  -lvorbisidec  -lz -lm -lSDL2_image -lpng -ljpeg -lSDL2_ttf -lfreetype -lGL -lGLU -lglut -lz -lpspvfpu -lpsphprm -lpspsdk -lpspctrl -lpspumd -lpsprtc \
        -lpsppower -lpspgum -lpspgu -lpspaudiolib -lpspaudio -lpsphttp -lpspssl -lpspwlan \
-	   -lpspnet_adhocmatching -lpspnet_adhoc -lpspnet_adhocctl -lm -lpspvram -lSDLmain
+	   -lpspnet_adhocmatching -lpspnet_adhoc -lpspnet_adhocctl -llua -lm -lpspvram  -lSDLmain
 LIBS += -lstdc++ -lpspirkeyb -lpsppower
 include $(PSPSDK)/lib/build.mak
 ## Copy resources:

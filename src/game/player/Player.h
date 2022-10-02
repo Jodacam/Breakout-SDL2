@@ -6,7 +6,7 @@
 #include "../../engine/events/EventManager.h"
 #include "Ball.h"
 
-namespace GameEngine {
+namespace LightCanvas {
     class Ball;
     class Player {
         private:
@@ -22,7 +22,7 @@ namespace GameEngine {
             int height = 0;
             Player() {
                 position = Vector(0,0);
-                sprite = GameEngine::AssetManager::GetInstance()->GetSprite("player");
+                sprite = LightCanvas::AssetManager::GetInstance()->GetSprite("player");
                 width = sprite.width;
                 height = sprite.height;
                 //SDL_QueryTexture(sprite, NULL, NULL, &width, &height);
@@ -32,8 +32,8 @@ namespace GameEngine {
             inline float SetY(float y) { this->position.y = y; return position.y;}
             Vector GetPosition() {return position;}
             Vector SetPosition(Vector position) {this->position = position; return position;}
-            void Update(GameEngine::EventManager* eventManager, GameEngine::Ball* ball,float dt = 1.0f/60.0f);
-            void Render(GameEngine::Renderer* renderer);
+            void Update(LightCanvas::EventManager* eventManager, LightCanvas::Ball* ball,float dt = 1.0f/60.0f);
+            void Render(LightCanvas::Renderer* renderer);
             float SetSpeed(float speed) {this->speed = speed; return speed;};
 
     };

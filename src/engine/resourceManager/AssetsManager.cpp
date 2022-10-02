@@ -1,21 +1,21 @@
 #include "AssetsManager.h"
 #include "../consts/logger.h"
-GameEngine::AssetManager *GameEngine::AssetManager::instance;
-GameEngine::AssetManager *GameEngine::AssetManager::GetInstance()
+LightCanvas::AssetManager *LightCanvas::AssetManager::instance;
+LightCanvas::AssetManager *LightCanvas::AssetManager::GetInstance()
 {
 
-    if (!GameEngine::AssetManager::instance)
+    if (!LightCanvas::AssetManager::instance)
     {
-        GameEngine::AssetManager::instance = new GameEngine::AssetManager();
+        LightCanvas::AssetManager::instance = new LightCanvas::AssetManager();
     }
 
-    return GameEngine::AssetManager::instance;
+    return LightCanvas::AssetManager::instance;
 }
 
 /**
  * \brief Adds a new Texture and loads it on the GPU.
  */
-GameEngine::Image *GameEngine::AssetManager::AddTexture(const char *path, std::string key)
+LightCanvas::Image *LightCanvas::AssetManager::AddTexture(const char *path, std::string key)
 {
 
     //Load a Surface and copy pixels
@@ -36,7 +36,7 @@ GameEngine::Image *GameEngine::AssetManager::AddTexture(const char *path, std::s
 
     return image;
 }
-GameEngine::Sprite GameEngine::AssetManager::GetSprite(std::string imageKey)
+LightCanvas::Sprite LightCanvas::AssetManager::GetSprite(std::string imageKey)
 {
     Image *image = getTexture(imageKey);
 
@@ -52,7 +52,7 @@ GameEngine::Sprite GameEngine::AssetManager::GetSprite(std::string imageKey)
     return outSprite;
 }
 
-GameEngine::Sprite GameEngine::AssetManager::GetSprite(std::string imageKey, int width, int height)
+LightCanvas::Sprite LightCanvas::AssetManager::GetSprite(std::string imageKey, int width, int height)
 {
 
     auto outSprite = GetSprite(imageKey);
@@ -61,7 +61,7 @@ GameEngine::Sprite GameEngine::AssetManager::GetSprite(std::string imageKey, int
     return outSprite;
 }
 
-std::shared_ptr<GameEngine::Song> GameEngine::AssetManager::AddSong(const char *path, std::string key)
+std::shared_ptr<LightCanvas::Song> LightCanvas::AssetManager::AddSong(const char *path, std::string key)
 {
     auto song = Mix_LoadMUS(path);
 
@@ -84,7 +84,7 @@ std::shared_ptr<GameEngine::Song> GameEngine::AssetManager::AddSong(const char *
     return songs[key];
 }
 
-std::shared_ptr<GameEngine::SoundEffect> GameEngine::AssetManager::AddSoundEffect(const char *path, std::string key)
+std::shared_ptr<LightCanvas::SoundEffect> LightCanvas::AssetManager::AddSoundEffect(const char *path, std::string key)
 {
     auto song = Mix_LoadWAV(path);
 
@@ -104,7 +104,7 @@ std::shared_ptr<GameEngine::SoundEffect> GameEngine::AssetManager::AddSoundEffec
     return soundEffects[key];
 }
 
-bool GameEngine::AssetManager::ClearData()
+bool LightCanvas::AssetManager::ClearData()
 {
     return true;
 }

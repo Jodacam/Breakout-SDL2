@@ -3,7 +3,7 @@
 #include <SDL2/SDL_mixer.h>
 #include "Audio.h"
 #include <string>
-namespace GameEngine
+namespace LightCanvas
 {
     class AudioManager
     {

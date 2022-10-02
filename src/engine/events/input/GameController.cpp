@@ -4,7 +4,7 @@
 #include <sstream>
 #ifndef PSP
 
-void GameEngine::GameController::UpdateControllerState()
+void LightCanvas::GameController::UpdateControllerState()
 {
     for (unsigned int i = 0; i < MAX_BUTTON_GAMEPAD; i++)
     {
@@ -30,7 +30,7 @@ void GameEngine::GameController::UpdateControllerState()
 #endif
 
 #ifdef PSP
-void GameEngine::GameController::UpdateControllerState()
+void LightCanvas::GameController::UpdateControllerState()
 {
     // Digital buttons.
     // Axis. Because the PSP only has one Axis control (the left stick) the readding only work for GameAxisType::LEFT_X and GameAxisType::LEFT_Y
@@ -67,22 +67,22 @@ void GameEngine::GameController::UpdateControllerState()
 }
 #endif
 
-GameEngine::GameButton GameEngine::GameController::GetButton(GameButtonType button)
+LightCanvas::GameButton LightCanvas::GameController::GetButton(GameButtonType button)
 {
     return buttons[static_cast<unsigned int>(button)];
 }
-GameEngine::GameButton GameEngine::GameController::GetButton(unsigned int button)
+LightCanvas::GameButton LightCanvas::GameController::GetButton(unsigned int button)
 {
     return buttons[button];
 }
 
-float GameEngine::GameController::GetAxisValue(GameAxisType axis)
+float LightCanvas::GameController::GetAxisValue(GameAxisType axis)
 {
 
     return axisValues[static_cast<unsigned int>(axis)];
 }
 
-float GameEngine::GameController::GetAxisValue(unsigned int axis)
+float LightCanvas::GameController::GetAxisValue(unsigned int axis)
 {
 
     return axisValues[axis];

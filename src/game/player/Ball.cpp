@@ -2,7 +2,7 @@
 #include "../../engine/consts/game.h"
 #include "../../engine/consts/functions.h"
 #include "../../engine/audio/AudioManager.h"
-void GameEngine::Ball::Update(float dt, GameEngine::Player *player)
+void LightCanvas::Ball::Update(float dt, LightCanvas::Player *player)
 {
     //If the ball is stuck on the racket move it like the player is moving.
     if (isOnRacket)
@@ -16,7 +16,7 @@ void GameEngine::Ball::Update(float dt, GameEngine::Player *player)
     Vector player_position = player->GetPosition();
     Vector center = Vector(position.x + radius, position.y + radius);
     float vertex[4] = {player_position.x, player_position.x + player->width, player_position.y, player_position.y + player->height};
-    if (collisionCooldown <= 0 && GameEngine::CheckCicleRectangleCollision(center, radius, vertex))
+    if (collisionCooldown <= 0 && LightCanvas::CheckCicleRectangleCollision(center, radius, vertex))
     {
         collisionCooldown = 0.25f;
         direction = Vector(direction.x, -direction.y);
@@ -54,12 +54,12 @@ void GameEngine::Ball::Update(float dt, GameEngine::Player *player)
             collisionCooldown = 0;
     }
 }
-void GameEngine::Ball::Render(GameEngine::Renderer *renderer)
+void LightCanvas::Ball::Render(LightCanvas::Renderer *renderer)
 {
     renderer->DrawImage(this->sprite, position);
 }
 
-bool GameEngine::Ball::CheckBlockCollision(Block *block)
+bool LightCanvas::Ball::CheckBlockCollision(Block *block)
 {
     Vector block_pos = block->GetPosition();
     Vector block_size = block->GetSize();
@@ -68,13 +68,13 @@ bool GameEngine::Ball::CheckBlockCollision(Block *block)
     Vector center = Vector(position.x + radius, position.y + radius);
     //New Type check.
     //Check if there is a collision. Then check where the colision is happening using vectors. After that use the reflect vector to change the direction.
-    bool isColiding = GameEngine::CheckCicleRectangleCollision(center, radius, vertex);
+    bool isColiding = LightCanvas::CheckCicleRectangleCollision(center, radius, vertex);
 
     if (isColiding)
     {
         //Check were the colision is happening.
-        float closestX = GameEngine::clamp(center.x, vertex[0], vertex[1]);
-        float closestY = GameEngine::clamp(center.y, vertex[2], vertex[3]);
+        float closestX = LightCanvas::clamp(center.x, vertex[0], vertex[1]);
+        float closestY = LightCanvas::clamp(center.y, vertex[2], vertex[3]);
 
         float distanceX = center.x - closestX;
         float distanceY = center.y - closestY;

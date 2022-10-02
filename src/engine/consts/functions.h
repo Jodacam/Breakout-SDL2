@@ -2,7 +2,7 @@
 #define _FUNCTIONS_H__
 #include <algorithm>
 #include "../math/Vector.h"
-namespace GameEngine
+namespace LightCanvas
 {
     template <typename T>
     T clamp(const T &n, const T &lower, const T &upper)

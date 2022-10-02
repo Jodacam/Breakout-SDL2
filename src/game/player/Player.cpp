@@ -1,12 +1,12 @@
 #include "Player.h"
 #include "../../engine/consts/game.h"
-void GameEngine::Player::Render(GameEngine::Renderer *renderer)
+void LightCanvas::Player::Render(LightCanvas::Renderer *renderer)
 {
     //Draw the palet.
     renderer->DrawSprite(&this->sprite, this->position.x, this->position.y);
 }
 
-void GameEngine::Player::Update(GameEngine::EventManager *eventManager, Ball *ball, float dt)
+void LightCanvas::Player::Update(LightCanvas::EventManager *eventManager, Ball *ball, float dt)
 {
     GameController *controller = eventManager->GetController();
 

@@ -5,7 +5,7 @@
 #include <vector>
 #include "Scene.h"
 
-namespace GameEngine
+namespace LightCanvas
 {
     class SceneManager
     {

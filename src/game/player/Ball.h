@@ -6,7 +6,7 @@
 #include "../../engine/math/Vector.h"
 #include "../Block.h"
 #include "Player.h"
-namespace GameEngine
+namespace LightCanvas
 {
     class Player;
     class Ball
@@ -32,7 +32,7 @@ namespace GameEngine
             AssetManager::GetInstance()->AddTexture("resources/img/Ball.png", "ball");
             sprite =  AssetManager::GetInstance()->getTexture("ball");
         }
-        void Update(float dt, GameEngine::Player *player);
+        void Update(float dt, LightCanvas::Player *player);
         void Render(Renderer *renderer);
         Vector GetPosition() { return position; }
         Vector GetDirection() { return direction; }

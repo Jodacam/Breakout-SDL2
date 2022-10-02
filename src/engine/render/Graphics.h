@@ -2,7 +2,7 @@
 #define GRAPHICS_H_
 #include <SDL2/SDL.h>
 
-namespace GameEngine
+namespace LightCanvas
 {
     /**
      * Basic struct to store a full image of SDL.

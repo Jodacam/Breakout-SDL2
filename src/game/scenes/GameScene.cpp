@@ -1,9 +1,9 @@
 #include "GameScene.h"
 #include "../../engine/audio/AudioManager.h"
 #include "../../engine/consts/game.h"
-void GameEngine::GameScene::Update(float dt)
+void LightCanvas::GameScene::Update(float dt)
 {
-    GameEngine::EventManager *eventManager = GameEngine::EventManager::Instance();
+    LightCanvas::EventManager *eventManager = LightCanvas::EventManager::Instance();
     player->Update(eventManager, ball, dt);
     //Comprobamos las colisiones.
     for (int i = 0; i < blocks.size(); i++)
@@ -34,16 +34,16 @@ void GameEngine::GameScene::Update(float dt)
     }
 }
 
-void GameEngine::GameScene::OnStart()
+void LightCanvas::GameScene::OnStart()
 {
     score.SetText("Lives: 3", true);
     score.size = score.size*1.5;
 
     //Preload this and get it later.
-    background = GameEngine::AssetManager::GetInstance()->getTexture("background");
-    borders[0] = GameEngine::AssetManager::GetInstance()->getTexture("leftborder");
-    borders[1] = GameEngine::AssetManager::GetInstance()->getTexture("rightborder");
-    borders[2] = GameEngine::AssetManager::GetInstance()->getTexture("topborder");
+    background = LightCanvas::AssetManager::GetInstance()->getTexture("background");
+    borders[0] = LightCanvas::AssetManager::GetInstance()->getTexture("leftborder");
+    borders[1] = LightCanvas::AssetManager::GetInstance()->getTexture("rightborder");
+    borders[2] = LightCanvas::AssetManager::GetInstance()->getTexture("topborder");
     player->SetX(220);
     player->SetY(250);
     ball->SetSpeed(100);
@@ -70,7 +70,7 @@ void GameEngine::GameScene::OnStart()
 
 }
 
-void GameEngine::GameScene::Render(GameEngine::Renderer *renderer)
+void LightCanvas::GameScene::Render(LightCanvas::Renderer *renderer)
 {
     //auto t = renderer->GenerateStaticText("Hello world");
     renderer->DrawImage(background, 120, 0, 240, 277);
@@ -89,12 +89,12 @@ void GameEngine::GameScene::Render(GameEngine::Renderer *renderer)
     renderer->DrawText(score, Vector(0, 0));
 }
 
-void GameEngine::GameScene::OnAdd()
+void LightCanvas::GameScene::OnAdd()
 {
     std::cout << "Añadida escena de juego" << std::endl;
 }
 
-GameEngine::GameScene::~GameScene()
+LightCanvas::GameScene::~GameScene()
 {
     delete player;
     delete ball;

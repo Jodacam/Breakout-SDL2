@@ -8,7 +8,7 @@
 #include <map>
 #include <functional>
 #include <any>
-namespace GameEngine
+namespace LightCanvas
 {
     class ScriptManager
     {
@@ -40,7 +40,7 @@ namespace GameEngine
         bool CallFunction(const std::string& function, Targs... args)
         {
 
-            int return_code = lua_getglobal(_lua, function.c_str());
+            lua_getglobal(_lua, function.c_str());
 
             if (!lua_isfunction(_lua, -1))
             {
@@ -49,7 +49,7 @@ namespace GameEngine
             }
             int arg_number = PushValue(args...);
 
-            return_code = lua_pcall(_lua, arg_number, 0, 0);
+            int return_code = lua_pcall(_lua, arg_number, 0, 0);
 
             if (return_code != LUA_OK)
             {
@@ -71,7 +71,7 @@ namespace GameEngine
         bool CallTableFunction(const std::string& table, const std::string& function, Targs... args)
         {
 
-            int return_code = lua_getglobal(_lua, table.c_str());
+            lua_getglobal(_lua, table.c_str());
 
             if (!lua_istable(_lua, -1)) {
                 _error = "NOTTABLE";
@@ -89,7 +89,7 @@ namespace GameEngine
             }
             int arg_number = PushValue(args...);
 
-            return_code = lua_pcall(_lua, arg_number, 0, 0);
+            int return_code = lua_pcall(_lua, arg_number, 0, 0);
 
             if (return_code != LUA_OK)
             {
@@ -160,7 +160,7 @@ namespace GameEngine
             lua_pushnumber(_lua, value);
             return 1;
         }
-        int PushValue(const GameEngine::GameButton& value) {
+        int PushValue(const LightCanvas::GameButton& value) {
             lua_newtable(_lua);
             SetTableValue("isPressed", value.isPressed);
             SetTableValue("pressed", value.pressed);
@@ -170,7 +170,7 @@ namespace GameEngine
         }
         /**
          * @brief Push a c function into the stack. The instance of Scene manager is alwais added as a closure to the function itself.
-         * You can get it with : (GameEngine::ScriptManager*)lua_touserdata(L, lua_upvalueindex(1));
+         * You can get it with : (LightCanvas::ScriptManager*)lua_touserdata(L, lua_upvalueindex(1));
         */
         int PushValue(lua_CFunction value)
         {
@@ -179,7 +179,7 @@ namespace GameEngine
             return 1;
         }
         /**
-         * @brief Push a GameEngine::Vector into the stack. It is pushed as a table with x and y params.
+         * @brief Push a LightCanvas::Vector into the stack. It is pushed as a table with x and y params.
          *
          * @param value
          * @return int
@@ -245,7 +245,7 @@ namespace GameEngine
         template <typename T>
         T* GetGlobalUserData(const std::string& name)
         {
-            int a = lua_getglobal(_lua, name.c_str());
+            lua_getglobal(_lua, name.c_str());
             if (!lua_isuserdata(_lua, -1))
                 return nullptr;
             auto data = static_cast<T*>(lua_touserdata(_lua, -1));
@@ -256,18 +256,18 @@ namespace GameEngine
 
         int GetGlobalInteger(const std::string& name)
         {
-            int a = lua_getglobal(_lua, name.c_str());
+            lua_getglobal(_lua, name.c_str());
 
-            if (a != LUA_TNUMBER)
+            if (!lua_isnumber(_lua,-1))
                 return 0;
 
             return lua_tointeger(_lua, -1);
         }
         const char* GetGlobalString(const std::string& name)
         {
-            int a = lua_getglobal(_lua, name.c_str());
+            lua_getglobal(_lua, name.c_str());
 
-            if (a != LUA_TSTRING)
+            if (!lua_isstring(_lua,-1))
                 return nullptr;
 
             return lua_tostring(_lua, -1);
@@ -275,15 +275,15 @@ namespace GameEngine
 
         bool GetGlobalBoolean(const std::string& name)
         {
-            int a = lua_getglobal(_lua, name.c_str());
-            if (a != LUA_TBOOLEAN)
+            lua_getglobal(_lua, name.c_str());
+            if (!lua_isboolean(_lua,-1))
                 return false;
             return lua_toboolean(_lua, -1);
         }
         float GetGlobalNumber(const std::string& name)
         {
-            int a = lua_getglobal(_lua, name.c_str());
-            if (a != LUA_TNUMBER)
+            lua_getglobal(_lua, name.c_str());
+            if (!lua_isnumber(_lua,-1))
                 return 0.0f;
             return lua_tonumber(_lua, -1);
         }

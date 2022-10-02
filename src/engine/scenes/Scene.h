@@ -2,7 +2,7 @@
 #define _SCENE_H_
 #include "../render/SDLRender.h"
 #include <string>
-namespace GameEngine
+namespace LightCanvas
 {
     class Scene
     {
@@ -10,7 +10,7 @@ namespace GameEngine
         /* data */
         std::string name = "Scene";
     public:
-        virtual void Render(GameEngine::Renderer *renderer) = 0;
+        virtual void Render(LightCanvas::Renderer *renderer) = 0;
         virtual void Update(float dt) = 0;
         virtual void OnAdd() = 0;
         virtual void OnStart() = 0;
